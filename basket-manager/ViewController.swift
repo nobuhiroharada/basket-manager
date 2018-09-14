@@ -30,7 +30,16 @@ class ViewController: UIViewController {
         scoreATextField.text = "Team A"
         scoreBTextField.text = "Team B"
         
+        scoreATextField.delegate = self
+        scoreBTextField.delegate = self
         
+        let tapScoreA = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapScoreLabel))
+        scoreALabel.isUserInteractionEnabled = true
+        scoreALabel.addGestureRecognizer(tapScoreA)
+        
+        let tapScoreB = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapScoreLabel))
+        scoreBLabel.isUserInteractionEnabled = true
+        scoreBLabel.addGestureRecognizer(tapScoreB)
     }
     
     // MARK: - チームAスコア Actions
@@ -48,7 +57,17 @@ class ViewController: UIViewController {
         }
     }
     
-    
+    @objc func tapScoreLabel(_ sender: UITapGestureRecognizer) {
+        if let tappedScoreLabel = sender.view as? UILabel {
+            if tappedScoreLabel.tag == 10 {
+                openScoreDialog(target: scoreALabel)
+            }
+            if tappedScoreLabel.tag == 11 {
+                openScoreDialog(target: scoreBLabel)
+            }
+        }
+
+    }
     
     // MARK: - チームBスコア Actions
     @IBAction func scoreBMinusBtn(_ sender: UIButton) {
@@ -64,5 +83,42 @@ class ViewController: UIViewController {
             scoreBLabel.text = String(scoreB)
         }
     }
+    
+    // MARK: - スコアダイアログ表示
+    func openScoreDialog(target targetLabel:UILabel) {
+        let alert = UIAlertController(title: "スコア変更", message: "", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: {
+            (action:UIAlertAction!) -> Void in
+            
+            if let textFields = alert.textFields {
+                
+                for textField in textFields {
+                    targetLabel.text = textField.text
+                }
+            }
+        })
+        alert.addAction(okAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(cancelAction)
+        
+        alert.addTextField(configurationHandler: {(textField: UITextField!) -> Void in
+            textField.placeholder = String(0)
+            textField.text = targetLabel.text
+            textField.keyboardType = UIKeyboardType.numberPad
+        })
+        
+        alert.view.setNeedsLayout()
+        
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
+extension ViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}
