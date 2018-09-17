@@ -114,6 +114,45 @@
                                     <action selector="tapGameTimeControlBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ffd-QD-ChF"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ROn-U9-8vt">
+                                <rect key="frame" x="166" y="121" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a8E-c7-Q4Y">
+                                <rect key="frame" x="104" y="185" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="tap24ControlBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="H7I-ie-axV"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ltc-ay-qif">
+                                <rect key="frame" x="236" y="185" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="tap24ResetBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gRY-oP-jcL"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TGv-Y0-hJ2">
+                                <rect key="frame" x="283" y="90" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="tap24SetBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="c1J-Mb-JcB"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DbP-DS-4av">
+                                <rect key="frame" x="283" y="134" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="tap14SetBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ENr-lF-2Hn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -124,10 +163,13 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="control24Btn" destination="a8E-c7-Q4Y" id="hvq-g8-SSw"/>
+                        <outlet property="display24Label" destination="ROn-U9-8vt" id="IZA-BZ-Up2"/>
                         <outlet property="gameMinLabel" destination="Dp1-Ng-6jQ" id="ybJ-4p-xyZ"/>
                         <outlet property="gameResetBtn" destination="K6i-2z-ekP" id="hdc-k1-GEd"/>
                         <outlet property="gameSecLabel" destination="xnk-P4-cLo" id="zHq-Sc-oDk"/>
                         <outlet property="gameTimerControlBtn" destination="NRW-aL-Wud" id="ioQ-wz-KlI"/>
+                        <outlet property="reset24Btn" destination="Ltc-ay-qif" id="sV8-H2-eAl"/>
                         <outlet property="scoreALabel" destination="XZi-pT-oiE" id="oLV-5u-qww"/>
                         <outlet property="scoreAMinusBtn" destination="J6T-Df-Ybo" id="TBK-Bc-khB"/>
                         <outlet property="scoreAPlusBtn" destination="Yyh-G3-V1f" id="B5P-Zr-0Vp"/>
@@ -136,11 +178,13 @@
                         <outlet property="scoreBMinusBtn" destination="yQr-Dz-rTi" id="HQk-0L-Egw"/>
                         <outlet property="scoreBPlusBtn" destination="pGR-FK-bT9" id="ppH-uT-xcI"/>
                         <outlet property="scoreBTextField" destination="sm1-TP-Bze" id="rll-aW-eHO"/>
+                        <outlet property="set14Btn" destination="DbP-DS-4av" id="NUh-QB-sxb"/>
+                        <outlet property="set24Btn" destination="TGv-Y0-hJ2" id="3bd-jz-0bl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-124" y="-14"/>
+            <point key="canvasLocation" x="-367.19999999999999" y="-43.628185907046479"/>
         </scene>
     </scenes>
 </document>
