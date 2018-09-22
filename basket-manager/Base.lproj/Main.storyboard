@@ -21,7 +21,18 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W27-iT-7Hb">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="WJP-VV-RF2"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="K4S-Bj-8w1"/>
+                                    <barButtonItem style="plain" id="CVg-ch-WNp">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="imu-5f-xEm">
+                                            <rect key="frame" x="164.5" y="7" width="46" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
+                                            <state key="normal" title="Button">
+                                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            </state>
+                                        </button>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="RTP-5o-a29"/>
                                     <barButtonItem systemItem="action" id="J0c-UE-gZN">
                                         <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <connections>
@@ -30,7 +41,7 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <label opaque="NO" userInteractionEnabled="NO" tag="10" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Text" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XZi-pT-oiE">
+                            <label opaque="NO" userInteractionEnabled="NO" tag="10" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XZi-pT-oiE">
                                 <rect key="frame" x="57" y="525" width="28" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -77,7 +88,7 @@
                                     <action selector="tapScoreBPlusBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KZH-My-3ee"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Text" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ar6-JI-Fnh">
+                            <label opaque="NO" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ar6-JI-Fnh">
                                 <rect key="frame" x="266" y="525" width="36" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -132,7 +143,7 @@
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                                 <connections>
-                                    <action selector="tap24ControlBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="H7I-ie-axV"/>
+                                    <action selector="tapShotClockControlBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hWd-fj-ebY"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ltc-ay-qif">
@@ -142,7 +153,7 @@
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                                 <connections>
-                                    <action selector="tap24ResetBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gRY-oP-jcL"/>
+                                    <action selector="tapShotClockResetBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JHN-fH-LdC"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TGv-Y0-hJ2">
@@ -153,7 +164,7 @@
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                                 <connections>
-                                    <action selector="tap24SetBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="c1J-Mb-JcB"/>
+                                    <action selector="tapSec24Btn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="D8F-wV-3yw"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DbP-DS-4av">
@@ -163,7 +174,7 @@
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                                 <connections>
-                                    <action selector="tap14SetBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ENr-lF-2Hn"/>
+                                    <action selector="tapSec14Btn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="D3X-au-vRR"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UTC-pr-Zd9">
@@ -187,6 +198,20 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ZQ-uv-H1q">
+                                <rect key="frame" x="140" y="455" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="COb-Rl-AFR">
+                                <rect key="frame" x="184" y="455" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -197,22 +222,25 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="control24Btn" destination="a8E-c7-Q4Y" id="hvq-g8-SSw"/>
-                        <outlet property="display24Label" destination="ROn-U9-8vt" id="IZA-BZ-Up2"/>
+                        <outlet property="buzzerBtn" destination="imu-5f-xEm" id="diP-2f-2my"/>
                         <outlet property="gameColonLabel" destination="UTC-pr-Zd9" id="dl7-Az-tbl"/>
                         <outlet property="gameMinLabel" destination="Dp1-Ng-6jQ" id="ybJ-4p-xyZ"/>
                         <outlet property="gameResetBtn" destination="K6i-2z-ekP" id="hdc-k1-GEd"/>
                         <outlet property="gameSecLabel" destination="xnk-P4-cLo" id="zHq-Sc-oDk"/>
                         <outlet property="gameTimerControlBtn" destination="NRW-aL-Wud" id="ioQ-wz-KlI"/>
-                        <outlet property="reset24Btn" destination="Ltc-ay-qif" id="sV8-H2-eAl"/>
+                        <outlet property="possessionALabel" destination="5ZQ-uv-H1q" id="3Cq-xx-u6n"/>
+                        <outlet property="possessionBLabel" destination="COb-Rl-AFR" id="FNp-4u-4dR"/>
                         <outlet property="scoreALabel" destination="XZi-pT-oiE" id="oLV-5u-qww"/>
                         <outlet property="scoreAMinusBtn" destination="J6T-Df-Ybo" id="TBK-Bc-khB"/>
                         <outlet property="scoreAPlusBtn" destination="Yyh-G3-V1f" id="B5P-Zr-0Vp"/>
                         <outlet property="scoreBLabel" destination="ar6-JI-Fnh" id="EsO-5M-TJT"/>
-                        <outlet property="scoreBMinusBtn" destination="yQr-Dz-rTi" id="HQk-0L-Egw"/>
+                        <outlet property="scoreBMinusBtn" destination="yQr-Dz-rTi" id="oPC-oO-RKs"/>
                         <outlet property="scoreBPlusBtn" destination="pGR-FK-bT9" id="ppH-uT-xcI"/>
-                        <outlet property="set14Btn" destination="DbP-DS-4av" id="NUh-QB-sxb"/>
-                        <outlet property="set24Btn" destination="TGv-Y0-hJ2" id="3bd-jz-0bl"/>
+                        <outlet property="sec14Btn" destination="DbP-DS-4av" id="zcG-2E-Ff3"/>
+                        <outlet property="sec24Btn" destination="TGv-Y0-hJ2" id="Fu8-Hj-BQW"/>
+                        <outlet property="shotClockControlBtn" destination="a8E-c7-Q4Y" id="dQh-tp-pJ6"/>
+                        <outlet property="shotClockLabel" destination="ROn-U9-8vt" id="5op-dw-tsV"/>
+                        <outlet property="shotClockResetBtn" destination="Ltc-ay-qif" id="fa0-1O-WKW"/>
                         <outlet property="teamALabel" destination="QNc-E4-m1H" id="Uyp-cT-UA3"/>
                         <outlet property="teamBLabel" destination="Cu8-hG-fD6" id="VYn-xy-tvx"/>
                     </connections>

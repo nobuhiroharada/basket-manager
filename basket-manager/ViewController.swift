@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
     
@@ -16,6 +17,7 @@ class ViewController: UIViewController {
     let SMALL_BUTTON_RECT: CGRect = CGRect(x: 0, y: 0, width: 30, height: 30)
     let BASE_FONT_SIZE: UIFont = UIFont.systemFont(ofSize: 13)
     
+    // MARK: - スコア変数
     // スコアA
     var scoreA: Int = 0
     @IBOutlet weak var teamALabel: UILabel!
@@ -27,10 +29,11 @@ class ViewController: UIViewController {
     var scoreB: Int = 0
     @IBOutlet weak var teamBLabel: UILabel!
     @IBOutlet weak var scoreBLabel: UILabel!
+    
     @IBOutlet weak var scoreBMinusBtn: UIButton!
     @IBOutlet weak var scoreBPlusBtn: UIButton!
     
-    // ゲームタイマー
+    // MARK: - ゲームタイマー変数
     var gameTimer: Timer!
     var startGameTime = Date()
     var gameSeconds = 600
@@ -49,23 +52,31 @@ class ViewController: UIViewController {
     @IBOutlet weak var gameColonLabel: UILabel!
     @IBOutlet weak var gameTimerControlBtn: UIButton!
     @IBOutlet weak var gameResetBtn: UIButton!
+    @IBOutlet weak var possessionALabel: UILabel!
+    @IBOutlet weak var possessionBLabel: UILabel!
     
-    // 24秒
-    var timer24: Timer!
-    var start24Time = Date()
-    var seconds24: Int = 24
-    var timer24Status: Timer24Status = .START
-    enum Timer24Status: String {
+    // MARK: -  ショットクロック変数
+    var shotClockTimer: Timer!
+    var shotSeconds: Int = 24
+    var shotClockStatus: ShotClockStatus = .START
+    enum ShotClockStatus: String {
         case START
         case STOP
         case RESUME
     }
-    @IBOutlet weak var display24Label: UILabel!
-    @IBOutlet weak var control24Btn: UIButton!
-    @IBOutlet weak var reset24Btn: UIButton!
-    @IBOutlet weak var set24Btn: UIButton!
-    @IBOutlet weak var set14Btn: UIButton!
     
+    @IBOutlet weak var shotClockLabel: UILabel!
+    @IBOutlet weak var shotClockControlBtn: UIButton!
+    @IBOutlet weak var shotClockResetBtn: UIButton!
+    @IBOutlet weak var sec24Btn: UIButton!
+    @IBOutlet weak var sec14Btn: UIButton!
+    
+    // MARK: - ツールバー ブザーボタン
+    @IBOutlet weak var buzzerBtn: UIButton!
+    var buzzerAudioPlayer : AVAudioPlayer! = nil
+    var isBuzzerRunning: Bool = false
+    
+    // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -77,42 +88,50 @@ class ViewController: UIViewController {
             gameTimeSecArray.append(String(i))
         }
         
-        setScoreInitProperty()
-        setGameTimeInitProperty()
-        set24TimeInitProperty()
-        
+        initScore()
+        initGameTime()
+        initShotClock()
+        initBuzzer()
     }
     
     // MARK: - スコア
-    func setScoreInitProperty() {
-
-        teamALabel.text = "チーム A"
+    func initScore() {
+        
+        teamALabel.text = "HOME"
         teamALabel.textAlignment = .center
         teamALabel.bounds = CGRect(x: 0, y: 0, width: 150, height: 50)
+        
+        let teamNameHeight = self.view.frame.height*(5/7)-teamALabel.frame.height*0.5
+        
         teamALabel.center = CGPoint(x: self.view.frame.width*(1/4),
-                                         y: self.view.frame.height*(5/7)-teamALabel.frame.height*(1/2))
+                                         y: teamNameHeight)
         teamALabel.font = BASE_FONT_SIZE
         
         let tapTeamA = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapTeamALabel))
         teamALabel.isUserInteractionEnabled = true
         teamALabel.addGestureRecognizer(tapTeamA)
         
-        teamBLabel.text = "チーム B"
+        teamBLabel.text = "GUEST"
         teamBLabel.textAlignment = .center
         teamBLabel.bounds = CGRect(x: 0, y: 0, width: 150, height: 50)
         teamBLabel.center = CGPoint(x: self.view.frame.width*(3/4),
-                                         y: self.view.frame.height*(5/7)-teamBLabel.frame.height*(1/2))
+                                         y: teamNameHeight)
         teamBLabel.font = BASE_FONT_SIZE
         
         let tapTeamB = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapTeamBLabel))
         teamBLabel.isUserInteractionEnabled = true
         teamBLabel.addGestureRecognizer(tapTeamB)
         
+        
+        
         scoreALabel.text = "00"
         scoreALabel.textAlignment = .center
         scoreALabel.bounds = CGRect(x: 0, y: 0, width: 140, height: 90)
+        
+        let scoreLabelHeight = self.view.frame.height*(6/7)-scoreALabel.frame.height*0.75
+        
         scoreALabel.center = CGPoint(x: self.view.frame.width*(1/4),
-                                      y: self.view.frame.height*(6/7)-scoreALabel.frame.height*(3/4))
+                                      y: scoreLabelHeight)
         scoreALabel.font = UIFont.boldSystemFont(ofSize: 70)
         
         let tapScoreA = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapScoreALabel))
@@ -123,12 +142,36 @@ class ViewController: UIViewController {
         scoreBLabel.textAlignment = .center
         scoreBLabel.bounds = CGRect(x: 0, y: 0, width: 140, height: 90)
         scoreBLabel.center = CGPoint(x: self.view.frame.width*(3/4),
-                                     y: self.view.frame.height*(6/7)-scoreBLabel.frame.height*(3/4))
+                                     y: scoreLabelHeight)
         scoreBLabel.font = UIFont.boldSystemFont(ofSize: 70)
         
         let tapScoreB = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapScoreBLabel))
         scoreBLabel.isUserInteractionEnabled = true
         scoreBLabel.addGestureRecognizer(tapScoreB)
+        
+        let possessionLabelHight = self.view.frame.height*(6/7)-scoreALabel.frame.height*0.75
+        
+        possessionALabel.text = "←"
+        possessionALabel.textAlignment = .center
+        possessionALabel.bounds = SMALL_BUTTON_RECT
+        possessionALabel.center = CGPoint(x: self.view.frame.width*(1/2)-possessionALabel.frame.width*0.5,
+                                     y: possessionLabelHight)
+        possessionALabel.font = BASE_FONT_SIZE
+        possessionALabel.isHidden = false
+        let tapPossessionA = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapPossessionA))
+        possessionALabel.isUserInteractionEnabled = true
+        possessionALabel.addGestureRecognizer(tapPossessionA)
+        
+        possessionBLabel.text = "→"
+        possessionBLabel.textAlignment = .center
+        possessionBLabel.bounds = SMALL_BUTTON_RECT
+        possessionBLabel.center = CGPoint(x: self.view.frame.width*(1/2)+possessionBLabel.frame.width*0.5,
+                                     y: possessionLabelHight)
+        possessionBLabel.font = BASE_FONT_SIZE
+        possessionBLabel.isHidden = true
+        let tapPossessionB = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapPossessionB))
+        possessionBLabel.isUserInteractionEnabled = true
+        possessionBLabel.addGestureRecognizer(tapPossessionB)
         
         scoreAMinusBtn.setTitle("-", for: .normal)
         scoreAMinusBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
@@ -153,6 +196,8 @@ class ViewController: UIViewController {
         scoreBMinusBtn.layer.borderColor = BASE_COLOR
         scoreBMinusBtn.layer.borderWidth = 1
         scoreBMinusBtn.layer.cornerRadius = scoreBMinusBtn.frame.width/2
+//        scoreBMinusBtn.addTarget(self, action: #selector(highlightBorder), for: .touchDown)
+//        scoreBMinusBtn.addTarget(self, action: #selector(normalBorder), for: .touchUpInside)
         
         scoreBPlusBtn.setTitle("+", for: .normal)
         scoreBPlusBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
@@ -161,6 +206,7 @@ class ViewController: UIViewController {
         scoreBPlusBtn.layer.borderColor = BASE_COLOR
         scoreBPlusBtn.layer.borderWidth = 1
         scoreBPlusBtn.layer.cornerRadius = scoreBPlusBtn.frame.width/2
+
     }
     
     // チームAスコア
@@ -178,22 +224,6 @@ class ViewController: UIViewController {
         }
     }
     
-    @objc func tapTeamALabel(_ sender: UITapGestureRecognizer) {
-        openTeamADialog()
-    }
-    
-    @objc func tapTeamBLabel(_ sender: UITapGestureRecognizer) {
-        openTeamBDialog()
-    }
-    
-    @objc func tapScoreALabel(_ sender: UITapGestureRecognizer) {
-        openScoreADialog()
-    }
-    
-    @objc func tapScoreBLabel(_ sender: UITapGestureRecognizer) {
-        openScoreBDialog()
-    }
-    
     // チームBスコア
     @IBAction func tapScoreBMinusBtn(_ sender: UIButton) {
         if scoreB > 0 {
@@ -209,9 +239,35 @@ class ViewController: UIViewController {
         }
     }
     
-    // チームAダイアログ表示
-    func openTeamADialog() {
-        let alert = UIAlertController(title: "チームA名前修正", message: "", preferredStyle: .alert)
+    @objc func tapTeamALabel(_ sender: UITapGestureRecognizer) {
+        openTeamNameAEditDialog()
+    }
+    
+    @objc func tapTeamBLabel(_ sender: UITapGestureRecognizer) {
+        openTeamNameBEditDialog()
+    }
+    
+    @objc func tapScoreALabel(_ sender: UITapGestureRecognizer) {
+        openScoreAEditDialog()
+    }
+    
+    @objc func tapScoreBLabel(_ sender: UITapGestureRecognizer) {
+        openScoreBEditDialog()
+    }
+    
+    @objc func tapPossessionA(_ sender: UITapGestureRecognizer) {
+        possessionALabel.isHidden = true
+        possessionBLabel.isHidden = false
+    }
+    
+    @objc func tapPossessionB(_ sender: UITapGestureRecognizer) {
+        possessionALabel.isHidden = false
+        possessionBLabel.isHidden = true
+    }
+    
+    // チームA名前編集ダイアログ表示
+    func openTeamNameAEditDialog() {
+        let alert = UIAlertController(title: "HOME名前修正", message: "", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: {
             (action:UIAlertAction!) -> Void in
@@ -229,7 +285,7 @@ class ViewController: UIViewController {
         alert.addAction(cancelAction)
         
         alert.addTextField(configurationHandler: {(textField: UITextField!) -> Void in
-            textField.placeholder = "チームA"
+            textField.placeholder = "HOME"
             textField.text = self.teamALabel.text
         })
         
@@ -239,8 +295,8 @@ class ViewController: UIViewController {
     }
     
     // チームBダイアログ表示
-    func openTeamBDialog() {
-        let alert = UIAlertController(title: "チームB名前修正", message: "", preferredStyle: .alert)
+    func openTeamNameBEditDialog() {
+        let alert = UIAlertController(title: "GUEST名前修正", message: "", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: {
             (action:UIAlertAction!) -> Void in
@@ -258,7 +314,7 @@ class ViewController: UIViewController {
         alert.addAction(cancelAction)
         
         alert.addTextField(configurationHandler: {(textField: UITextField!) -> Void in
-            textField.placeholder = "チームB"
+            textField.placeholder = "GUEST"
             textField.text = self.teamBLabel.text
         })
         
@@ -268,8 +324,8 @@ class ViewController: UIViewController {
     }
     
     // スコアAダイアログ表示
-    func openScoreADialog() {
-        let alert = UIAlertController(title: "チームAスコア修正", message: "", preferredStyle: .alert)
+    func openScoreAEditDialog() {
+        let alert = UIAlertController(title: "HOMEスコア修正", message: "", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: {
             (action:UIAlertAction!) -> Void in
@@ -298,9 +354,9 @@ class ViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    // スコアBダイアログ表示
-    func openScoreBDialog() {
-        let alert = UIAlertController(title: "チームBスコア修正", message: "", preferredStyle: .alert)
+    // GUESTダイアログ表示
+    func openScoreBEditDialog() {
+        let alert = UIAlertController(title: "GUESTスコア修正", message: "", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: {
             (action:UIAlertAction!) -> Void in
@@ -329,8 +385,10 @@ class ViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    
+    
     // MARK: - ゲームタイム
-    func setGameTimeInitProperty() {
+    func initGameTime() {
         gameMinLabel.text = "10"
         gameMinLabel.textAlignment = .center
         gameMinLabel.bounds = BASE_DIGIT_RECT
@@ -361,6 +419,8 @@ class ViewController: UIViewController {
         gameTimerControlBtn.layer.borderColor = BASE_COLOR
         gameTimerControlBtn.layer.borderWidth = 1
         gameTimerControlBtn.layer.cornerRadius = gameTimerControlBtn.frame.width/2
+//        gameTimerControlBtn.addTarget(self, action: #selector(highlightBorder), for: .touchDown)
+//        gameTimerControlBtn.addTarget(self, action: #selector(normalBorder), for: .touchUpInside)
         
         gameResetBtn.isEnabled = false
         gameResetBtn.setTitle("リセット", for: .normal)
@@ -425,8 +485,8 @@ class ViewController: UIViewController {
     @objc func gameTimerCount() {
         if gameSeconds < 1 {
             gameTimer.invalidate()
-            // DO SOMETHING
-            gameSecLabel.text = String(gameSeconds)
+            gameSecLabel.text = "00"
+            openGameTimeOverDialog()
         } else {
             gameSeconds -= 1
             showGameTime()
@@ -470,124 +530,201 @@ class ViewController: UIViewController {
         self.view.addSubview(gameTimePicker)
     }
     
+    func openGameTimeOverDialog() {
+        let alert = UIAlertController(title: "タイムオーバー", message: "", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: {
+            (action:UIAlertAction!) -> Void in
+            
+            self.gameTimerControlBtn.setTitle("開始", for: .normal)
+            self.gameSeconds = 600
+            self.gameTimerStatus = .START
+            self.toggleIsHiddenGameLabels()
+            self.setGameTimePicker()
+        })
+        
+        alert.addAction(okAction)
+        
+        alert.view.setNeedsLayout()
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     func toggleIsHiddenGameLabels() {
         gameMinLabel.isHidden = !gameMinLabel.isHidden
         gameColonLabel.isHidden = !gameColonLabel.isHidden
         gameSecLabel.isHidden = !gameSecLabel.isHidden
     }
     
-    // MARK: - 24秒
-    func set24TimeInitProperty() {
-        display24Label.text = String(seconds24)
-        display24Label.bounds = BASE_DIGIT_RECT
-        display24Label.center = CGPoint(x: self.view.frame.width*(1/2), y: self.view.frame.height*(1/7))
-        display24Label.font = UIFont.boldSystemFont(ofSize: 70)
+    // MARK: - ショットクロック
+    func initShotClock() {
+        shotClockLabel.text = String(shotSeconds)
+        shotClockLabel.bounds = BASE_DIGIT_RECT
+        shotClockLabel.center = CGPoint(x: self.view.frame.width*(1/2), y: self.view.frame.height*(1/7))
+        shotClockLabel.font = UIFont.boldSystemFont(ofSize: 70)
         
-        control24Btn.setTitle("開始", for: .normal)
-        control24Btn.titleLabel?.font = BASE_FONT_SIZE
-        control24Btn.bounds = BASE_BUTTON_RECT
-        control24Btn.center = CGPoint(x: self.view.frame.width*(1/3), y: self.view.frame.height*(2/7))
-        control24Btn.layer.borderColor = BASE_COLOR
-        control24Btn.layer.borderWidth = 1
-        control24Btn.layer.cornerRadius = control24Btn.frame.width/2
+        shotClockControlBtn.setTitle("開始", for: .normal)
+        shotClockControlBtn.titleLabel?.font = BASE_FONT_SIZE
+        shotClockControlBtn.bounds = BASE_BUTTON_RECT
+        shotClockControlBtn.center = CGPoint(x: self.view.frame.width*(1/3), y: self.view.frame.height*(2/7))
+        shotClockControlBtn.layer.borderColor = BASE_COLOR
+        shotClockControlBtn.layer.borderWidth = 1
+        shotClockControlBtn.layer.cornerRadius = shotClockControlBtn.frame.width/2
         
-        reset24Btn.setTitle("リセット", for: .normal)
-        reset24Btn.titleLabel?.font = BASE_FONT_SIZE
-        reset24Btn.bounds = BASE_BUTTON_RECT
-        reset24Btn.center = CGPoint(x: self.view.frame.width*(2/3), y: self.view.frame.height*(2/7))
-        reset24Btn.layer.borderColor = BASE_COLOR
-        reset24Btn.layer.borderWidth = 1
-        reset24Btn.layer.cornerRadius = reset24Btn.frame.width/2
+        shotClockResetBtn.setTitle("リセット", for: .normal)
+        shotClockResetBtn.titleLabel?.font = BASE_FONT_SIZE
+        shotClockResetBtn.bounds = BASE_BUTTON_RECT
+        shotClockResetBtn.center = CGPoint(x: self.view.frame.width*(2/3), y: self.view.frame.height*(2/7))
+        shotClockResetBtn.layer.borderColor = BASE_COLOR
+        shotClockResetBtn.layer.borderWidth = 1
+        shotClockResetBtn.layer.cornerRadius = shotClockResetBtn.frame.width/2
         
-        set24Btn.setTitle("24", for: .normal)
-        set24Btn.titleLabel?.font = BASE_FONT_SIZE
-        set24Btn.frame = CGRect(x: self.view.frame.width*(1/2) + display24Label.frame.width,
-                                y: self.view.frame.height*(1/7) - set24Btn.frame.height,
+        sec24Btn.setTitle("24", for: .normal)
+        sec24Btn.titleLabel?.font = BASE_FONT_SIZE
+        sec24Btn.frame = CGRect(x: self.view.frame.width*(1/2) + shotClockLabel.frame.width,
+                                y: self.view.frame.height*(1/7) - sec24Btn.frame.height,
                                 width: 30, height: 30)
-        set24Btn.layer.borderColor = BASE_COLOR
-        set24Btn.layer.borderWidth = 1
-        set24Btn.layer.cornerRadius = set24Btn.frame.width/2
+        sec24Btn.layer.borderColor = BASE_COLOR
+        sec24Btn.layer.borderWidth = 1
+        sec24Btn.layer.cornerRadius = sec24Btn.frame.width/2
         
-        set14Btn.setTitle("14", for: .normal)
-        set14Btn.titleLabel?.font = BASE_FONT_SIZE
-        set14Btn.frame = CGRect(x: self.view.frame.width*(1/2) + display24Label.frame.width,
+        sec14Btn.setTitle("14", for: .normal)
+        sec14Btn.titleLabel?.font = BASE_FONT_SIZE
+        sec14Btn.frame = CGRect(x: self.view.frame.width*(1/2) + shotClockLabel.frame.width,
                                 y: self.view.frame.height*(1/7),
                                 width: 30, height: 30)
-        set14Btn.layer.borderColor = BASE_COLOR
-        set14Btn.layer.borderWidth = 1
-        set14Btn.layer.cornerRadius = set24Btn.frame.width/2
+        sec14Btn.layer.borderColor = BASE_COLOR
+        sec14Btn.layer.borderWidth = 1
+        sec14Btn.layer.cornerRadius = sec24Btn.frame.width/2
     }
     
-    // 24秒コントロールボタンタップ
-    @IBAction func tap24ControlBtn(_ sender: UIButton) {
-        
-        switch timer24Status {
+    // ショットクロックコントロールボタンタップ
+    @IBAction func tapShotClockControlBtn(_ sender: UIButton) {
+        switch shotClockStatus {
         case .START:
-            run24Timer()
-            control24Btn.setTitle("停止", for: .normal)
-            timer24Status = .STOP
-            reset24Btn.isEnabled = true
-            
+            runShotCloclTimer()
+            shotClockControlBtn.setTitle("停止", for: .normal)
+            shotClockStatus = .STOP
+            shotClockResetBtn.isEnabled = true
+        
         case .STOP:
-            timer24.invalidate()
-            control24Btn.setTitle("再開", for: .normal)
-            timer24Status = .RESUME
-            
+            shotClockTimer.invalidate()
+            shotClockControlBtn.setTitle("再開", for: .normal)
+            shotClockStatus = .RESUME
+        
         case .RESUME:
-            run24Timer()
-            control24Btn.setTitle("停止", for: .normal)
-            timer24Status = .STOP
+            runShotCloclTimer()
+            shotClockControlBtn.setTitle("停止", for: .normal)
+            shotClockStatus = .STOP
         }
     }
     
-    func run24Timer(){
-        timer24 = Timer.scheduledTimer(
+    func runShotCloclTimer(){
+        shotClockTimer = Timer.scheduledTimer(
             timeInterval: 1,
             target: self,
-            selector: #selector(self.timer24Count),
+            selector: #selector(self.shotClockCount),
             userInfo: nil,
             repeats: true)
     }
     
-    @objc func timer24Count() {
-        if seconds24 < 1 {
-            timer24.invalidate()
-            // DO SOMETHING
-            display24Label.text = String(seconds24)
+    @objc func shotClockCount() {
+        if shotSeconds < 1 {
+            shotClockTimer.invalidate()
+            shotClockLabel.text = String(shotSeconds)
+            openShotClockTimeOverDialog()
         } else {
-            seconds24 -= 1
-            display24Label.text = String(seconds24)
+            shotSeconds -= 1
+            shotClockLabel.text = String(shotSeconds)
         }
     }
     
     // 24秒リセットボタンタップ
-    @IBAction func tap24ResetBtn(_ sender: UIButton) {
-        switch timer24Status {
+    @IBAction func tapShotClockResetBtn(_ sender: UIButton) {
+        switch shotClockStatus {
         case .START:
             return
         case .STOP:
-            seconds24 = 24
-            display24Label.text = String(seconds24)
+            shotSeconds = 24
+            shotClockLabel.text = String(shotSeconds)
         case .RESUME:
-            timer24.invalidate()
-            seconds24 = 24
-            display24Label.text = String(seconds24)
-            control24Btn.setTitle("開始", for: .normal)
-            timer24Status = .START
-            reset24Btn.isEnabled = false
+            shotClockTimer.invalidate()
+            shotSeconds = 24
+            shotClockLabel.text = String(shotSeconds)
+            shotClockControlBtn.setTitle("開始", for: .normal)
+            shotClockStatus = .START
+            shotClockResetBtn.isEnabled = false
         }
     }
     
     // 24秒セットボタンタップ
-    @IBAction func tap24SetBtn(_ sender: UIButton) {
-        seconds24 = 24
-        display24Label.text = "24"
+    @IBAction func tapSec24Btn(_ sender: UIButton) {
+        shotSeconds = 24
+        shotClockLabel.text = "24"
     }
     
     // 14秒セットボタンタップ
-    @IBAction func tap14SetBtn(_ sender: UIButton) {
-        seconds24 = 14
-        display24Label.text = "14"
+    @IBAction func tapSec14Btn(_ sender: UIButton) {
+        shotSeconds = 14
+        shotClockLabel.text = "14"
+    }
+    
+    func openShotClockTimeOverDialog() {
+        
+        let alert = UIAlertController(title: "タイムオーバー", message: "", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: {
+            (action:UIAlertAction!) -> Void in
+            
+            self.shotClockControlBtn.setTitle("開始", for: .normal)
+            self.shotSeconds = 24
+            self.shotClockLabel.text = String(self.shotSeconds)
+            self.shotClockStatus = .START
+        })
+        
+        alert.addAction(okAction)
+        
+        alert.view.setNeedsLayout()
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    // MARK: - ツールバーブザーボタンタップ
+    func initBuzzer() {
+        
+        buzzerBtn.setTitle("▶", for: .normal)
+        buzzerBtn.addTarget(self, action: #selector(buzzerBtnTouchDown), for: .touchDown)
+        buzzerBtn.addTarget(self, action: #selector(buzzerBtnTouchUpInside), for: .touchUpInside)
+        
+        setBuzzerPlayer()
+    }
+    
+    func setBuzzerPlayer() {
+        let soundFilePath = Bundle.main.path(forResource: "buzzer", ofType: "mp3")!
+        let sound:URL = URL(fileURLWithPath: soundFilePath)
+        
+        do {
+            buzzerAudioPlayer = try AVAudioPlayer(contentsOf: sound, fileTypeHint:nil)
+        } catch {
+            print("AVAudioPlayerインスタンス作成失敗")
+        }
+        // バッファに保持していつでも再生できるようにする
+        buzzerAudioPlayer.prepareToPlay()
+    }
+    
+    @objc func buzzerBtnTouchDown() {
+        if !isBuzzerRunning {
+            buzzerAudioPlayer.play()
+        }
+        isBuzzerRunning = true
+    }
+    
+    @objc func buzzerBtnTouchUpInside() {
+        if isBuzzerRunning {
+            buzzerAudioPlayer.stop()
+            setBuzzerPlayer()
+        }
+        isBuzzerRunning = false
     }
     
     // MARK: - ツールバーアクションボタンタップ
@@ -606,6 +743,7 @@ class ViewController: UIViewController {
         
         self.present(activityVC, animated: true, completion: nil)
     }
+    
 }
 
 // MARK: - UIPickerViewDelegate, UIPickerViewDataSource

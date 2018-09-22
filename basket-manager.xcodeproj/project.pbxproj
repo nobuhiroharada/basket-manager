@@ -12,9 +12,15 @@
 		E572003B2145B2ED00F84254 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E57200392145B2ED00F84254 /* Main.storyboard */; };
 		E572003D2145B2EF00F84254 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E572003C2145B2EF00F84254 /* Assets.xcassets */; };
 		E57200402145B2EF00F84254 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E572003E2145B2EF00F84254 /* LaunchScreen.storyboard */; };
+		E5A4B0192155C2E40014BC65 /* buzzer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E5A4B0182155C2E40014BC65 /* buzzer.mp3 */; };
+		E5A4B01C2155C31F0014BC65 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5A4B01B2155C31F0014BC65 /* AVFoundation.framework */; };
+		FD3D241EDB8252FDA82EBBE7 /* Pods_basket_manager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5659C378E0DBA134BAE181B0 /* Pods_basket_manager.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1D0A139EB7DCB244C42D1EE1 /* Pods-basket-manager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-basket-manager.release.xcconfig"; path = "Pods/Target Support Files/Pods-basket-manager/Pods-basket-manager.release.xcconfig"; sourceTree = "<group>"; };
+		5659C378E0DBA134BAE181B0 /* Pods_basket_manager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_basket_manager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		94872447614C4EFB28152AB8 /* Pods-basket-manager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-basket-manager.debug.xcconfig"; path = "Pods/Target Support Files/Pods-basket-manager/Pods-basket-manager.debug.xcconfig"; sourceTree = "<group>"; };
 		E57200322145B2ED00F84254 /* basket-manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "basket-manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E57200352145B2ED00F84254 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E57200372145B2ED00F84254 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +28,8 @@
 		E572003C2145B2EF00F84254 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E572003F2145B2EF00F84254 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E57200412145B2EF00F84254 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E5A4B0182155C2E40014BC65 /* buzzer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = buzzer.mp3; sourceTree = "<group>"; };
+		E5A4B01B2155C31F0014BC65 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +37,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5A4B01C2155C31F0014BC65 /* AVFoundation.framework in Frameworks */,
+				FD3D241EDB8252FDA82EBBE7 /* Pods_basket_manager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE0AD1335B4983D2635029EE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				94872447614C4EFB28152AB8 /* Pods-basket-manager.debug.xcconfig */,
+				1D0A139EB7DCB244C42D1EE1 /* Pods-basket-manager.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		E57200292145B2ED00F84254 = {
 			isa = PBXGroup;
 			children = (
 				E57200342145B2ED00F84254 /* basket-manager */,
 				E57200332145B2ED00F84254 /* Products */,
+				E5A4B01A2155C31E0014BC65 /* Frameworks */,
+				CE0AD1335B4983D2635029EE /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,10 +79,20 @@
 				E57200372145B2ED00F84254 /* ViewController.swift */,
 				E57200392145B2ED00F84254 /* Main.storyboard */,
 				E572003C2145B2EF00F84254 /* Assets.xcassets */,
+				E5A4B0182155C2E40014BC65 /* buzzer.mp3 */,
 				E572003E2145B2EF00F84254 /* LaunchScreen.storyboard */,
 				E57200412145B2EF00F84254 /* Info.plist */,
 			);
 			path = "basket-manager";
+			sourceTree = "<group>";
+		};
+		E5A4B01A2155C31E0014BC65 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E5A4B01B2155C31F0014BC65 /* AVFoundation.framework */,
+				5659C378E0DBA134BAE181B0 /* Pods_basket_manager.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,6 +102,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E57200442145B2EF00F84254 /* Build configuration list for PBXNativeTarget "basket-manager" */;
 			buildPhases = (
+				BC9A767C1C07FDDCF8F461A8 /* [CP] Check Pods Manifest.lock */,
 				E572002E2145B2ED00F84254 /* Sources */,
 				E572002F2145B2ED00F84254 /* Frameworks */,
 				E57200302145B2ED00F84254 /* Resources */,
@@ -124,11 +156,33 @@
 			files = (
 				E57200402145B2EF00F84254 /* LaunchScreen.storyboard in Resources */,
 				E572003D2145B2EF00F84254 /* Assets.xcassets in Resources */,
+				E5A4B0192155C2E40014BC65 /* buzzer.mp3 in Resources */,
 				E572003B2145B2ED00F84254 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BC9A767C1C07FDDCF8F461A8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-basket-manager-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E572002E2145B2ED00F84254 /* Sources */ = {
@@ -278,37 +332,39 @@
 		};
 		E57200452145B2EF00F84254 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 94872447614C4EFB28152AB8 /* Pods-basket-manager.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L9QP98K44Z;
 				INFOPLIST_FILE = "basket-manager/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "net.nobuhiroharada.basket-manager";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nobuhiroharada.basket-manager";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		E57200462145B2EF00F84254 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1D0A139EB7DCB244C42D1EE1 /* Pods-basket-manager.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L9QP98K44Z;
 				INFOPLIST_FILE = "basket-manager/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "net.nobuhiroharada.basket-manager";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nobuhiroharada.basket-manager";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
