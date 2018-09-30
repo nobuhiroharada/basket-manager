@@ -12,6 +12,13 @@
 		E572003B2145B2ED00F84254 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E57200392145B2ED00F84254 /* Main.storyboard */; };
 		E572003D2145B2EF00F84254 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E572003C2145B2EF00F84254 /* Assets.xcassets */; };
 		E57200402145B2EF00F84254 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E572003E2145B2EF00F84254 /* LaunchScreen.storyboard */; };
+		E57408A521571AB800C32479 /* ResetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57408A421571AB800C32479 /* ResetButton.swift */; };
+		E57408A7215773EA00C32479 /* ControlButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57408A6215773EA00C32479 /* ControlButton.swift */; };
+		E57408DD2160B42100C32479 /* GameResultDialog.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E57408DC2160B42000C32479 /* GameResultDialog.storyboard */; };
+		E57408DF2160B48900C32479 /* GameResultDialogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57408DE2160B48900C32479 /* GameResultDialogViewController.swift */; };
+		E57408E12160B7FA00C32479 /* ScoreLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57408E02160B7FA00C32479 /* ScoreLabel.swift */; };
+		E57408E32160BA7B00C32479 /* TeamLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57408E22160BA7B00C32479 /* TeamLabel.swift */; };
+		E5925FEF2156F78100DEE34F /* SmallButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5925FEE2156F78100DEE34F /* SmallButton.swift */; };
 		E5A4B0192155C2E40014BC65 /* buzzer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E5A4B0182155C2E40014BC65 /* buzzer.mp3 */; };
 		E5A4B01C2155C31F0014BC65 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5A4B01B2155C31F0014BC65 /* AVFoundation.framework */; };
 		FD3D241EDB8252FDA82EBBE7 /* Pods_basket_manager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5659C378E0DBA134BAE181B0 /* Pods_basket_manager.framework */; };
@@ -28,6 +35,13 @@
 		E572003C2145B2EF00F84254 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E572003F2145B2EF00F84254 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E57200412145B2EF00F84254 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E57408A421571AB800C32479 /* ResetButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetButton.swift; sourceTree = "<group>"; };
+		E57408A6215773EA00C32479 /* ControlButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButton.swift; sourceTree = "<group>"; };
+		E57408DC2160B42000C32479 /* GameResultDialog.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GameResultDialog.storyboard; sourceTree = "<group>"; };
+		E57408DE2160B48900C32479 /* GameResultDialogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameResultDialogViewController.swift; sourceTree = "<group>"; };
+		E57408E02160B7FA00C32479 /* ScoreLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreLabel.swift; sourceTree = "<group>"; };
+		E57408E22160BA7B00C32479 /* TeamLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamLabel.swift; sourceTree = "<group>"; };
+		E5925FEE2156F78100DEE34F /* SmallButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallButton.swift; sourceTree = "<group>"; };
 		E5A4B0182155C2E40014BC65 /* buzzer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = buzzer.mp3; sourceTree = "<group>"; };
 		E5A4B01B2155C31F0014BC65 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -77,13 +91,36 @@
 			children = (
 				E57200352145B2ED00F84254 /* AppDelegate.swift */,
 				E57200372145B2ED00F84254 /* ViewController.swift */,
-				E57200392145B2ED00F84254 /* Main.storyboard */,
+				E57408DE2160B48900C32479 /* GameResultDialogViewController.swift */,
+				E5925FF121570CAF00DEE34F /* Components */,
+				E5925FF02156F78B00DEE34F /* Storyboards */,
 				E572003C2145B2EF00F84254 /* Assets.xcassets */,
 				E5A4B0182155C2E40014BC65 /* buzzer.mp3 */,
-				E572003E2145B2EF00F84254 /* LaunchScreen.storyboard */,
 				E57200412145B2EF00F84254 /* Info.plist */,
 			);
 			path = "basket-manager";
+			sourceTree = "<group>";
+		};
+		E5925FF02156F78B00DEE34F /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				E57200392145B2ED00F84254 /* Main.storyboard */,
+				E572003E2145B2EF00F84254 /* LaunchScreen.storyboard */,
+				E57408DC2160B42000C32479 /* GameResultDialog.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		E5925FF121570CAF00DEE34F /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E5925FEE2156F78100DEE34F /* SmallButton.swift */,
+				E57408A421571AB800C32479 /* ResetButton.swift */,
+				E57408A6215773EA00C32479 /* ControlButton.swift */,
+				E57408E02160B7FA00C32479 /* ScoreLabel.swift */,
+				E57408E22160BA7B00C32479 /* TeamLabel.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		E5A4B01A2155C31E0014BC65 /* Frameworks */ = {
@@ -155,6 +192,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E57200402145B2EF00F84254 /* LaunchScreen.storyboard in Resources */,
+				E57408DD2160B42100C32479 /* GameResultDialog.storyboard in Resources */,
 				E572003D2145B2EF00F84254 /* Assets.xcassets in Resources */,
 				E5A4B0192155C2E40014BC65 /* buzzer.mp3 in Resources */,
 				E572003B2145B2ED00F84254 /* Main.storyboard in Resources */,
@@ -189,8 +227,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E57408DF2160B48900C32479 /* GameResultDialogViewController.swift in Sources */,
+				E57408E32160BA7B00C32479 /* TeamLabel.swift in Sources */,
 				E57200382145B2ED00F84254 /* ViewController.swift in Sources */,
 				E57200362145B2ED00F84254 /* AppDelegate.swift in Sources */,
+				E57408E12160B7FA00C32479 /* ScoreLabel.swift in Sources */,
+				E57408A7215773EA00C32479 /* ControlButton.swift in Sources */,
+				E5925FEF2156F78100DEE34F /* SmallButton.swift in Sources */,
+				E57408A521571AB800C32479 /* ResetButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,7 +383,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L9QP98K44Z;
 				INFOPLIST_FILE = "basket-manager/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nobuhiroharada.basket-manager";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -358,7 +405,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L9QP98K44Z;
 				INFOPLIST_FILE = "basket-manager/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nobuhiroharada.basket-manager";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
