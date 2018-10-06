@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
     
     let BASE_COLOR: CGColor = UIColor.darkText.cgColor
     let BASE_DIGIT_RECT: CGRect = CGRect(x: 0, y: 0, width: 90, height: 90)
@@ -51,8 +51,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var gameColonLabel: UILabel!
     @IBOutlet weak var gameTimerControlBtn: ControlButton!
     @IBOutlet weak var gameResetBtn: ResetButton!
-    @IBOutlet weak var possessionALabel: UILabel!
-    @IBOutlet weak var possessionBLabel: UILabel!
+    @IBOutlet weak var possessionALabel: PossesLabel!
+    @IBOutlet weak var possessionBLabel: PossesLabel!
     
     // MARK: -  ショットクロック変数
     var shotClockTimer: Timer!
@@ -75,6 +75,9 @@ class ViewController: UIViewController {
     var buzzerAudioPlayer : AVAudioPlayer! = nil
     var isBuzzerRunning: Bool = false
     
+    // MARK: ツールバー ゲームテーブルボタン
+    @IBOutlet weak var gameTableBtn: UIButton!
+    
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,6 +95,10 @@ class ViewController: UIViewController {
         initShotClock()
         initBuzzer()
         
+        gameTableBtn.setTitle("︙", for: .normal)
+        gameTableBtn.setTitleColor(UIColor.darkText, for: .normal)
+        gameTableBtn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        
     }
     
     // MARK: - スコア
@@ -104,14 +111,14 @@ class ViewController: UIViewController {
         teamALabel.center = CGPoint(x: self.view.frame.width*(1/4),
                                          y: teamNameHeight)
         
-        let tapTeamA = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapTeamALabel))
+        let tapTeamA = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapTeamALabel))
         teamALabel.addGestureRecognizer(tapTeamA)
         
         teamBLabel.text = "GUEST"
         teamBLabel.center = CGPoint(x: self.view.frame.width*(3/4),
                                          y: teamNameHeight)
         
-        let tapTeamB = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapTeamBLabel))
+        let tapTeamB = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapTeamBLabel))
         teamBLabel.addGestureRecognizer(tapTeamB)
         
         
@@ -120,38 +127,30 @@ class ViewController: UIViewController {
         scoreALabel.center = CGPoint(x: self.view.frame.width*(1/4),
                                       y: scoreLabelHeight)
         
-        let tapScoreA = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapScoreALabel))
+        let tapScoreA = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapScoreALabel))
         scoreALabel.addGestureRecognizer(tapScoreA)
         
         scoreBLabel.center = CGPoint(x: self.view.frame.width*(3/4),
                                      y: scoreLabelHeight)
         
-        let tapScoreB = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapScoreBLabel))
+        let tapScoreB = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapScoreBLabel))
         scoreBLabel.addGestureRecognizer(tapScoreB)
         
         let possessionLabelHight = self.view.frame.height*(6/7)-scoreALabel.frame.height*0.75
         
         possessionALabel.text = "◀"
-        possessionALabel.textAlignment = .center
-        possessionALabel.textColor = UIColor.red
-        possessionALabel.font = UIFont.systemFont(ofSize: 20)
-        possessionALabel.bounds = CGRect(x: 0, y: 0, width: 20, height: 20)
         possessionALabel.center = CGPoint(x: self.view.frame.width*(1/2)-possessionALabel.frame.width*0.5,
                                      y: possessionLabelHight)
         possessionALabel.isHidden = false
-        let tapPossessionA = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapPossessionA))
+        let tapPossessionA = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapPossessionA))
         possessionALabel.isUserInteractionEnabled = true
         possessionALabel.addGestureRecognizer(tapPossessionA)
         
         possessionBLabel.text = "▶"
-        possessionBLabel.textAlignment = .center
-        possessionBLabel.textColor = UIColor.red
-        possessionBLabel.font = UIFont.systemFont(ofSize: 20)
-        possessionBLabel.bounds = CGRect(x: 0, y: 0, width: 20, height: 20)
         possessionBLabel.center = CGPoint(x: self.view.frame.width*(1/2)+possessionBLabel.frame.width*0.5,
                                      y: possessionLabelHight)
         possessionBLabel.isHidden = true
-        let tapPossessionB = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapPossessionB))
+        let tapPossessionB = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapPossessionB))
         possessionBLabel.isUserInteractionEnabled = true
         possessionBLabel.addGestureRecognizer(tapPossessionB)
         
@@ -698,6 +697,7 @@ class ViewController: UIViewController {
         self.present(activityVC, animated: true, completion: nil)
     }
     
+    
     // MARK: - ゲーム結果ダイアログ遷移前の設定
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toGameResultDialog" {
@@ -712,7 +712,7 @@ class ViewController: UIViewController {
 }
 
 // MARK: - UIPickerViewDelegate, UIPickerViewDataSource
-extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+extension MainViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2

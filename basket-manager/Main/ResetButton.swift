@@ -24,5 +24,4 @@ class ResetButton: UIButton {
         super.init(frame: frame)
         
     }
-    
 }

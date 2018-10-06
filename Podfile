@@ -6,5 +6,5 @@ target 'basket-manager' do
   use_frameworks!
 
   # Pods for basket-manager
- 
+ pod 'RealmSwift'
 end

@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="basket_manager" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="basket_manager" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -30,7 +30,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="K4S-Bj-8w1"/>
                                     <barButtonItem style="plain" id="CVg-ch-WNp">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="imu-5f-xEm">
-                                            <rect key="frame" x="164.5" y="7" width="46" height="30"/>
+                                            <rect key="frame" x="104.5" y="7" width="46" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
                                             <state key="normal" title="Button">
@@ -43,8 +43,19 @@
                                         <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <connections>
                                             <action selector="tapGameResultDialog:" destination="BYZ-38-t0r" id="bil-k9-ttt"/>
-                                            <segue destination="SmR-33-v2Y" kind="presentation" identifier="toGameResultDialog" id="heo-zk-GdF"/>
+                                            <segue destination="SmR-33-v2Y" kind="show" identifier="toGameResultDialog" animates="NO" id="heo-zk-GdF"/>
                                         </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="eiq-AW-zr1"/>
+                                    <barButtonItem style="plain" id="dgI-TR-54f">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Mcd-Sr-vW5">
+                                            <rect key="frame" x="313" y="7" width="46" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Button"/>
+                                            <connections>
+                                                <segue destination="741-Ef-HnF" kind="presentation" id="gIe-Zs-Mil"/>
+                                            </connections>
+                                        </button>
                                     </barButtonItem>
                                 </items>
                             </toolbar>
@@ -185,14 +196,14 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ZQ-uv-H1q">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ZQ-uv-H1q" customClass="PossesLabel" customModule="basket_manager" customModuleProvider="target">
                                 <rect key="frame" x="140" y="455" width="42" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="COb-Rl-AFR">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="COb-Rl-AFR" customClass="PossesLabel" customModule="basket_manager" customModuleProvider="target">
                                 <rect key="frame" x="184" y="455" width="42" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -214,6 +225,7 @@
                         <outlet property="gameMinLabel" destination="Dp1-Ng-6jQ" id="ybJ-4p-xyZ"/>
                         <outlet property="gameResetBtn" destination="K6i-2z-ekP" id="hdc-k1-GEd"/>
                         <outlet property="gameSecLabel" destination="xnk-P4-cLo" id="zHq-Sc-oDk"/>
+                        <outlet property="gameTableBtn" destination="Mcd-Sr-vW5" id="ueM-i0-1wg"/>
                         <outlet property="gameTimerControlBtn" destination="NRW-aL-Wud" id="ioQ-wz-KlI"/>
                         <outlet property="possessionALabel" destination="5ZQ-uv-H1q" id="3Cq-xx-u6n"/>
                         <outlet property="possessionBLabel" destination="COb-Rl-AFR" id="FNp-4u-4dR"/>
@@ -242,7 +254,15 @@
                 <viewControllerPlaceholder storyboardName="GameResultDialog" id="SmR-33-v2Y" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nfF-RN-k8L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="226" y="-44"/>
+            <point key="canvasLocation" x="222" y="-65"/>
+        </scene>
+        <!--GameTableView-->
+        <scene sceneID="cY2-xO-FTb">
+            <objects>
+                <viewControllerPlaceholder storyboardName="GameTableView" id="741-Ef-HnF" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sV9-Wv-ZEl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="252" y="177"/>
         </scene>
     </scenes>
 </document>
