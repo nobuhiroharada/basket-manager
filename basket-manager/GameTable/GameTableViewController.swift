@@ -12,6 +12,7 @@ import RealmSwift
 class GameTableViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var gameCountLabel: UILabel!
     
     let realm = try! Realm()
     var games: Results<Game>?
@@ -37,14 +38,19 @@ class GameTableViewController: UIViewController {
     @IBAction func tapBackButton(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
+    
 }
 
 // MARK: - Table View Delegate, Datasource Methods
 extension GameTableViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let gamesCount = games?.count {
-//            todoCountLabel.text = String(todoCount) + "件のメモ"
+        if let gameCount = games?.count {
+            if gameCount == 1 {
+                gameCountLabel.text = String(gameCount) + " game"
+            } else {
+                gameCountLabel.text = String(gameCount) + " games"
+            }
         }
         return games?.count ?? 1
     }
@@ -56,10 +62,13 @@ extension GameTableViewController: UITableViewDelegate, UITableViewDataSource {
 //        cell.delegate = self
         
         if let game = games?[indexPath.row] {
+            let index = indexPath.row + 1
+            cell.indexLabel?.text = String(index)
             cell.teamALabel?.text = game.team_a
             cell.teamBLabel?.text = game.team_b
             cell.scoreALabel?.text = String(game.score_a)
             cell.scoreBLabel?.text = String(game.score_b)
+            cell.idLabel.text = String(game.id)
             let f = DateFormatter().getFormat()
             if let updatedAt = game.played_at {
                 let date = f.string(from: updatedAt)
@@ -70,4 +79,18 @@ extension GameTableViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "toGameResultDialog", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if let indexPath = tableView.indexPathForSelectedRow {
+
+            let gameResultDialog = segue.destination as! GameResultDialogViewController
+            
+            gameResultDialog.status = "update"
+            gameResultDialog.game = games?[indexPath.row]
+        }
+    }
 }

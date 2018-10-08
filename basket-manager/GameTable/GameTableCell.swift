@@ -10,6 +10,7 @@ import UIKit
 
 class GameTableCell: UITableViewCell {
     
+    @IBOutlet weak var idLabel: UILabel!
     @IBOutlet weak var teamALabel: UILabel!
     @IBOutlet weak var teamBLabel: UILabel!
     @IBOutlet weak var scoreALabel: UILabel!
@@ -17,4 +18,5 @@ class GameTableCell: UITableViewCell {
     @IBOutlet weak var hyphenLabel: UILabel!
     @IBOutlet weak var gameDataLabel: UILabel!
     
+    @IBOutlet weak var indexLabel: UILabel!
 }

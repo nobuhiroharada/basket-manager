@@ -37,17 +37,34 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hVc-v8-98g">
+                                <rect key="frame" x="280" y="32" width="79" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="8J5-KM-3oR"/>
                     </view>
                     <connections>
+                        <outlet property="gameCountLabel" destination="hVc-v8-98g" id="Ihd-s2-n98"/>
                         <outlet property="tableView" destination="az6-1C-7bg" id="bIa-op-zNw"/>
+                        <segue destination="yCA-yc-sjK" kind="show" identifier="toGameResultDialog" animates="NO" id="ysF-3A-2JE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mz7-lh-UOf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1527.2" y="63.418290854572717"/>
+        </scene>
+        <!--GameResultDialog-->
+        <scene sceneID="O0z-8F-duK">
+            <objects>
+                <viewControllerPlaceholder storyboardName="GameResultDialog" id="yCA-yc-sjK" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="85V-YT-kU1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-850" y="63"/>
         </scene>
     </scenes>
 </document>

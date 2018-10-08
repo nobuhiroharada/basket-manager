@@ -697,16 +697,17 @@ class MainViewController: UIViewController {
         self.present(activityVC, animated: true, completion: nil)
     }
     
-    
     // MARK: - ゲーム結果ダイアログ遷移前の設定
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toGameResultDialog" {
-            let popup = segue.destination as! GameResultDialogViewController
-            popup.teamAString = (teamALabel.text != nil) ? teamALabel.text! : "チームA"
-            popup.teamBString = (teamBLabel.text != nil) ? teamBLabel.text! : "チームB"
-            popup.scoreAString = (scoreALabel.text != nil) ? scoreALabel.text! : "00"
-            popup.scoreBString = (scoreBLabel.text != nil) ? scoreBLabel.text! : "00"
-            
+            let gameResultDialog = segue.destination as! GameResultDialogViewController
+            gameResultDialog.status = "create"
+            let newGame = Game()
+            newGame.team_a = (teamALabel.text != nil) ? teamALabel.text! : "チームA"
+            newGame.team_b = (teamBLabel.text != nil) ? teamBLabel.text! : "チームB"
+            newGame.score_a = (scoreALabel.text != nil) ? Int(scoreALabel.text!)! : 0
+            newGame.score_b = (scoreBLabel.text != nil) ? Int(scoreBLabel.text!)! : 0
+            gameResultDialog.game = newGame
         }
     }
 }

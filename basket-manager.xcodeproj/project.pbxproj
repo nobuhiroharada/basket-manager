@@ -171,6 +171,14 @@
 			children = (
 				E57200372145B2ED00F84254 /* MainViewController.swift */,
 				E57200392145B2ED00F84254 /* Main.storyboard */,
+				E5740903216B904D00C32479 /* Components */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		E5740903216B904D00C32479 /* Components */ = {
+			isa = PBXGroup;
+			children = (
 				E5925FEE2156F78100DEE34F /* SmallButton.swift */,
 				E57408A421571AB800C32479 /* ResetButton.swift */,
 				E57408A6215773EA00C32479 /* ControlButton.swift */,
@@ -178,7 +186,7 @@
 				E57408E22160BA7B00C32479 /* TeamLabel.swift */,
 				E57408FF2168D57300C32479 /* PossesLabel.swift */,
 			);
-			path = Main;
+			path = Components;
 			sourceTree = "<group>";
 		};
 		E5A4B01A2155C31E0014BC65 /* Frameworks */ = {
