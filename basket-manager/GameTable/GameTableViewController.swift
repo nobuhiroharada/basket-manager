@@ -18,10 +18,12 @@ class GameTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         loadTableView()
         
         self.tableView.register(UINib(nibName: "GameTableCell", bundle: nil), forCellReuseIdentifier: "GameTableCell")
+        
+        tableView.rowHeight = 60
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -32,10 +34,9 @@ class GameTableViewController: UIViewController {
         tableView.reloadData()
     }
     
-    @IBAction func tapBackButton(_ sender: UIButton) {
+    @IBAction func tapBackButton(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
-    
 }
 
 // MARK: - Table View Delegate, Datasource Methods
@@ -55,14 +56,14 @@ extension GameTableViewController: UITableViewDelegate, UITableViewDataSource {
 //        cell.delegate = self
         
         if let game = games?[indexPath.row] {
-            cell.teamALabel?.text = game.team_a ?? "まだ試合の登録はありません。"
+            cell.teamALabel?.text = game.team_a
+            cell.teamBLabel?.text = game.team_b
+            cell.scoreALabel?.text = String(game.score_a)
+            cell.scoreBLabel?.text = String(game.score_b)
             let f = DateFormatter().getFormat()
             if let updatedAt = game.played_at {
                 let date = f.string(from: updatedAt)
-                print(game.played_at)
-                print(updatedAt)
-                print(date)
-                cell.updatedAtLabel?.text = date
+                cell.gameDataLabel?.text = date
             }
         }
         

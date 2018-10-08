@@ -11,6 +11,10 @@ import UIKit
 class GameTableCell: UITableViewCell {
     
     @IBOutlet weak var teamALabel: UILabel!
-    @IBOutlet weak var updatedAtLabel: UILabel!
+    @IBOutlet weak var teamBLabel: UILabel!
+    @IBOutlet weak var scoreALabel: UILabel!
+    @IBOutlet weak var scoreBLabel: UILabel!
+    @IBOutlet weak var hyphenLabel: UILabel!
+    @IBOutlet weak var gameDataLabel: UILabel!
     
 }
