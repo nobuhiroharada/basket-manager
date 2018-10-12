@@ -29,6 +29,8 @@ class GameResultDialogViewController: UIViewController {
     
     let realm = try! Realm()
     
+    var delegate: GameTableReloadDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -136,6 +138,7 @@ class GameResultDialogViewController: UIViewController {
         })
     }
     
+    //MARK: - 保存ボタンタップ
     @IBAction func tapSaveBtn(_ sender: UIButton) {
         
         if status == "create" {
@@ -144,10 +147,11 @@ class GameResultDialogViewController: UIViewController {
         if status == "update" {
             update()
         }
-        
+        delegate?.gameTableViewReload()
         dismiss(animated: true, completion: nil)
     }
-
+    
+    //MARK: - キャンセルボタンタップ
     @IBAction func tapCancelBtn(_ sender: UIButton) {
         dismiss(animated: false, completion: nil)
     }

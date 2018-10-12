@@ -29,6 +29,7 @@
 		E57408FB2168A92100C32479 /* ScoreTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57408FA2168A92100C32479 /* ScoreTextField.swift */; };
 		E57408FD2168CA7D00C32479 /* GameDialogButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57408FC2168CA7D00C32479 /* GameDialogButton.swift */; };
 		E57409002168D57300C32479 /* PossesLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57408FF2168D57300C32479 /* PossesLabel.swift */; };
+		E57409052170522100C32479 /* GameTableReloadDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57409042170522100C32479 /* GameTableReloadDelegate.swift */; };
 		E5925FEF2156F78100DEE34F /* SmallButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5925FEE2156F78100DEE34F /* SmallButton.swift */; };
 		E5A4B0192155C2E40014BC65 /* buzzer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E5A4B0182155C2E40014BC65 /* buzzer.mp3 */; };
 		E5A4B01C2155C31F0014BC65 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5A4B01B2155C31F0014BC65 /* AVFoundation.framework */; };
@@ -63,6 +64,7 @@
 		E57408FA2168A92100C32479 /* ScoreTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreTextField.swift; sourceTree = "<group>"; };
 		E57408FC2168CA7D00C32479 /* GameDialogButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDialogButton.swift; sourceTree = "<group>"; };
 		E57408FF2168D57300C32479 /* PossesLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PossesLabel.swift; sourceTree = "<group>"; };
+		E57409042170522100C32479 /* GameTableReloadDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTableReloadDelegate.swift; sourceTree = "<group>"; };
 		E5925FEE2156F78100DEE34F /* SmallButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallButton.swift; sourceTree = "<group>"; };
 		E5A4B0182155C2E40014BC65 /* buzzer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = buzzer.mp3; sourceTree = "<group>"; };
 		E5A4B01B2155C31F0014BC65 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -140,6 +142,7 @@
 				E57408E92166AA9A00C32479 /* GameTableView.storyboard */,
 				E57408F02167158900C32479 /* GameTableCell.swift */,
 				E57408EE2167154300C32479 /* GameTableCell.xib */,
+				E57409042170522100C32479 /* GameTableReloadDelegate.swift */,
 			);
 			path = GameTable;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 				E57408E12160B7FA00C32479 /* ScoreLabel.swift in Sources */,
 				E57408F92167F04A00C32479 /* UITextField+.swift in Sources */,
 				E57408F12167158900C32479 /* GameTableCell.swift in Sources */,
+				E57409052170522100C32479 /* GameTableReloadDelegate.swift in Sources */,
 				E57408A7215773EA00C32479 /* ControlButton.swift in Sources */,
 				E5925FEF2156F78100DEE34F /* SmallButton.swift in Sources */,
 				E57408A521571AB800C32479 /* ResetButton.swift in Sources */,

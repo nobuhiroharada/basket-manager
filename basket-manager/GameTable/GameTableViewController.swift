@@ -91,6 +91,14 @@ extension GameTableViewController: UITableViewDelegate, UITableViewDataSource {
             
             gameResultDialog.status = "update"
             gameResultDialog.game = games?[indexPath.row]
+            gameResultDialog.delegate = self
         }
+    }
+}
+
+// MARK: - GameTableReloadDelegate
+extension GameTableViewController: GameTableReloadDelegate {
+    func gameTableViewReload() {
+        tableView.reloadData()
     }
 }
