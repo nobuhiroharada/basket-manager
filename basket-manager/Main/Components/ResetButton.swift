@@ -13,8 +13,8 @@ class ResetButton: UIButton {
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
         
-        self.setTitle("リセット", for: .normal)
-        self.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        self.setTitle("Reset", for: .normal)
+        self.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         self.tintColor = UIColor.darkText
         self.bounds = CGRect(x: 0, y: 0, width: 60, height: 60)
         self.layer.cornerRadius = self.frame.width/2

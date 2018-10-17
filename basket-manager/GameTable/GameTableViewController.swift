@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import SwipeCellKit
 
 class GameTableViewController: UIViewController {
 
@@ -35,6 +36,18 @@ class GameTableViewController: UIViewController {
         tableView.reloadData()
     }
     
+    func delete(at indexPath: IndexPath) {
+        if let gameForDeletion = games?[indexPath.row] {
+            do {
+                try realm.write {
+                    realm.delete(gameForDeletion)
+                }
+            } catch {
+                print("Error deleting game, \(error)")
+            }
+        }
+    }
+    
     @IBAction func tapBackButton(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
@@ -59,11 +72,9 @@ extension GameTableViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "GameTableCell", for: indexPath) as! GameTableCell
         
-//        cell.delegate = self
+        cell.delegate = self
         
         if let game = games?[indexPath.row] {
-            let index = indexPath.row + 1
-            cell.indexLabel?.text = String(index)
             cell.teamALabel?.text = game.team_a
             cell.teamBLabel?.text = game.team_b
             cell.scoreALabel?.text = String(game.score_a)
@@ -93,6 +104,29 @@ extension GameTableViewController: UITableViewDelegate, UITableViewDataSource {
             gameResultDialog.game = games?[indexPath.row]
             gameResultDialog.delegate = self
         }
+    }
+}
+
+// MARK: - SwipeTableViewCellDelegate
+extension GameTableViewController: SwipeTableViewCellDelegate {
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+        
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            
+            self.delete(at: indexPath)
+        }
+        
+        deleteAction.image = UIImage(named: "delete-icon")
+        
+        return [deleteAction]
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeTableOptions {
+        var options = SwipeTableOptions()
+        options.expansionStyle = .destructive
+        return options
     }
 }
 

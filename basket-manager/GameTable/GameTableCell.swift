@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import SwipeCellKit
 
-class GameTableCell: UITableViewCell {
+class GameTableCell: SwipeTableViewCell {
     
     @IBOutlet weak var idLabel: UILabel!
     @IBOutlet weak var teamALabel: UILabel!
@@ -18,5 +19,14 @@ class GameTableCell: UITableViewCell {
     @IBOutlet weak var hyphenLabel: UILabel!
     @IBOutlet weak var gameDataLabel: UILabel!
     
-    @IBOutlet weak var indexLabel: UILabel!
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+        // Configure the view for the selected state
+    }
 }

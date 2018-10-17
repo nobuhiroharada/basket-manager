@@ -13,7 +13,7 @@ class SmallButton: UIButton {
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
         
-        self.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        self.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         self.tintColor = UIColor.darkText
         self.bounds = CGRect(x: 0, y: 0, width: 30, height: 30)
         self.backgroundColor = UIColor.groupTableViewBackground

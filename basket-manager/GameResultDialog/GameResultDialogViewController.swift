@@ -34,12 +34,12 @@ class GameResultDialogViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dialogView.bounds = CGRect(x: 0, y: 0, width: 250, height: 250)
+        dialogView.bounds = CGRect(x: 0, y: 0, width: 300, height: 250)
         dialogView.center = CGPoint(x: self.view.frame.width*(1/2),
                                     y: self.view.frame.height*(1/2))
         dialogView.layer.cornerRadius = 10
         
-        titleLabel.text = "Game Result"
+        titleLabel.text = "Result"
         titleLabel.bounds = CGRect(x: 0, y: 0, width: dialogView.frame.width, height: 50)
         titleLabel.textAlignment = .center
         
@@ -73,18 +73,16 @@ class GameResultDialogViewController: UIViewController {
         scoreATextField.tag = 4
         scoreBTextField.delegate = self
         
-        datePicker.date = Date()
+        datePicker.date = (game?.played_at)!
         datePicker.timeZone = NSTimeZone.local
         datePicker.datePickerMode = UIDatePickerMode.date
         datePicker.frame = CGRect(x: 0, y: 0, width: dialogView.frame.width-20, height: 50)
         datePicker.center = CGPoint(x: dialogView.frame.width*(1/2),
                                    y: 150)
         
-        cancelBtn.setTitle("Cancel", for: .normal)
         cancelBtn.center = CGPoint(x: dialogView.frame.width*(1/4),
                                          y: 220)
         
-        saveBtn.setTitle("Save", for: .normal)
         saveBtn.center = CGPoint(x: dialogView.frame.width*(3/4),
                                    y: 220)
     }
@@ -148,7 +146,7 @@ class GameResultDialogViewController: UIViewController {
             update()
         }
         delegate?.gameTableViewReload()
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: false, completion: nil)
     }
     
     //MARK: - キャンセルボタンタップ

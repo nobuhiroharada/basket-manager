@@ -14,7 +14,7 @@ class ControlButton: UIButton {
         super.init(coder: aDecoder)!
         
         self.tintColor = UIColor.darkText
-        self.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        self.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         self.bounds = CGRect(x: 0, y: 0, width: 60, height: 60)
         self.layer.cornerRadius = self.frame.width/2
     }

@@ -69,6 +69,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var shotClockResetBtn: ResetButton!
     @IBOutlet weak var sec24Btn: SmallButton!
     @IBOutlet weak var sec14Btn: SmallButton!
+    @IBOutlet weak var sec120Btn: SmallButton!
     
     // MARK: - ツールバー ブザーボタン
     @IBOutlet weak var buzzerBtn: UIButton!
@@ -83,11 +84,11 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         
         for i in 0...20 { //分設定(ゲームタイムピッカー用)
-            gameTimeMinArray.append(String(i))
+            gameTimeMinArray.append(String(format: "%02d", i))
         }
         
         for i in 0..<60 { //秒設定(ゲームタイムピッカー用)
-            gameTimeSecArray.append(String(i))
+            gameTimeSecArray.append(String(format: "%02d", i))
         }
         
         initScore()
@@ -122,7 +123,7 @@ class MainViewController: UIViewController {
         teamBLabel.addGestureRecognizer(tapTeamB)
         
         
-        let scoreLabelHeight = self.view.frame.height*(6/7)-scoreALabel.frame.height*0.75
+        let scoreLabelHeight = self.view.frame.height*(6/7)-scoreALabel.frame.height*0.6
         
         scoreALabel.center = CGPoint(x: self.view.frame.width*(1/4),
                                       y: scoreLabelHeight)
@@ -136,7 +137,7 @@ class MainViewController: UIViewController {
         let tapScoreB = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapScoreBLabel))
         scoreBLabel.addGestureRecognizer(tapScoreB)
         
-        let possessionLabelHight = self.view.frame.height*(6/7)-scoreALabel.frame.height*0.75
+        let possessionLabelHight = self.view.frame.height*(6/7)-scoreALabel.frame.height*0.6
         
         possessionALabel.text = "◀"
         possessionALabel.center = CGPoint(x: self.view.frame.width*(1/2)-possessionALabel.frame.width*0.5,
@@ -226,7 +227,7 @@ class MainViewController: UIViewController {
     
     // チームA名前編集ダイアログ表示
     func openTeamNameAEditDialog() {
-        let alert = UIAlertController(title: "HOME名前修正", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Edit HOME Name", message: "", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: {
             (action:UIAlertAction!) -> Void in
@@ -255,7 +256,7 @@ class MainViewController: UIViewController {
     
     // チームBダイアログ表示
     func openTeamNameBEditDialog() {
-        let alert = UIAlertController(title: "GUEST名前修正", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Edit GUEST Name", message: "", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: {
             (action:UIAlertAction!) -> Void in
@@ -284,7 +285,7 @@ class MainViewController: UIViewController {
     
     // スコアAダイアログ表示
     func openScoreAEditDialog() {
-        let alert = UIAlertController(title: "HOMEスコア修正", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Edit HOME Score", message: "", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: {
             (action:UIAlertAction!) -> Void in
@@ -315,7 +316,7 @@ class MainViewController: UIViewController {
     
     // GUESTダイアログ表示
     func openScoreBEditDialog() {
-        let alert = UIAlertController(title: "GUESTスコア修正", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Edit GUEST Score", message: "", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: {
             (action:UIAlertAction!) -> Void in
@@ -354,6 +355,7 @@ class MainViewController: UIViewController {
         gameMinLabel.center = CGPoint(x: self.view.frame.width*(1/3),
                                       y: self.view.frame.height*(1/2)-gameMinLabel.bounds.height*(1/2))
         gameMinLabel.font = UIFont.boldSystemFont(ofSize: 70)
+        gameMinLabel.textColor = UIColor.yellow
         
         gameColonLabel.text = ":"
         gameColonLabel.textAlignment = .center
@@ -361,6 +363,7 @@ class MainViewController: UIViewController {
         gameColonLabel.center = CGPoint(x: self.view.frame.width*(1/2),
                                         y: self.view.frame.height*(1/2)-gameColonLabel.bounds.height*(1/2))
         gameColonLabel.font = UIFont.boldSystemFont(ofSize: 70)
+        gameColonLabel.textColor = UIColor.yellow
         
         gameSecLabel.text = "00"
         gameSecLabel.textAlignment = .center
@@ -368,15 +371,18 @@ class MainViewController: UIViewController {
         gameSecLabel.center = CGPoint(x: self.view.frame.width*(2/3),
                                       y: self.view.frame.height*(1/2)-gameSecLabel.bounds.height*(1/2))
         gameSecLabel.font = UIFont.boldSystemFont(ofSize: 70)
+        gameSecLabel.textColor = UIColor.yellow
         
         toggleIsHiddenGameLabels()
         
-        gameTimerControlBtn.setTitle("開始", for: .normal)
+        gameTimerControlBtn.setTitle("Start", for: .normal)
         gameTimerControlBtn.center = CGPoint(x: self.view.frame.width*(1/3), y: self.view.frame.height*(4/7))
         gameTimerControlBtn.backgroundColor = limegreen
         
         gameResetBtn.isEnabled = false
         gameResetBtn.center = CGPoint(x: self.view.frame.width*(2/3), y: self.view.frame.height*(4/7))
+        gameResetBtn.isEnabled = false
+        gameResetBtn.backgroundColor = UIColor.white
         
         gameSeconds = Int(gameMinLabel.text!)!*60
         gameSeconds += Int(gameSecLabel.text!)!
@@ -390,7 +396,7 @@ class MainViewController: UIViewController {
         switch gameTimerStatus {
             case .START:
                 runGameTimer()
-                gameTimerControlBtn.setTitle("停止", for: .normal)
+                gameTimerControlBtn.setTitle("Stop", for: .normal)
                 gameTimerStatus = .STOP
                 toggleIsHiddenGameLabels()
                 gameTimePicker.isHidden = !gameTimePicker.isHidden
@@ -400,13 +406,13 @@ class MainViewController: UIViewController {
             
             case .STOP:
                 gameTimer.invalidate()
-                gameTimerControlBtn.setTitle("再開", for: .normal)
+                gameTimerControlBtn.setTitle("Resume", for: .normal)
                 gameTimerControlBtn.backgroundColor = limegreen
                 gameTimerStatus = .RESUME
             
             case .RESUME:
                 runGameTimer()
-                gameTimerControlBtn.setTitle("停止", for: .normal)
+                gameTimerControlBtn.setTitle("Stop", for: .normal)
                 gameTimerControlBtn.backgroundColor = gold
                 gameTimerStatus = .STOP
         }
@@ -417,7 +423,7 @@ class MainViewController: UIViewController {
         gameTimer.invalidate()
         gameSeconds = oldGameSeconds
         showGameTime()
-        gameTimerControlBtn.setTitle("開始", for: .normal)
+        gameTimerControlBtn.setTitle("Start", for: .normal)
         gameTimerStatus = .START
         toggleIsHiddenGameLabels()
         gameTimePicker.isHidden = !gameTimePicker.isHidden
@@ -462,8 +468,11 @@ class MainViewController: UIViewController {
         gameTimePicker.selectRow(10, inComponent: 0, animated: true)
         gameTimePicker.selectRow(0, inComponent: 1, animated: true)
         
+        gameTimePicker.setValue(UIColor.white, forKey: "textColor")
+        
         let minLabel = UILabel()
-        minLabel.text = "分"
+        minLabel.text = "min"
+        minLabel.textColor = .yellow
         minLabel.sizeToFit()
         minLabel.frame = CGRect(x: gameTimePicker.bounds.width*0.375 - minLabel.bounds.width/2,
                                 y: gameTimePicker.bounds.height/2 - (minLabel.bounds.height/2),
@@ -472,7 +481,8 @@ class MainViewController: UIViewController {
         gameTimePicker.addSubview(minLabel)
         
         let secLabel = UILabel()
-        secLabel.text = "秒"
+        secLabel.text = "sec"
+        secLabel.textColor = .yellow
         secLabel.sizeToFit()
         secLabel.frame = CGRect(x: gameTimePicker.bounds.width*0.875 - secLabel.bounds.width/2,
                                 y: gameTimePicker.bounds.height/2 - (secLabel.bounds.height/2),
@@ -484,12 +494,12 @@ class MainViewController: UIViewController {
     }
     
     func openGameTimeOverDialog() {
-        let alert = UIAlertController(title: "ゲームタイムオーバー", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Game Time Over", message: "", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: {
             (action:UIAlertAction!) -> Void in
             
-            self.gameTimerControlBtn.setTitle("開始", for: .normal)
+            self.gameTimerControlBtn.setTitle("Start", for: .normal)
             self.gameSeconds = 600
             self.gameTimerStatus = .START
             self.gameTimerControlBtn.backgroundColor = self.limegreen
@@ -515,37 +525,82 @@ class MainViewController: UIViewController {
     // MARK: - ショットクロック
     func initShotClock() {
         shotClockLabel.text = String(shotSeconds)
-        shotClockLabel.bounds = BASE_DIGIT_RECT
+        shotClockLabel.bounds = CGRect(x: 0, y: 0, width: 140, height: 90)
         shotClockLabel.center = CGPoint(x: self.view.frame.width*(1/2), y: self.view.frame.height*(1/7))
         shotClockLabel.font = UIFont.boldSystemFont(ofSize: 70)
+        shotClockLabel.textColor = UIColor.green
+        shotClockLabel.isUserInteractionEnabled = true
         
-        shotClockControlBtn.setTitle("開始", for: .normal)
+        let tapShotClock = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapShotClockLabel))
+        shotClockLabel.addGestureRecognizer(tapShotClock)
+        
+        shotClockControlBtn.setTitle("Start", for: .normal)
         shotClockControlBtn.center = CGPoint(x: self.view.frame.width*(1/3), y: self.view.frame.height*(2/7))
         
         shotClockControlBtn.backgroundColor = limegreen
         
-        shotClockResetBtn.isEnabled = false
         shotClockResetBtn.center = CGPoint(x: self.view.frame.width*(2/3), y: self.view.frame.height*(2/7))
+        shotClockResetBtn.isEnabled = false
+        shotClockResetBtn.backgroundColor = UIColor.white
         
+        let btnPosX = self.view.frame.width*(1/2) + 80
         sec24Btn.setTitle("24", for: .normal)
-        sec24Btn.frame = CGRect(x: self.view.frame.width*(1/2) + shotClockLabel.frame.width,
+        sec24Btn.frame = CGRect(x: btnPosX,
                                 y: self.view.frame.height*(1/7) - sec24Btn.frame.height,
                                 width: 30, height: 30)
-        sec24Btn.layer.cornerRadius = sec24Btn.frame.width/2
         
         sec14Btn.setTitle("14", for: .normal)
-        sec14Btn.frame = CGRect(x: self.view.frame.width*(1/2) + shotClockLabel.frame.width,
+        sec14Btn.frame = CGRect(x: btnPosX,
                                 y: self.view.frame.height*(1/7),
                                 width: 30, height: 30)
-        sec14Btn.layer.cornerRadius = sec24Btn.frame.width/2
+        
+        sec120Btn.setTitle("120", for: .normal)
+        sec120Btn.frame = CGRect(x: btnPosX + 40,
+                                y: self.view.frame.height*(1/7) - sec120Btn.frame.height,
+                                width: 30, height: 30)
+    }
+    
+    @objc func tapShotClockLabel() {
+        if shotClockStatus == .STOP {
+            shotClockTimer.invalidate()
+        }
+        
+        let alert = UIAlertController(title: "Edit Timer", message: "", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: {
+            (action:UIAlertAction!) -> Void in
+            
+            if let textFields = alert.textFields {
+                
+                for textField in textFields {
+                    if textField.text != "" {
+                        self.shotClockLabel.text = textField.text
+                        self.shotSeconds = Int(textField.text!)!
+                    }
+                }
+            }
+        })
+        alert.addAction(okAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(cancelAction)
+        
+        alert.addTextField(configurationHandler: {(textField: UITextField!) -> Void in
+            textField.placeholder = String(0)
+            textField.text = self.shotClockLabel.text
+            textField.keyboardType = UIKeyboardType.numberPad
+        })
+        
+        alert.view.setNeedsLayout()
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     // ショットクロックコントロールボタンタップ
     @IBAction func tapShotClockControlBtn(_ sender: UIButton) {
         switch shotClockStatus {
         case .START:
-            runShotCloclTimer()
-            shotClockControlBtn.setTitle("停止", for: .normal)
+            runShotClockTimer()
+            shotClockControlBtn.setTitle("Stop", for: .normal)
             shotClockStatus = .STOP
             shotClockControlBtn.backgroundColor = gold
             shotClockResetBtn.isEnabled = true
@@ -553,19 +608,19 @@ class MainViewController: UIViewController {
         
         case .STOP:
             shotClockTimer.invalidate()
-            shotClockControlBtn.setTitle("再開", for: .normal)
+            shotClockControlBtn.setTitle("Resume", for: .normal)
             shotClockControlBtn.backgroundColor = limegreen
             shotClockStatus = .RESUME
         
         case .RESUME:
-            runShotCloclTimer()
-            shotClockControlBtn.setTitle("停止", for: .normal)
+            runShotClockTimer()
+            shotClockControlBtn.setTitle("Stop", for: .normal)
             shotClockControlBtn.backgroundColor = gold
             shotClockStatus = .STOP
         }
     }
     
-    func runShotCloclTimer(){
+    func runShotClockTimer(){
         shotClockTimer = Timer.scheduledTimer(
             timeInterval: 1,
             target: self,
@@ -585,7 +640,7 @@ class MainViewController: UIViewController {
         }
     }
     
-    // 24秒リセットボタンタップ
+    // ショットクロックリセットボタンタップ
     @IBAction func tapShotClockResetBtn(_ sender: UIButton) {
         switch shotClockStatus {
         case .START:
@@ -597,7 +652,7 @@ class MainViewController: UIViewController {
             shotClockTimer.invalidate()
             shotSeconds = 24
             shotClockLabel.text = String(shotSeconds)
-            shotClockControlBtn.setTitle("開始", for: .normal)
+            shotClockControlBtn.setTitle("Start", for: .normal)
             shotClockStatus = .START
             shotClockControlBtn.backgroundColor = limegreen
             shotClockResetBtn.isEnabled = false
@@ -617,14 +672,19 @@ class MainViewController: UIViewController {
         shotClockLabel.text = "14"
     }
     
+    @IBAction func tapSec120(_ sender: SmallButton) {
+        shotSeconds = 120
+        shotClockLabel.text = "120"
+    }
+    
     func openShotClockTimeOverDialog() {
         
-        let alert = UIAlertController(title: "ショットクロックオーバー", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Time Over", message: "", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: {
             (action:UIAlertAction!) -> Void in
             
-            self.shotClockControlBtn.setTitle("開始", for: .normal)
+            self.shotClockControlBtn.setTitle("Start", for: .normal)
             self.shotSeconds = 24
             self.shotClockLabel.text = String(self.shotSeconds)
             self.shotClockStatus = .START
@@ -683,12 +743,12 @@ class MainViewController: UIViewController {
     // MARK: - ツールバーアクションボタンタップ
     @IBAction func tapShareBtn(_ sender: UIBarButtonItem) {
         
-        let teamA = (teamALabel.text != nil) ? teamALabel.text! : "チームA"
-        let teamB = (teamBLabel.text != nil) ? teamBLabel.text! : "チームB"
+        let teamA = (teamALabel.text != nil) ? teamALabel.text! : "HOME"
+        let teamB = (teamBLabel.text != nil) ? teamBLabel.text! : "GUEST"
         let scoreA = (scoreALabel.text != nil) ? scoreALabel.text! : "00"
         let scoreB = (scoreBLabel.text != nil) ? scoreBLabel.text! : "00"
         
-        let shareText = "試合結果: \(teamA) vs \(teamB) は \(scoreA) - \(scoreB) でした。"
+        let shareText = "\(teamA) vs \(teamB) ： \(scoreA) - \(scoreB) "
         
         let activityItems = [shareText]
         
@@ -703,10 +763,11 @@ class MainViewController: UIViewController {
             let gameResultDialog = segue.destination as! GameResultDialogViewController
             gameResultDialog.status = "create"
             let newGame = Game()
-            newGame.team_a = (teamALabel.text != nil) ? teamALabel.text! : "チームA"
-            newGame.team_b = (teamBLabel.text != nil) ? teamBLabel.text! : "チームB"
+            newGame.team_a = (teamALabel.text != nil) ? teamALabel.text! : "HOME"
+            newGame.team_b = (teamBLabel.text != nil) ? teamBLabel.text! : "GUEST"
             newGame.score_a = (scoreALabel.text != nil) ? Int(scoreALabel.text!)! : 0
             newGame.score_b = (scoreBLabel.text != nil) ? Int(scoreBLabel.text!)! : 0
+            newGame.played_at = Date()
             gameResultDialog.game = newGame
         }
     }
@@ -723,6 +784,7 @@ extension MainViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         if component == 0 {
             return gameTimeMinArray.count
         }
+        
         return gameTimeSecArray.count
     }
     
@@ -730,6 +792,7 @@ extension MainViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         if component == 0 {
             return gameTimeMinArray[row]
         }
+        
         return gameTimeSecArray[row]
     }
     
@@ -737,11 +800,28 @@ extension MainViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         if component == 0 {
             gameMinLabel.text = gameTimeMinArray[row]
             setGameSeconds()
-
+            
         } else if component == 1 {
             gameSecLabel.text = gameTimeSecArray[row]
             setGameSeconds()
         }
+        
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 70))
+        label.textAlignment = .center
+        label.textColor = .yellow
+        label.font =  UIFont.boldSystemFont(ofSize: 30)
+        
+        if component == 0 {
+            label.text = gameTimeMinArray[row]
+        } else if component == 1 {
+            label.text = gameTimeSecArray[row]
+        }
+        
+        return label
     }
     
     func setGameSeconds() {

@@ -15,7 +15,8 @@ class TeamLabel: UILabel {
         
         self.textAlignment = .center
         self.bounds = CGRect(x: 0, y: 0, width: 150, height: 50)
-        self.font = UIFont.systemFont(ofSize: 13)
+        self.font = UIFont.boldSystemFont(ofSize: 17)
+        self.textColor = UIColor.white
         self.isUserInteractionEnabled = true
     }
     

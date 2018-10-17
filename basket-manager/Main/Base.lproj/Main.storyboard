@@ -159,20 +159,12 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TGv-Y0-hJ2" customClass="SmallButton" customModule="basket_manager" customModuleProvider="target">
-                                <rect key="frame" x="276" y="83" width="46" height="30"/>
+                                <rect key="frame" x="238" y="82" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
                                     <action selector="tapSec24Btn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="D8F-wV-3yw"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DbP-DS-4av" customClass="SmallButton" customModule="basket_manager" customModuleProvider="target">
-                                <rect key="frame" x="276" y="120" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="tapSec14Btn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="D3X-au-vRR"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UTC-pr-Zd9">
@@ -210,8 +202,24 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TQr-jT-rWG" customClass="SmallButton" customModule="basket_manager" customModuleProvider="target">
+                                <rect key="frame" x="292" y="82" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="tapSec120:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bN7-vJ-x5A"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DbP-DS-4av" customClass="SmallButton" customModule="basket_manager" customModuleProvider="target">
+                                <rect key="frame" x="240" y="120" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="tapSec14Btn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="D3X-au-vRR"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="W27-iT-7Hb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="9Ea-4R-2m9"/>
                             <constraint firstItem="W27-iT-7Hb" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="TIz-z8-2fi"/>
@@ -235,6 +243,7 @@
                         <outlet property="scoreBLabel" destination="ar6-JI-Fnh" id="EsO-5M-TJT"/>
                         <outlet property="scoreBMinusBtn" destination="yQr-Dz-rTi" id="oPC-oO-RKs"/>
                         <outlet property="scoreBPlusBtn" destination="pGR-FK-bT9" id="ppH-uT-xcI"/>
+                        <outlet property="sec120Btn" destination="TQr-jT-rWG" id="eYP-IG-gG9"/>
                         <outlet property="sec14Btn" destination="DbP-DS-4av" id="zcG-2E-Ff3"/>
                         <outlet property="sec24Btn" destination="TGv-Y0-hJ2" id="Fu8-Hj-BQW"/>
                         <outlet property="shotClockControlBtn" destination="a8E-c7-Q4Y" id="Gkg-oD-Roz"/>
