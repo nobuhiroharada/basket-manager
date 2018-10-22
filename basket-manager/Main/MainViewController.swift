@@ -12,7 +12,7 @@ import AVFoundation
 class MainViewController: UIViewController {
     
     let BASE_COLOR: CGColor = UIColor.darkText.cgColor
-    let BASE_DIGIT_RECT: CGRect = CGRect(x: 0, y: 0, width: 90, height: 90)
+    let BASE_DIGIT_RECT: CGRect = CGRect(x: 0, y: 0, width: 110, height: 90)
     
     let limegreen: UIColor = UIColor(red: 173/255.0, green: 255/255.0, blue: 47/255.0, alpha: 1.0)
     let gold: UIColor = UIColor(red: 255/255.0, green: 215/255.0, blue: 0/255.0, alpha: 1.0)
@@ -71,17 +71,25 @@ class MainViewController: UIViewController {
     @IBOutlet weak var sec14Btn: SmallButton!
     @IBOutlet weak var sec120Btn: SmallButton!
     
-    // MARK: - ツールバー ブザーボタン
-    @IBOutlet weak var buzzerBtn: UIButton!
-    var buzzerAudioPlayer : AVAudioPlayer! = nil
-    var isBuzzerRunning: Bool = false
     
-    // MARK: ツールバー ゲームテーブルボタン
-    @IBOutlet weak var gameTableBtn: UIButton!
+    
+    
+    let userdefaults = UserDefaults.standard
+    let TEAM_A: String  = "team_a"
+    let TEAM_B: String  = "team_b"
+    let SCORE_A: String = "score_a"
+    let SCORE_B: String = "score_a"
     
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
+        let statusBarColor = UIColor(red: 246/255, green: 246/255, blue: 246/255, alpha: 1.0)
+        statusBarView.backgroundColor = statusBarColor
+        self.view.addSubview(statusBarView)
+        
+        self.view.backgroundColor = UIColor.black
         
         for i in 0...20 { //分設定(ゲームタイムピッカー用)
             gameTimeMinArray.append(String(format: "%02d", i))
@@ -94,12 +102,21 @@ class MainViewController: UIViewController {
         initScore()
         initGameTime()
         initShotClock()
-        initBuzzer()
         
-        gameTableBtn.setTitle("︙", for: .normal)
-        gameTableBtn.setTitleColor(UIColor.darkText, for: .normal)
-        gameTableBtn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        // SideMenu表示用スワイプ
+        self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        self.revealViewController()?.rearViewRevealWidth = 180
         
+        userdefaults.set(teamALabel.text, forKey: TEAM_A)
+        userdefaults.set(teamBLabel.text, forKey: TEAM_B)
+        userdefaults.set(Int(scoreALabel.text ?? "0"),forKey: SCORE_A)
+        userdefaults.set(Int(scoreBLabel.text ?? "0"),forKey: SCORE_B)
+        
+    }
+    
+    // MARK: - viewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     // MARK: - スコア
@@ -107,7 +124,7 @@ class MainViewController: UIViewController {
         
         teamALabel.text = "HOME"
         
-        let teamNameHeight = self.view.frame.height*(5/7)-teamALabel.frame.height*0.5
+        let teamNameHeight = self.view.frame.height*(7/10)
         
         teamALabel.center = CGPoint(x: self.view.frame.width*(1/4),
                                          y: teamNameHeight)
@@ -123,7 +140,7 @@ class MainViewController: UIViewController {
         teamBLabel.addGestureRecognizer(tapTeamB)
         
         
-        let scoreLabelHeight = self.view.frame.height*(6/7)-scoreALabel.frame.height*0.6
+        let scoreLabelHeight = self.view.frame.height*(8/10)
         
         scoreALabel.center = CGPoint(x: self.view.frame.width*(1/4),
                                       y: scoreLabelHeight)
@@ -137,35 +154,17 @@ class MainViewController: UIViewController {
         let tapScoreB = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapScoreBLabel))
         scoreBLabel.addGestureRecognizer(tapScoreB)
         
-        let possessionLabelHight = self.view.frame.height*(6/7)-scoreALabel.frame.height*0.6
-        
-        possessionALabel.text = "◀"
-        possessionALabel.center = CGPoint(x: self.view.frame.width*(1/2)-possessionALabel.frame.width*0.5,
-                                     y: possessionLabelHight)
-        possessionALabel.isHidden = false
-        let tapPossessionA = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapPossessionA))
-        possessionALabel.isUserInteractionEnabled = true
-        possessionALabel.addGestureRecognizer(tapPossessionA)
-        
-        possessionBLabel.text = "▶"
-        possessionBLabel.center = CGPoint(x: self.view.frame.width*(1/2)+possessionBLabel.frame.width*0.5,
-                                     y: possessionLabelHight)
-        possessionBLabel.isHidden = true
-        let tapPossessionB = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapPossessionB))
-        possessionBLabel.isUserInteractionEnabled = true
-        possessionBLabel.addGestureRecognizer(tapPossessionB)
-        
         scoreAMinusBtn.setTitle("-", for: .normal)
-        scoreAMinusBtn.center = CGPoint(x: self.view.frame.width*(1/8), y: self.view.frame.height*(6/7))
+        scoreAMinusBtn.center = CGPoint(x: self.view.frame.width*(1/8), y: self.view.frame.height*(9/10))
         
         scoreAPlusBtn.setTitle("+", for: .normal)
-        scoreAPlusBtn.center = CGPoint(x: self.view.frame.width*(3/8), y: self.view.frame.height*(6/7))
+        scoreAPlusBtn.center = CGPoint(x: self.view.frame.width*(3/8), y: self.view.frame.height*(9/10))
         
         scoreBMinusBtn.setTitle("-", for: .normal)
-        scoreBMinusBtn.center = CGPoint(x: self.view.frame.width*(5/8), y: self.view.frame.height*(6/7))
+        scoreBMinusBtn.center = CGPoint(x: self.view.frame.width*(5/8), y: self.view.frame.height*(9/10))
         
         scoreBPlusBtn.setTitle("+", for: .normal)
-        scoreBPlusBtn.center = CGPoint(x: self.view.frame.width*(7/8), y: self.view.frame.height*(6/7))
+        scoreBPlusBtn.center = CGPoint(x: self.view.frame.width*(7/8), y: self.view.frame.height*(9/10))
 
     }
     
@@ -174,6 +173,7 @@ class MainViewController: UIViewController {
         if scoreA > 0 {
             scoreA -= 1
             scoreALabel.text = String(scoreA)
+            userdefaults.set(scoreA, forKey: SCORE_A)
         }
     }
     
@@ -181,6 +181,7 @@ class MainViewController: UIViewController {
         if scoreA < 1000 {
             scoreA += 1
             scoreALabel.text = String(scoreA)
+            userdefaults.set(scoreA, forKey: SCORE_A)
         }
     }
     
@@ -189,6 +190,7 @@ class MainViewController: UIViewController {
         if scoreB > 0 {
             scoreB -= 1
             scoreBLabel.text = String(scoreB)
+            userdefaults.set(scoreB, forKey: SCORE_B)
         }
     }
     
@@ -196,6 +198,7 @@ class MainViewController: UIViewController {
         if scoreB < 1000 {
             scoreB += 1
             scoreBLabel.text = String(scoreB)
+            userdefaults.set(scoreB, forKey: SCORE_B)
         }
     }
     
@@ -215,16 +218,6 @@ class MainViewController: UIViewController {
         openScoreBEditDialog()
     }
     
-    @objc func tapPossessionA(_ sender: UITapGestureRecognizer) {
-        possessionALabel.isHidden = true
-        possessionBLabel.isHidden = false
-    }
-    
-    @objc func tapPossessionB(_ sender: UITapGestureRecognizer) {
-        possessionALabel.isHidden = false
-        possessionBLabel.isHidden = true
-    }
-    
     // チームA名前編集ダイアログ表示
     func openTeamNameAEditDialog() {
         let alert = UIAlertController(title: "Edit HOME Name", message: "", preferredStyle: .alert)
@@ -236,6 +229,7 @@ class MainViewController: UIViewController {
                 
                 for textField in textFields {
                     self.teamALabel.text = textField.text
+                    self.userdefaults.set(textField.text, forKey: self.TEAM_A)
                 }
             }
         })
@@ -254,7 +248,7 @@ class MainViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    // チームBダイアログ表示
+    // チームB名前編集ダイアログ表示
     func openTeamNameBEditDialog() {
         let alert = UIAlertController(title: "Edit GUEST Name", message: "", preferredStyle: .alert)
         
@@ -265,6 +259,7 @@ class MainViewController: UIViewController {
                 
                 for textField in textFields {
                     self.teamBLabel.text = textField.text
+                    self.userdefaults.set(textField.text, forKey: self.TEAM_B)
                 }
             }
         })
@@ -295,6 +290,7 @@ class MainViewController: UIViewController {
                 for textField in textFields {
                     self.scoreALabel.text = textField.text
                     self.scoreA = Int(textField.text!)!
+                    self.userdefaults.set(Int(textField.text ?? "0"), forKey: self.SCORE_A)
                 }
             }
         })
@@ -314,7 +310,7 @@ class MainViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    // GUESTダイアログ表示
+    // スコアBダイアログ表示
     func openScoreBEditDialog() {
         let alert = UIAlertController(title: "Edit GUEST Score", message: "", preferredStyle: .alert)
         
@@ -326,6 +322,7 @@ class MainViewController: UIViewController {
                 for textField in textFields {
                     self.scoreBLabel.text = textField.text
                     self.scoreB = Int(textField.text!)!
+                    self.userdefaults.set(Int(textField.text ?? "0"), forKey: self.SCORE_B)
                 }
             }
         })
@@ -352,25 +349,25 @@ class MainViewController: UIViewController {
         gameMinLabel.text = "10"
         gameMinLabel.textAlignment = .center
         gameMinLabel.bounds = BASE_DIGIT_RECT
-        gameMinLabel.center = CGPoint(x: self.view.frame.width*(1/3),
-                                      y: self.view.frame.height*(1/2)-gameMinLabel.bounds.height*(1/2))
-        gameMinLabel.font = UIFont.boldSystemFont(ofSize: 70)
+        gameMinLabel.center = CGPoint(x: self.view.frame.width*(1/3)-10,
+                                      y: self.view.frame.height*0.5-gameMinLabel.bounds.height*0.5)
+        gameMinLabel.font = UIFont.boldSystemFont(ofSize: 80)
         gameMinLabel.textColor = UIColor.yellow
         
         gameColonLabel.text = ":"
         gameColonLabel.textAlignment = .center
         gameColonLabel.bounds = CGRect(x: 0, y: 0, width: 30, height: 100)
         gameColonLabel.center = CGPoint(x: self.view.frame.width*(1/2),
-                                        y: self.view.frame.height*(1/2)-gameColonLabel.bounds.height*(1/2))
-        gameColonLabel.font = UIFont.boldSystemFont(ofSize: 70)
+                                        y: self.view.frame.height*0.5-gameColonLabel.bounds.height*0.5)
+        gameColonLabel.font = UIFont.boldSystemFont(ofSize: 80)
         gameColonLabel.textColor = UIColor.yellow
         
         gameSecLabel.text = "00"
         gameSecLabel.textAlignment = .center
         gameSecLabel.bounds = BASE_DIGIT_RECT
-        gameSecLabel.center = CGPoint(x: self.view.frame.width*(2/3),
-                                      y: self.view.frame.height*(1/2)-gameSecLabel.bounds.height*(1/2))
-        gameSecLabel.font = UIFont.boldSystemFont(ofSize: 70)
+        gameSecLabel.center = CGPoint(x: self.view.frame.width*(2/3)+10,
+                                      y: self.view.frame.height*0.5-gameSecLabel.bounds.height*0.5)
+        gameSecLabel.font = UIFont.boldSystemFont(ofSize: 80)
         gameSecLabel.textColor = UIColor.yellow
         
         toggleIsHiddenGameLabels()
@@ -381,11 +378,27 @@ class MainViewController: UIViewController {
         
         gameResetBtn.isEnabled = false
         gameResetBtn.center = CGPoint(x: self.view.frame.width*(2/3), y: self.view.frame.height*(4/7))
-        gameResetBtn.isEnabled = false
-        gameResetBtn.backgroundColor = UIColor.white
         
         gameSeconds = Int(gameMinLabel.text!)!*60
         gameSeconds += Int(gameSecLabel.text!)!
+        
+        let possessionLabelHight = self.view.frame.height*(4/7)
+        
+        possessionALabel.text = "◀"
+        possessionALabel.center = CGPoint(x: self.view.frame.width*(1/8),
+                                          y: possessionLabelHight)
+
+        possessionALabel.alpha = 1
+        let tapPossessionA = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapPossessionA))
+        possessionALabel.addGestureRecognizer(tapPossessionA)
+        
+        possessionBLabel.text = "▶"
+        possessionBLabel.center = CGPoint(x: self.view.frame.width*(7/8),
+                                          y: possessionLabelHight)
+
+        possessionBLabel.alpha = 0.5
+        let tapPossessionB = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapPossessionB))
+        possessionBLabel.addGestureRecognizer(tapPossessionB)
         
         setGameTimePicker()
     }
@@ -460,7 +473,7 @@ class MainViewController: UIViewController {
     }
     
     func setGameTimePicker() {
-        gameTimePicker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 100))
+        gameTimePicker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width*0.7, height: 100))
         gameTimePicker.delegate = self
         gameTimePicker.dataSource = self
         gameTimePicker.center = CGPoint(x: self.view.frame.width*(1/2),
@@ -474,7 +487,8 @@ class MainViewController: UIViewController {
         minLabel.text = "min"
         minLabel.textColor = .yellow
         minLabel.sizeToFit()
-        minLabel.frame = CGRect(x: gameTimePicker.bounds.width*0.375 - minLabel.bounds.width/2,
+        
+        minLabel.frame = CGRect(x: gameTimePicker.bounds.width*0.4 - minLabel.bounds.width/2,
                                 y: gameTimePicker.bounds.height/2 - (minLabel.bounds.height/2),
                                 width: minLabel.bounds.width,
                                 height: minLabel.bounds.height)
@@ -484,7 +498,7 @@ class MainViewController: UIViewController {
         secLabel.text = "sec"
         secLabel.textColor = .yellow
         secLabel.sizeToFit()
-        secLabel.frame = CGRect(x: gameTimePicker.bounds.width*0.875 - secLabel.bounds.width/2,
+        secLabel.frame = CGRect(x: gameTimePicker.bounds.width*0.9 - secLabel.bounds.width/2,
                                 y: gameTimePicker.bounds.height/2 - (secLabel.bounds.height/2),
                                 width: secLabel.bounds.width,
                                 height: secLabel.bounds.height)
@@ -522,12 +536,34 @@ class MainViewController: UIViewController {
         gameSecLabel.isHidden = !gameSecLabel.isHidden
     }
     
+    @objc func tapPossessionA(_ sender: UITapGestureRecognizer) {
+
+        if possessionALabel.alpha == 0.5 {
+            possessionALabel.alpha = 1
+            possessionBLabel.alpha = 0.5
+        } else {
+            possessionALabel.alpha = 0.5
+            possessionBLabel.alpha = 1
+        }
+    }
+    
+    @objc func tapPossessionB(_ sender: UITapGestureRecognizer) {
+        
+        if possessionBLabel.alpha == 0.5 {
+            possessionALabel.alpha = 0.5
+            possessionBLabel.alpha = 1
+        } else {
+            possessionALabel.alpha = 1
+            possessionBLabel.alpha = 0.5
+        }
+    }
+    
     // MARK: - ショットクロック
     func initShotClock() {
         shotClockLabel.text = String(shotSeconds)
         shotClockLabel.bounds = CGRect(x: 0, y: 0, width: 140, height: 90)
         shotClockLabel.center = CGPoint(x: self.view.frame.width*(1/2), y: self.view.frame.height*(1/7))
-        shotClockLabel.font = UIFont.boldSystemFont(ofSize: 70)
+        shotClockLabel.font = UIFont.boldSystemFont(ofSize: 80)
         shotClockLabel.textColor = UIColor.green
         shotClockLabel.isUserInteractionEnabled = true
         
@@ -541,7 +577,6 @@ class MainViewController: UIViewController {
         
         shotClockResetBtn.center = CGPoint(x: self.view.frame.width*(2/3), y: self.view.frame.height*(2/7))
         shotClockResetBtn.isEnabled = false
-        shotClockResetBtn.backgroundColor = UIColor.white
         
         let btnPosX = self.view.frame.width*(1/2) + 80
         sec24Btn.setTitle("24", for: .normal)
@@ -700,62 +735,6 @@ class MainViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    // MARK: - ツールバーブザーボタンタップ
-    func initBuzzer() {
-        
-        buzzerBtn.setTitle("◉", for: .normal)
-        buzzerBtn.setTitleColor(UIColor.red, for: .normal)
-        buzzerBtn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
-        buzzerBtn.addTarget(self, action: #selector(buzzerBtnTouchDown), for: .touchDown)
-        buzzerBtn.addTarget(self, action: #selector(buzzerBtnTouchUpInside), for: .touchUpInside)
-        
-        setBuzzerPlayer()
-    }
-    
-    func setBuzzerPlayer() {
-        let soundFilePath = Bundle.main.path(forResource: "buzzer", ofType: "mp3")!
-        let sound:URL = URL(fileURLWithPath: soundFilePath)
-        
-        do {
-            buzzerAudioPlayer = try AVAudioPlayer(contentsOf: sound, fileTypeHint:nil)
-        } catch {
-            print("AVAudioPlayerインスタンス作成失敗")
-        }
-        // バッファに保持していつでも再生できるようにする
-        buzzerAudioPlayer.prepareToPlay()
-    }
-    
-    @objc func buzzerBtnTouchDown() {
-        if !isBuzzerRunning {
-            buzzerAudioPlayer.play()
-        }
-        isBuzzerRunning = true
-    }
-    
-    @objc func buzzerBtnTouchUpInside() {
-        if isBuzzerRunning {
-            buzzerAudioPlayer.stop()
-            setBuzzerPlayer()
-        }
-        isBuzzerRunning = false
-    }
-    
-    // MARK: - ツールバーアクションボタンタップ
-    @IBAction func tapShareBtn(_ sender: UIBarButtonItem) {
-        
-        let teamA = (teamALabel.text != nil) ? teamALabel.text! : "HOME"
-        let teamB = (teamBLabel.text != nil) ? teamBLabel.text! : "GUEST"
-        let scoreA = (scoreALabel.text != nil) ? scoreALabel.text! : "00"
-        let scoreB = (scoreBLabel.text != nil) ? scoreBLabel.text! : "00"
-        
-        let shareText = "\(teamA) vs \(teamB) ： \(scoreA) - \(scoreB) "
-        
-        let activityItems = [shareText]
-        
-        let activityVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-        
-        self.present(activityVC, animated: true, completion: nil)
-    }
     
     // MARK: - ゲーム結果ダイアログ遷移前の設定
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

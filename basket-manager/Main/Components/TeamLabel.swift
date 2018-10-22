@@ -10,19 +10,12 @@ import UIKit
 
 class TeamLabel: UILabel {
     
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-        
-        self.textAlignment = .center
-        self.bounds = CGRect(x: 0, y: 0, width: 150, height: 50)
-        self.font = UIFont.boldSystemFont(ofSize: 17)
-        self.textColor = UIColor.white
-        self.isUserInteractionEnabled = true
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
+    override func awakeFromNib() {
+        font = .boldSystemFont(ofSize: 20)
+        textColor = .white
+        textAlignment = .center
+        bounds = CGRect(x: 0, y: 0, width: 150, height: 50)
+        isUserInteractionEnabled = true
     }
     
 }

@@ -10,17 +10,12 @@ import UIKit
 
 class ControlButton: UIButton {
     
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
+    override func awakeFromNib() {
         
-        self.tintColor = UIColor.darkText
-        self.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        self.bounds = CGRect(x: 0, y: 0, width: 60, height: 60)
-        self.layer.cornerRadius = self.frame.width/2
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+        tintColor = .darkText
+        titleLabel?.font = .boldSystemFont(ofSize: 15)
+        bounds = CGRect(x: 0, y: 0, width: 70, height: 30)
+        layer.cornerRadius = 15
         
     }
 }

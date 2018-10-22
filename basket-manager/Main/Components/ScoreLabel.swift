@@ -10,20 +10,12 @@ import UIKit
 
 class ScoreLabel: UILabel {
     
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-        
-        self.text = "00"
-        self.textAlignment = .center
-        self.bounds = CGRect(x: 0, y: 0, width: 140, height: 100)
-        self.font = UIFont.boldSystemFont(ofSize: 70)
-        self.textColor = .red
-        self.isUserInteractionEnabled = true
+    override func awakeFromNib() {
+        text = "00"
+        textAlignment = .center
+        bounds = CGRect(x: 0, y: 0, width: 160, height: 100)
+        font = .boldSystemFont(ofSize: 80)
+        textColor = .red
+        isUserInteractionEnabled = true
     }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-    }
-    
 }

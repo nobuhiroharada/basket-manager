@@ -59,7 +59,6 @@ class GameResultDialogViewController: UIViewController {
         
         scoreATextField.center = CGPoint(x: dialogView.frame.width*(1/4),
                                         y: 100)
-        scoreATextField.textAlignment = .center
         scoreATextField.tag = 3
         scoreATextField.delegate = self
         
@@ -69,11 +68,10 @@ class GameResultDialogViewController: UIViewController {
         
         scoreBTextField.center = CGPoint(x: dialogView.frame.width*(3/4),
                                      y: 100)
-        scoreBTextField.textAlignment = .center
-        scoreATextField.tag = 4
+        scoreBTextField.tag = 4
         scoreBTextField.delegate = self
         
-        datePicker.date = (game?.played_at)!
+        datePicker.date = game?.played_at ?? Date()
         datePicker.timeZone = NSTimeZone.local
         datePicker.datePickerMode = UIDatePickerMode.date
         datePicker.frame = CGRect(x: 0, y: 0, width: dialogView.frame.width-20, height: 50)
@@ -85,6 +83,7 @@ class GameResultDialogViewController: UIViewController {
         
         saveBtn.center = CGPoint(x: dialogView.frame.width*(3/4),
                                    y: 220)
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {

@@ -10,34 +10,23 @@ import UIKit
 
 class SmallButton: UIButton {
     
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-        
-        self.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
-        self.tintColor = UIColor.darkText
-        self.bounds = CGRect(x: 0, y: 0, width: 30, height: 30)
-        self.backgroundColor = UIColor.groupTableViewBackground
-        self.layer.cornerRadius = self.frame.width/2
-        
-        self.addTarget(self, action: #selector(touchDown), for: .touchDown)
-        self.addTarget(self, action: #selector(touchUpInside), for: .touchUpInside)
+    override func awakeFromNib() {
+        titleLabel?.font = .boldSystemFont(ofSize: 17)
+        tintColor = .darkText
+        bounds = CGRect(x: 0, y: 0, width: 30, height: 30)
+        backgroundColor = .groupTableViewBackground
+        layer.cornerRadius = frame.width/2
+
     }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-    }
-    
-    @objc func touchDown() {
-        UIView.animate(withDuration: 0.28, delay: 0.0, animations: {
-            self.backgroundColor = UIColor.white
-        }, completion: nil)
-    }
-    
-    @objc func touchUpInside() {
-        UIView.animate(withDuration: 0.3, delay: 0.0, animations: {
-            self.backgroundColor = UIColor.groupTableViewBackground
-        }, completion: nil)
+
+    override var isHighlighted: Bool {
+        didSet {
+            if isHighlighted {
+                backgroundColor = .white
+            } else {
+                backgroundColor = .groupTableViewBackground
+            }
+        }
     }
     
 }

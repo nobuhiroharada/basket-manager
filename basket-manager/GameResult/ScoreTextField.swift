@@ -1,5 +1,5 @@
 //
-//  PossesLabel.swift
+//  ScoreTextField.swift
 //  basket-manager
 //
 //  Created by Nobuhiro Harada on 2018/10/06.
@@ -8,14 +8,12 @@
 
 import UIKit
 
-class PossesLabel: UILabel {
+class ScoreTextField: UITextField {
     
     override func awakeFromNib() {
+        bounds = CGRect(x: 0, y: 0, width: 100, height: 25)
         textAlignment = .center
-        textColor = .red
-        font = .systemFont(ofSize: 40)
-        bounds = CGRect(x: 0, y: 0, width: 40, height: 40)
-        isUserInteractionEnabled = true
+        keyboardType = .numberPad
     }
-    
 }
+

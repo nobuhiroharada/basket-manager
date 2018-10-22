@@ -12,16 +12,29 @@ import SwipeCellKit
 
 class GameTableViewController: UIViewController {
 
+    @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var gameCountLabel: UILabel!
+    
+    @IBOutlet weak var backBtn: UIBarButtonItem!
     
     let realm = try! Realm()
     var games: Results<Game>?
     
+    let statusBar = UIView(frame: UIApplication.shared.statusBarFrame)
+    let displaySize = UIScreen.main.bounds.size
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadTableView()
+        navigationBar.frame = CGRect(x: 0, y: statusBar.frame.height, width: displaySize.width, height: navigationBar.frame.height)
+        
+        gameCountLabel.frame = CGRect(x: displaySize.width-100, y: statusBar.frame.height, width: 100, height: navigationBar.frame.height)
+        guard let aa = UINib(nibName: "GameTableCell", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView else {
+            return
+        }
+        
+        aa.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         
         self.tableView.register(UINib(nibName: "GameTableCell", bundle: nil), forCellReuseIdentifier: "GameTableCell")
         
@@ -29,8 +42,24 @@ class GameTableViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        loadTableView()
+        
+        backBtn.target = self.revealViewController()
+        backBtn.action = #selector(SWRevealViewController.revealToggle(_:))
+        
+        //  SideMenu表示用スワイプ
+        self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        self.revealViewController()?.rearViewRevealWidth = 180
     }
 
+    override func viewDidLayoutSubviews() {
+        tableView.frame = CGRect(x: 0,
+                                 y: statusBar.frame.height+navigationBar.frame.height,
+                                 width: displaySize.width,
+                                 height: displaySize.height-statusBar.frame.height+navigationBar.frame.height)
+    }
+    
     func loadTableView() {
         games = realm.objects(Game.self).sorted(byKeyPath: "played_at", ascending: false)
         tableView.reloadData()
@@ -46,10 +75,6 @@ class GameTableViewController: UIViewController {
                 print("Error deleting game, \(error)")
             }
         }
-    }
-    
-    @IBAction func tapBackButton(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
     }
     
 }
