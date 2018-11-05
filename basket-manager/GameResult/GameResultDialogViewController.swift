@@ -23,11 +23,17 @@ class GameResultDialogViewController: UIViewController {
     
     @IBOutlet weak var cancelBtn: GameDialogButton!
     @IBOutlet weak var saveBtn: GameDialogButton!
+    @IBOutlet weak var shareBtn: GameDialogButton!
+    
+    @IBOutlet weak var lineView1: UIView!
+    @IBOutlet weak var lineView2: UIView!
+    @IBOutlet weak var lineView3: UIView!
     
     var status: String?
     var game: Game?
     
     let realm = try! Realm()
+    let userdefaults = UserDefaults.standard
     
     var delegate: GameTableReloadDelegate?
     
@@ -35,9 +41,10 @@ class GameResultDialogViewController: UIViewController {
         super.viewDidLoad()
         
         dialogView.bounds = CGRect(x: 0, y: 0, width: 300, height: 250)
-        dialogView.center = CGPoint(x: self.view.frame.width*(1/2),
-                                    y: self.view.frame.height*(1/2))
+        dialogView.center = CGPoint(x: self.view.frame.midX,
+                                    y: self.view.frame.midY - 100)
         dialogView.layer.cornerRadius = 10
+        dialogView.backgroundColor = .lightGray
         
         titleLabel.text = "Result"
         titleLabel.bounds = CGRect(x: 0, y: 0, width: dialogView.frame.width, height: 50)
@@ -78,61 +85,40 @@ class GameResultDialogViewController: UIViewController {
         datePicker.center = CGPoint(x: dialogView.frame.width*(1/2),
                                    y: 150)
         
-        cancelBtn.center = CGPoint(x: dialogView.frame.width*(1/4),
+        cancelBtn.center = CGPoint(x: 50,
                                          y: 220)
         
-        saveBtn.center = CGPoint(x: dialogView.frame.width*(3/4),
+        saveBtn.center = CGPoint(x: 250,
                                    y: 220)
         
+        shareBtn.center = CGPoint(x: dialogView.bounds.midX,
+                                 y: 220)
+        
+        let borderLineY = datePicker.frame.maxY+20
+        lineView1.frame = CGRect(x: dialogView.bounds.minX,
+                                 y: borderLineY,
+                                 width: dialogView.frame.width,
+                                 height: 0.5)
+        lineView2.frame = CGRect(x: 100, y: borderLineY, width: 0.5, height: 100)
+        lineView3.frame = CGRect(x: 200, y: borderLineY, width: 0.5, height: 100)
+        
+        dialogView.clipsToBounds = true
+        
+        let downSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(self.closeModalView))
+        downSwipeGesture.direction = .down
+        view.addGestureRecognizer(downSwipeGesture)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
         teamATextField.becomeFirstResponder()
-        self.configureObserver()
         
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         
         super.viewWillDisappear(animated)
-        self.removeObserver()
-    }
-    
-    func configureObserver() {
-        
-        let notification = NotificationCenter.default
-        notification.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        notification.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    }
-    
-    func removeObserver() {
-        
-        let notification = NotificationCenter.default
-        notification.removeObserver(self)
-    }
-    
-    // キーボードが出てくると、ダイアログも上がる
-    @objc func keyboardWillShow(notification: Notification?) {
-        
-        let rect = (notification?.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue
-        let duration: TimeInterval? = notification?.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? Double
-        UIView.animate(withDuration: duration!, animations: { () in
-            let transform = CGAffineTransform(translationX: 0, y: -100)
-            self.view.transform = transform
-            
-        })
-    }
-    
-    // キーボードが消えると、ダイアログも下がる
-    @objc func keyboardWillHide(notification: Notification?) {
-        
-        let duration: TimeInterval? = notification?.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? Double
-        UIView.animate(withDuration: duration!, animations: { () in
-            
-            self.view.transform = CGAffineTransform.identity
-        })
     }
     
     //MARK: - 保存ボタンタップ
@@ -140,11 +126,13 @@ class GameResultDialogViewController: UIViewController {
         
         if status == "create" {
             create()
+            openSaveSuccessDialog()
         }
         if status == "update" {
             update()
+            delegate?.gameTableViewReload()
         }
-        delegate?.gameTableViewReload()
+
         dismiss(animated: false, completion: nil)
     }
     
@@ -152,6 +140,24 @@ class GameResultDialogViewController: UIViewController {
     @IBAction func tapCancelBtn(_ sender: UIButton) {
         dismiss(animated: false, completion: nil)
     }
+    
+    //MARK: - シェアボタンタップ
+    
+    @IBAction func tapShareBtn(_ sender: GameDialogButton) {
+        let teamA  = userdefaults.string(forKey: "team_a") ?? "HOME"
+        let teamB  = userdefaults.string(forKey: "team_b") ?? "GUEST"
+        let scoreA = userdefaults.integer(forKey: "score_a")
+        let scoreB = userdefaults.integer(forKey: "score_b")
+        
+        let shareText = "\(teamA) vs \(teamB) ： \(scoreA) - \(scoreB) "
+        
+        let activityItems = [shareText]
+        
+        let activityVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        
+        self.present(activityVC, animated: true, completion: nil)
+    }
+    
     
     func getNewId() -> Int {
         var gameCount = realm.objects(Game.self).count
@@ -168,7 +174,7 @@ class GameResultDialogViewController: UIViewController {
         newGame.score_b = Int(scoreBTextField.text!)!
         newGame.created_at = Date()
         newGame.played_at = datePicker.date
-        print(datePicker.date)
+        
         do {
             try realm.write {
                 realm.add(newGame)
@@ -191,6 +197,20 @@ class GameResultDialogViewController: UIViewController {
         } catch {
             print("Error updating category, \(error)")
         }
+    }
+    
+    @objc func closeModalView() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func openSaveSuccessDialog() {
+        let alert = UIAlertController(title: "Save Success!", message: "", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        
+        alert.view.setNeedsLayout()
+        
+        self.present(alert, animated: true, completion: nil)
     }
 }
 

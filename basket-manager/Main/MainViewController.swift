@@ -71,14 +71,11 @@ class MainViewController: UIViewController {
     @IBOutlet weak var sec14Btn: SmallButton!
     @IBOutlet weak var sec120Btn: SmallButton!
     
-    
-    
-    
     let userdefaults = UserDefaults.standard
     let TEAM_A: String  = "team_a"
     let TEAM_B: String  = "team_b"
     let SCORE_A: String = "score_a"
-    let SCORE_B: String = "score_a"
+    let SCORE_B: String = "score_b"
     
     // MARK: - viewDidLoad
     override func viewDidLoad() {
@@ -107,11 +104,29 @@ class MainViewController: UIViewController {
         self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         self.revealViewController()?.rearViewRevealWidth = 180
         
+        let upSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(self.openGameResultView))
+        upSwipeGesture.direction = .up
+        view.addGestureRecognizer(upSwipeGesture)
+        
         userdefaults.set(teamALabel.text, forKey: TEAM_A)
         userdefaults.set(teamBLabel.text, forKey: TEAM_B)
         userdefaults.set(Int(scoreALabel.text ?? "0"),forKey: SCORE_A)
         userdefaults.set(Int(scoreBLabel.text ?? "0"),forKey: SCORE_B)
         
+    }
+    
+    @objc func openGameResultView() {
+        let storyboard: UIStoryboard = UIStoryboard(name: "GameResultDialog", bundle: nil)
+        let gameResultDialog = storyboard.instantiateViewController(withIdentifier: "gameResultDialog") as! GameResultDialogViewController
+        gameResultDialog.status = "create"
+        let newGame = Game()
+        newGame.team_a = (teamALabel.text != nil) ? teamALabel.text! : "HOME"
+        newGame.team_b = (teamBLabel.text != nil) ? teamBLabel.text! : "GUEST"
+        newGame.score_a = (scoreALabel.text != nil) ? Int(scoreALabel.text!)! : 0
+        newGame.score_b = (scoreBLabel.text != nil) ? Int(scoreBLabel.text!)! : 0
+        newGame.played_at = Date()
+        gameResultDialog.game = newGame
+        self.present(gameResultDialog, animated: true, completion: nil)
     }
     
     // MARK: - viewWillAppear
@@ -351,7 +366,7 @@ class MainViewController: UIViewController {
         gameMinLabel.bounds = BASE_DIGIT_RECT
         gameMinLabel.center = CGPoint(x: self.view.frame.width*(1/3)-10,
                                       y: self.view.frame.height*0.5-gameMinLabel.bounds.height*0.5)
-        gameMinLabel.font = UIFont.boldSystemFont(ofSize: 80)
+        gameMinLabel.font = UIFont(name: "DigitalDismay", size: 100)
         gameMinLabel.textColor = UIColor.yellow
         
         gameColonLabel.text = ":"
@@ -359,7 +374,7 @@ class MainViewController: UIViewController {
         gameColonLabel.bounds = CGRect(x: 0, y: 0, width: 30, height: 100)
         gameColonLabel.center = CGPoint(x: self.view.frame.width*(1/2),
                                         y: self.view.frame.height*0.5-gameColonLabel.bounds.height*0.5)
-        gameColonLabel.font = UIFont.boldSystemFont(ofSize: 80)
+        gameColonLabel.font = UIFont(name: "DigitalDismay", size: 100)
         gameColonLabel.textColor = UIColor.yellow
         
         gameSecLabel.text = "00"
@@ -367,7 +382,7 @@ class MainViewController: UIViewController {
         gameSecLabel.bounds = BASE_DIGIT_RECT
         gameSecLabel.center = CGPoint(x: self.view.frame.width*(2/3)+10,
                                       y: self.view.frame.height*0.5-gameSecLabel.bounds.height*0.5)
-        gameSecLabel.font = UIFont.boldSystemFont(ofSize: 80)
+        gameSecLabel.font = UIFont(name: "DigitalDismay", size: 100)
         gameSecLabel.textColor = UIColor.yellow
         
         toggleIsHiddenGameLabels()
@@ -563,7 +578,7 @@ class MainViewController: UIViewController {
         shotClockLabel.text = String(shotSeconds)
         shotClockLabel.bounds = CGRect(x: 0, y: 0, width: 140, height: 90)
         shotClockLabel.center = CGPoint(x: self.view.frame.width*(1/2), y: self.view.frame.height*(1/7))
-        shotClockLabel.font = UIFont.boldSystemFont(ofSize: 80)
+        shotClockLabel.font = UIFont(name: "DigitalDismay", size: 100)
         shotClockLabel.textColor = UIColor.green
         shotClockLabel.isUserInteractionEnabled = true
         
@@ -735,21 +750,6 @@ class MainViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    
-    // MARK: - ゲーム結果ダイアログ遷移前の設定
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toGameResultDialog" {
-            let gameResultDialog = segue.destination as! GameResultDialogViewController
-            gameResultDialog.status = "create"
-            let newGame = Game()
-            newGame.team_a = (teamALabel.text != nil) ? teamALabel.text! : "HOME"
-            newGame.team_b = (teamBLabel.text != nil) ? teamBLabel.text! : "GUEST"
-            newGame.score_a = (scoreALabel.text != nil) ? Int(scoreALabel.text!)! : 0
-            newGame.score_b = (scoreBLabel.text != nil) ? Int(scoreBLabel.text!)! : 0
-            newGame.played_at = Date()
-            gameResultDialog.game = newGame
-        }
-    }
 }
 
 // MARK: - UIPickerViewDelegate, UIPickerViewDataSource
@@ -792,7 +792,7 @@ extension MainViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 70))
         label.textAlignment = .center
         label.textColor = .yellow
-        label.font =  UIFont.boldSystemFont(ofSize: 30)
+        label.font =  UIFont(name: "DigitalDismay", size: 30)
         
         if component == 0 {
             label.text = gameTimeMinArray[row]

@@ -12,6 +12,12 @@ import SwipeCellKit
 
 class GameTableViewController: UIViewController {
 
+    let userdefaults = UserDefaults.standard
+    let TEAM_A: String  = "team_a"
+    let TEAM_B: String  = "team_b"
+    let SCORE_A: String = "score_a"
+    let SCORE_B: String = "score_b"
+    
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var gameCountLabel: UILabel!
@@ -126,6 +132,11 @@ extension GameTableViewController: UITableViewDelegate, UITableViewDataSource {
             let gameResultDialog = segue.destination as! GameResultDialogViewController
             
             gameResultDialog.status = "update"
+            userdefaults.set(games?[indexPath.row].team_a, forKey: TEAM_A)
+            userdefaults.set(games?[indexPath.row].team_b, forKey: TEAM_B)
+            userdefaults.set(Int(games?[indexPath.row].score_a ?? 0),forKey: SCORE_A)
+            userdefaults.set(Int(games?[indexPath.row].score_b ?? 0),forKey: SCORE_B)
+            
             gameResultDialog.game = games?[indexPath.row]
             gameResultDialog.delegate = self
         }

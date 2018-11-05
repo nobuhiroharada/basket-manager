@@ -14,7 +14,7 @@ class ScoreLabel: UILabel {
         text = "00"
         textAlignment = .center
         bounds = CGRect(x: 0, y: 0, width: 160, height: 100)
-        font = .boldSystemFont(ofSize: 80)
+        font = UIFont(name: "DigitalDismay", size: 90)
         textColor = .red
         isUserInteractionEnabled = true
     }

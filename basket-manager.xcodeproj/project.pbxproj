@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E518C003218D7958000A3A05 /* Digital Dismay.otf in Resources */ = {isa = PBXBuildFile; fileRef = E518C002218D7946000A3A05 /* Digital Dismay.otf */; };
 		E57200362145B2ED00F84254 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57200352145B2ED00F84254 /* AppDelegate.swift */; };
 		E57200382145B2ED00F84254 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57200372145B2ED00F84254 /* MainViewController.swift */; };
 		E572003B2145B2ED00F84254 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E57200392145B2ED00F84254 /* Main.storyboard */; };
@@ -44,6 +45,7 @@
 		1D0A139EB7DCB244C42D1EE1 /* Pods-basket-manager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-basket-manager.release.xcconfig"; path = "Pods/Target Support Files/Pods-basket-manager/Pods-basket-manager.release.xcconfig"; sourceTree = "<group>"; };
 		5659C378E0DBA134BAE181B0 /* Pods_basket_manager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_basket_manager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		94872447614C4EFB28152AB8 /* Pods-basket-manager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-basket-manager.debug.xcconfig"; path = "Pods/Target Support Files/Pods-basket-manager/Pods-basket-manager.debug.xcconfig"; sourceTree = "<group>"; };
+		E518C002218D7946000A3A05 /* Digital Dismay.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Digital Dismay.otf"; sourceTree = "<group>"; };
 		E57200322145B2ED00F84254 /* basket-manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "basket-manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E57200352145B2ED00F84254 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E57200372145B2ED00F84254 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 			children = (
 				E57200352145B2ED00F84254 /* AppDelegate.swift */,
 				E572003E2145B2EF00F84254 /* LaunchScreen.storyboard */,
+				E518C002218D7946000A3A05 /* Digital Dismay.otf */,
 				E57408FE2168D18300C32479 /* Main */,
 				E5C2BA3A217985F900FADC23 /* SideMenu */,
 				E57408ED2167150800C32479 /* GameTable */,
@@ -294,6 +297,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E518C003218D7958000A3A05 /* Digital Dismay.otf in Resources */,
 				E5C2BA3E2179869900FADC23 /* SideMenu.storyboard in Resources */,
 				E57200402145B2EF00F84254 /* LaunchScreen.storyboard in Resources */,
 				E57408EF2167154300C32479 /* GameTableCell.xib in Resources */,

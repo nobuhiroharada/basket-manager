@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="a4L-wM-EdE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="a4L-wM-EdE">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,7 +13,7 @@
         <!--Game Result Dialog View Controller-->
         <scene sceneID="Z5J-Xq-ci2">
             <objects>
-                <viewController modalPresentationStyle="overCurrentContext" id="a4L-wM-EdE" customClass="GameResultDialogViewController" customModule="basket_manager" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="gameResultDialog" modalPresentationStyle="overCurrentContext" id="a4L-wM-EdE" customClass="GameResultDialogViewController" customModule="basket_manager" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="t1U-8O-hMw">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -23,27 +23,36 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DlN-B3-q2d" customClass="GameDialogButton" customModule="basket_manager" customModuleProvider="target">
-                                        <rect key="frame" x="188" y="204" width="40" height="33"/>
+                                        <rect key="frame" x="229" y="206" width="37" height="33"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <state key="normal" title="Save">
-                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="tapSaveBtn:" destination="a4L-wM-EdE" eventType="touchUpInside" id="Zu5-tM-sl1"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3ml-2F-Sb7" customClass="GameDialogButton" customModule="basket_manager" customModuleProvider="target">
-                                        <rect key="frame" x="37" y="204" width="57" height="33"/>
+                                        <rect key="frame" x="40" y="205" width="53" height="33"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <state key="normal" title="Cancel">
-                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="tapCancelBtn:" destination="a4L-wM-EdE" eventType="touchUpInside" id="JYA-sm-LA5"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wAY-5s-FKK" customClass="GameDialogButton" customModule="basket_manager" customModuleProvider="target">
+                                        <rect key="frame" x="128" y="206" width="45" height="33"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="Share"/>
+                                        <connections>
+                                            <action selector="tapShareBtn:" destination="a4L-wM-EdE" eventType="touchUpInside" id="PFm-Lh-C6e"/>
                                         </connections>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="u3e-om-3BV" customClass="TeamTextField" customModule="basket_manager" customModuleProvider="target">
@@ -89,20 +98,39 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j3M-CO-h1f">
+                                        <rect key="frame" x="8" y="187" width="284" height="11"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FC6-H8-BKK">
+                                        <rect key="frame" x="181" y="198" width="14" height="52"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ot6-nz-aFI">
+                                        <rect key="frame" x="106" y="195" width="14" height="52"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.66422420739999999" green="0.66424006219999998" blue="0.66423153879999997" alpha="0.76977204623287676" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="K2z-b9-ft9"/>
                     </view>
                     <connections>
                         <outlet property="cancelBtn" destination="3ml-2F-Sb7" id="ag9-Pg-MlT"/>
                         <outlet property="datePicker" destination="z0A-Eg-bfL" id="gBa-Ab-XYr"/>
                         <outlet property="dialogView" destination="YcF-NI-fV3" id="lx9-pO-Jec"/>
+                        <outlet property="lineView1" destination="j3M-CO-h1f" id="Ydi-rm-Pbq"/>
+                        <outlet property="lineView2" destination="Ot6-nz-aFI" id="xvo-4s-lw8"/>
+                        <outlet property="lineView3" destination="FC6-H8-BKK" id="tgR-fa-w9I"/>
                         <outlet property="saveBtn" destination="DlN-B3-q2d" id="Ph5-Ia-jLh"/>
                         <outlet property="scoreATextField" destination="P2J-GD-YHw" id="MAy-eS-Zqe"/>
                         <outlet property="scoreBTextField" destination="iNx-WX-JIP" id="1Ss-uJ-uGR"/>
+                        <outlet property="shareBtn" destination="wAY-5s-FKK" id="NfW-A0-xZK"/>
                         <outlet property="teamATextField" destination="u3e-om-3BV" id="WuA-o2-gHy"/>
                         <outlet property="teamBTextField" destination="9n1-uT-VX4" id="5G1-Ql-bA8"/>
                         <outlet property="titleLabel" destination="eUN-kn-97J" id="J5w-od-DbH"/>
