@@ -40,6 +40,8 @@ class MainViewController: UIViewController {
     var gameTimeMinArray: [String] = []
     var gameTimeSecArray: [String] = []
     var gameTimePicker = UIPickerView()
+    var gameTimePickerMinLabel = UILabel()
+    var gameTimePickerSecLabel = UILabel()
     var gameTimerStatus: GameTimerStatus = .START
     enum GameTimerStatus: String {
         case START
@@ -77,14 +79,17 @@ class MainViewController: UIViewController {
     let SCORE_A: String = "score_a"
     let SCORE_B: String = "score_b"
     
+    override var prefersStatusBarHidden: Bool {
+        return false
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
-        let statusBarColor = UIColor(red: 246/255, green: 246/255, blue: 246/255, alpha: 1.0)
-        statusBarView.backgroundColor = statusBarColor
-        self.view.addSubview(statusBarView)
         
         self.view.backgroundColor = UIColor.black
         
@@ -96,17 +101,13 @@ class MainViewController: UIViewController {
             gameTimeSecArray.append(String(format: "%02d", i))
         }
         
-        initScore()
-        initGameTime()
-        initShotClock()
+        initScoreViewText()
+        registerGesturerecognizer()
         
-        // SideMenu表示用スワイプ
-        self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-        self.revealViewController()?.rearViewRevealWidth = 180
+        initGameTimeLabelText()
+        initGameTimePicker()
         
-        let upSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(self.openGameResultView))
-        upSwipeGesture.direction = .up
-        view.addGestureRecognizer(upSwipeGesture)
+        initShotClockText()
         
         userdefaults.set(teamALabel.text, forKey: TEAM_A)
         userdefaults.set(teamBLabel.text, forKey: TEAM_B)
@@ -115,72 +116,122 @@ class MainViewController: UIViewController {
         
     }
     
-    @objc func openGameResultView() {
-        let storyboard: UIStoryboard = UIStoryboard(name: "GameResultDialog", bundle: nil)
-        let gameResultDialog = storyboard.instantiateViewController(withIdentifier: "gameResultDialog") as! GameResultDialogViewController
-        gameResultDialog.status = "create"
-        let newGame = Game()
-        newGame.team_a = (teamALabel.text != nil) ? teamALabel.text! : "HOME"
-        newGame.team_b = (teamBLabel.text != nil) ? teamBLabel.text! : "GUEST"
-        newGame.score_a = (scoreALabel.text != nil) ? Int(scoreALabel.text!)! : 0
-        newGame.score_b = (scoreBLabel.text != nil) ? Int(scoreBLabel.text!)! : 0
-        newGame.played_at = Date()
-        gameResultDialog.game = newGame
-        self.present(gameResultDialog, animated: true, completion: nil)
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        switch UIApplication.shared.statusBarOrientation {
+        case .portrait, .portraitUpsideDown:
+            self.setViews_Portrait()
+        case .landscapeLeft, .landscapeRight:
+            self.setViews_Landscape()
+        default:
+            self.setViews_Portrait()
+        }
     }
     
-    // MARK: - viewWillAppear
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-    
-    // MARK: - スコア
-    func initScore() {
-        
-        teamALabel.text = "HOME"
-        
-        let teamNameHeight = self.view.frame.height*(7/10)
-        
-        teamALabel.center = CGPoint(x: self.view.frame.width*(1/4),
-                                         y: teamNameHeight)
-        
+    func registerGesturerecognizer() {
         let tapTeamA = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapTeamALabel))
         teamALabel.addGestureRecognizer(tapTeamA)
-        
-        teamBLabel.text = "GUEST"
-        teamBLabel.center = CGPoint(x: self.view.frame.width*(3/4),
-                                         y: teamNameHeight)
         
         let tapTeamB = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapTeamBLabel))
         teamBLabel.addGestureRecognizer(tapTeamB)
         
+        let tapScoreA = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapScoreALabel))
+        scoreALabel.addGestureRecognizer(tapScoreA)
+        
+        let tapScoreB = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapScoreBLabel))
+        scoreBLabel.addGestureRecognizer(tapScoreB)
+        
+        let tapShotClock = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapShotClockLabel))
+        shotClockLabel.addGestureRecognizer(tapShotClock)
+        
+        let tapPossessionA = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapPossessionA))
+        possessionALabel.addGestureRecognizer(tapPossessionA)
+        
+        let tapPossessionB = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapPossessionB))
+        possessionBLabel.addGestureRecognizer(tapPossessionB)
+    }
+    
+    func setViews_Portrait() {
+        setScoreViewPosition_Portrait()
+        setGameTimeLabelPosition_Portrait()
+        setGameTimePickerPosition_Portrait()
+        setShotClockPosition_Portrait()
+        
+    }
+    
+    func setViews_Landscape() {
+        setScoreViewPosition_Landscape()
+        setGameTimeLabelPosition_Landscape()
+        setGameTimePickerPosition_Landscape()
+        setShotClockPosition_Landscape()
+    }
+    
+    // MARK: - スコア
+    func initScoreViewText() {
+        teamALabel.text = "HOME"
+        teamBLabel.text = "GUEST"
+        scoreAMinusBtn.setTitle("-", for: .normal)
+        scoreAPlusBtn.setTitle("+", for: .normal)
+        scoreBMinusBtn.setTitle("-", for: .normal)
+        scoreBPlusBtn.setTitle("+", for: .normal)
+    }
+    
+    func setScoreViewPosition_Portrait() {
+        
+        let teamNameHeight = self.view.frame.height*(7/10)
+        teamALabel.center = CGPoint(x: self.view.frame.width*(1/4),
+                                         y: teamNameHeight)
+        
+        teamBLabel.center = CGPoint(x: self.view.frame.width*(3/4),
+                                         y: teamNameHeight)
         
         let scoreLabelHeight = self.view.frame.height*(8/10)
         
         scoreALabel.center = CGPoint(x: self.view.frame.width*(1/4),
                                       y: scoreLabelHeight)
         
-        let tapScoreA = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapScoreALabel))
-        scoreALabel.addGestureRecognizer(tapScoreA)
-        
         scoreBLabel.center = CGPoint(x: self.view.frame.width*(3/4),
                                      y: scoreLabelHeight)
         
-        let tapScoreB = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapScoreBLabel))
-        scoreBLabel.addGestureRecognizer(tapScoreB)
-        
-        scoreAMinusBtn.setTitle("-", for: .normal)
         scoreAMinusBtn.center = CGPoint(x: self.view.frame.width*(1/8), y: self.view.frame.height*(9/10))
         
-        scoreAPlusBtn.setTitle("+", for: .normal)
         scoreAPlusBtn.center = CGPoint(x: self.view.frame.width*(3/8), y: self.view.frame.height*(9/10))
         
-        scoreBMinusBtn.setTitle("-", for: .normal)
         scoreBMinusBtn.center = CGPoint(x: self.view.frame.width*(5/8), y: self.view.frame.height*(9/10))
         
-        scoreBPlusBtn.setTitle("+", for: .normal)
         scoreBPlusBtn.center = CGPoint(x: self.view.frame.width*(7/8), y: self.view.frame.height*(9/10))
 
+    }
+    
+    func setScoreViewPosition_Landscape() {
+        
+        let teamNameHeight = self.view.frame.height*(9/16)
+        
+        teamALabel.center = CGPoint(x: self.view.frame.width*(1/8),
+                                    y: teamNameHeight)
+        
+        teamBLabel.center = CGPoint(x: self.view.frame.width*(7/8),
+                                    y: teamNameHeight)
+
+        let scoreLabelHeight = self.view.frame.height*(3/4)
+
+        scoreALabel.center = CGPoint(x: self.view.frame.width*(1/8),
+                                     y: scoreLabelHeight)
+
+        scoreBLabel.center = CGPoint(x: self.view.frame.width*(7/8),
+                                     y: scoreLabelHeight)
+
+        let scoreButtonHeight = self.view.frame.height*(15/16)
+        
+        scoreAMinusBtn.center = CGPoint(x: self.view.frame.width*(1/16), y: scoreButtonHeight)
+
+        scoreAPlusBtn.center = CGPoint(x: self.view.frame.width*(3/16), y: scoreButtonHeight)
+
+        scoreBMinusBtn.center = CGPoint(x: self.view.frame.width*(13/16), y: scoreButtonHeight)
+
+        scoreBPlusBtn.center = CGPoint(x: self.view.frame.width*(15/16), y: scoreButtonHeight)
+        
     }
     
     // チームAスコア
@@ -360,62 +411,149 @@ class MainViewController: UIViewController {
     
     
     // MARK: - ゲームタイム
-    func initGameTime() {
+    func initGameTimeLabelText() {
         gameMinLabel.text = "10"
         gameMinLabel.textAlignment = .center
         gameMinLabel.bounds = BASE_DIGIT_RECT
-        gameMinLabel.center = CGPoint(x: self.view.frame.width*(1/3)-10,
-                                      y: self.view.frame.height*0.5-gameMinLabel.bounds.height*0.5)
-        gameMinLabel.font = UIFont(name: "DigitalDismay", size: 100)
         gameMinLabel.textColor = UIColor.yellow
+        gameMinLabel.font = UIFont(name: "DigitalDismay", size: 100)
         
         gameColonLabel.text = ":"
         gameColonLabel.textAlignment = .center
         gameColonLabel.bounds = CGRect(x: 0, y: 0, width: 30, height: 100)
-        gameColonLabel.center = CGPoint(x: self.view.frame.width*(1/2),
-                                        y: self.view.frame.height*0.5-gameColonLabel.bounds.height*0.5)
         gameColonLabel.font = UIFont(name: "DigitalDismay", size: 100)
         gameColonLabel.textColor = UIColor.yellow
         
         gameSecLabel.text = "00"
         gameSecLabel.textAlignment = .center
         gameSecLabel.bounds = BASE_DIGIT_RECT
-        gameSecLabel.center = CGPoint(x: self.view.frame.width*(2/3)+10,
-                                      y: self.view.frame.height*0.5-gameSecLabel.bounds.height*0.5)
         gameSecLabel.font = UIFont(name: "DigitalDismay", size: 100)
         gameSecLabel.textColor = UIColor.yellow
         
         toggleIsHiddenGameLabels()
         
         gameTimerControlBtn.setTitle("Start", for: .normal)
-        gameTimerControlBtn.center = CGPoint(x: self.view.frame.width*(1/3), y: self.view.frame.height*(4/7))
         gameTimerControlBtn.backgroundColor = limegreen
         
         gameResetBtn.isEnabled = false
-        gameResetBtn.center = CGPoint(x: self.view.frame.width*(2/3), y: self.view.frame.height*(4/7))
         
         gameSeconds = Int(gameMinLabel.text!)!*60
         gameSeconds += Int(gameSecLabel.text!)!
         
-        let possessionLabelHight = self.view.frame.height*(4/7)
-        
         possessionALabel.text = "◀"
-        possessionALabel.center = CGPoint(x: self.view.frame.width*(1/8),
-                                          y: possessionLabelHight)
-
         possessionALabel.alpha = 1
-        let tapPossessionA = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapPossessionA))
-        possessionALabel.addGestureRecognizer(tapPossessionA)
         
         possessionBLabel.text = "▶"
+        possessionBLabel.alpha = 0.5
+        
+    }
+    func setGameTimeLabelPosition_Portrait() {
+        
+        gameMinLabel.center = CGPoint(x: self.view.frame.width*(1/3)-10,
+                                      y: self.view.frame.height*0.5-gameMinLabel.bounds.height*0.5)
+        
+        
+        
+        gameColonLabel.center = CGPoint(x: self.view.frame.width*(1/2),
+                                        y: self.view.frame.height*0.5-gameColonLabel.bounds.height*0.5)
+        
+        gameSecLabel.center = CGPoint(x: self.view.frame.width*(2/3)+10,
+                                      y: self.view.frame.height*0.5-gameSecLabel.bounds.height*0.5)
+        
+        gameTimerControlBtn.center = CGPoint(x: self.view.frame.width*(1/3), y: self.view.frame.height*(4/7))
+        
+        gameResetBtn.center = CGPoint(x: self.view.frame.width*(2/3), y: self.view.frame.height*(4/7))
+        
+        let possessionLabelHight = self.view.frame.height*(4/7)
+        
+        possessionALabel.center = CGPoint(x: self.view.frame.width*(1/8),
+                                          y: possessionLabelHight)
+        
         possessionBLabel.center = CGPoint(x: self.view.frame.width*(7/8),
                                           y: possessionLabelHight)
-
-        possessionBLabel.alpha = 0.5
-        let tapPossessionB = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapPossessionB))
-        possessionBLabel.addGestureRecognizer(tapPossessionB)
         
-        setGameTimePicker()
+    }
+    
+    func setGameTimeLabelPosition_Landscape() {
+        gameMinLabel.center = CGPoint(x: self.view.frame.width*(3/8),
+                                      y: self.view.frame.height*(1/4))
+        
+        gameColonLabel.center = CGPoint(x: self.view.frame.width*(1/2),
+                                        y: self.view.frame.height*(1/4))
+        
+        gameSecLabel.center = CGPoint(x: self.view.frame.width*(5/8),
+                                      y: self.view.frame.height*(1/4))
+        
+        let gameTimeButtonY = self.view.frame.height*(7/16)
+        
+        gameTimerControlBtn.center = CGPoint(x: self.view.frame.width*(3/8), y: gameTimeButtonY)
+        
+        gameResetBtn.center = CGPoint(x: self.view.frame.width*(5/8), y: gameTimeButtonY)
+        
+        let possessionLabelY = self.view.frame.height*(1/4)
+        
+        possessionALabel.center = CGPoint(x: self.view.frame.width*(1/8),
+                                          y: possessionLabelY)
+        
+        possessionBLabel.center = CGPoint(x: self.view.frame.width*(7/8),
+                                          y: possessionLabelY)
+    }
+    
+    func initGameTimePicker() {
+        gameTimePicker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width*0.7, height: 100))
+        gameTimePicker.delegate = self
+        gameTimePicker.dataSource = self
+        
+        gameTimePicker.selectRow(10, inComponent: 0, animated: true)
+        gameTimePicker.selectRow(0, inComponent: 1, animated: true)
+        
+        gameTimePicker.setValue(UIColor.white, forKey: "textColor")
+        
+        gameTimePickerMinLabel.text = "min"
+        gameTimePickerMinLabel.textColor = .yellow
+        gameTimePickerMinLabel.sizeToFit()
+        
+        gameTimePicker.addSubview(gameTimePickerMinLabel)
+        
+        gameTimePickerSecLabel.text = "sec"
+        gameTimePickerSecLabel.textColor = .yellow
+        gameTimePickerSecLabel.sizeToFit()
+        
+        gameTimePicker.addSubview(gameTimePickerSecLabel)
+        
+        self.view.addSubview(gameTimePicker)
+    }
+    
+    func setGameTimePickerPosition_Portrait() {
+        
+        gameTimePicker.center = CGPoint(x: self.view.frame.width*(1/2),
+                                        y: self.view.frame.height*(1/2)-gameTimePicker.bounds.height*(1/2))
+        
+        gameTimePickerMinLabel.frame = CGRect(x: gameTimePicker.bounds.width*0.4 - gameTimePickerMinLabel.bounds.width/2,
+                                y: gameTimePicker.bounds.height/2 - (gameTimePickerMinLabel.bounds.height/2),
+                                width: gameTimePickerMinLabel.bounds.width,
+                                height: gameTimePickerMinLabel.bounds.height)
+        
+        gameTimePickerSecLabel.frame = CGRect(x: gameTimePicker.bounds.width*0.9 - gameTimePickerSecLabel.bounds.width/2,
+                                y: gameTimePicker.bounds.height/2 - (gameTimePickerSecLabel.bounds.height/2),
+                                width: gameTimePickerSecLabel.bounds.width,
+                                height: gameTimePickerSecLabel.bounds.height)
+        
+    }
+    
+    func setGameTimePickerPosition_Landscape() {
+        gameTimePicker.center = CGPoint(x: self.view.frame.width*(1/2),
+                                        y: self.view.frame.height*(1/4))
+        
+        gameTimePickerMinLabel.frame = CGRect(x: gameTimePicker.bounds.width*0.4 - gameTimePickerMinLabel.bounds.width/2,
+                                              y: gameTimePicker.bounds.height/2 - (gameTimePickerMinLabel.bounds.height/2),
+                                              width: gameTimePickerMinLabel.bounds.width,
+                                              height: gameTimePickerMinLabel.bounds.height)
+        
+        gameTimePickerSecLabel.frame = CGRect(x: gameTimePicker.bounds.width*0.9 - gameTimePickerSecLabel.bounds.width/2,
+                                              y: gameTimePicker.bounds.height/2 - (gameTimePickerSecLabel.bounds.height/2),
+                                              width: gameTimePickerSecLabel.bounds.width,
+                                              height: gameTimePickerSecLabel.bounds.height)
     }
     
     // ゲームタイムコントロールボタン押下
@@ -487,59 +625,28 @@ class MainViewController: UIViewController {
         gameSecLabel.text = String(format: "%02d", sec)
     }
     
-    func setGameTimePicker() {
-        gameTimePicker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width*0.7, height: 100))
-        gameTimePicker.delegate = self
-        gameTimePicker.dataSource = self
-        gameTimePicker.center = CGPoint(x: self.view.frame.width*(1/2),
-                                        y: self.view.frame.height*(1/2)-gameTimePicker.bounds.height*(1/2))
-        gameTimePicker.selectRow(10, inComponent: 0, animated: true)
-        gameTimePicker.selectRow(0, inComponent: 1, animated: true)
-        
-        gameTimePicker.setValue(UIColor.white, forKey: "textColor")
-        
-        let minLabel = UILabel()
-        minLabel.text = "min"
-        minLabel.textColor = .yellow
-        minLabel.sizeToFit()
-        
-        minLabel.frame = CGRect(x: gameTimePicker.bounds.width*0.4 - minLabel.bounds.width/2,
-                                y: gameTimePicker.bounds.height/2 - (minLabel.bounds.height/2),
-                                width: minLabel.bounds.width,
-                                height: minLabel.bounds.height)
-        gameTimePicker.addSubview(minLabel)
-        
-        let secLabel = UILabel()
-        secLabel.text = "sec"
-        secLabel.textColor = .yellow
-        secLabel.sizeToFit()
-        secLabel.frame = CGRect(x: gameTimePicker.bounds.width*0.9 - secLabel.bounds.width/2,
-                                y: gameTimePicker.bounds.height/2 - (secLabel.bounds.height/2),
-                                width: secLabel.bounds.width,
-                                height: secLabel.bounds.height)
-        gameTimePicker.addSubview(secLabel)
-        
-        self.view.addSubview(gameTimePicker)
-    }
-    
     func openGameTimeOverDialog() {
         let alert = UIAlertController(title: "Game Time Over", message: "", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: {
             (action:UIAlertAction!) -> Void in
             
+            self.gameTimer.invalidate()
+            self.gameSeconds = self.oldGameSeconds
+            self.showGameTime()
             self.gameTimerControlBtn.setTitle("Start", for: .normal)
-            self.gameSeconds = 600
             self.gameTimerStatus = .START
             self.gameTimerControlBtn.backgroundColor = self.limegreen
             self.gameResetBtn.isEnabled = false
             self.gameResetBtn.backgroundColor = UIColor.white
             self.toggleIsHiddenGameLabels()
-            self.setGameTimePicker()
+//            self.initGameTimePicker()
+//            self.setGameSeconds()
+            self.gameTimePicker.isHidden = !self.gameTimePicker.isHidden
+
         })
         
         alert.addAction(okAction)
-        
         alert.view.setNeedsLayout()
         
         self.present(alert, animated: true, completion: nil)
@@ -574,40 +681,61 @@ class MainViewController: UIViewController {
     }
     
     // MARK: - ショットクロック
-    func initShotClock() {
+    func initShotClockText() {
         shotClockLabel.text = String(shotSeconds)
         shotClockLabel.bounds = CGRect(x: 0, y: 0, width: 140, height: 90)
-        shotClockLabel.center = CGPoint(x: self.view.frame.width*(1/2), y: self.view.frame.height*(1/7))
         shotClockLabel.font = UIFont(name: "DigitalDismay", size: 100)
         shotClockLabel.textColor = UIColor.green
         shotClockLabel.isUserInteractionEnabled = true
         
-        let tapShotClock = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapShotClockLabel))
-        shotClockLabel.addGestureRecognizer(tapShotClock)
-        
         shotClockControlBtn.setTitle("Start", for: .normal)
-        shotClockControlBtn.center = CGPoint(x: self.view.frame.width*(1/3), y: self.view.frame.height*(2/7))
-        
         shotClockControlBtn.backgroundColor = limegreen
-        
-        shotClockResetBtn.center = CGPoint(x: self.view.frame.width*(2/3), y: self.view.frame.height*(2/7))
         shotClockResetBtn.isEnabled = false
         
-        let btnPosX = self.view.frame.width*(1/2) + 80
         sec24Btn.setTitle("24", for: .normal)
+        sec14Btn.setTitle("14", for: .normal)
+        sec120Btn.setTitle("120", for: .normal)
+    }
+    
+    func setShotClockPosition_Portrait() {
+        
+        shotClockLabel.center = CGPoint(x: self.view.frame.width*(1/2), y: self.view.frame.height*(1/7))
+        
+        shotClockControlBtn.center = CGPoint(x: self.view.frame.width*(1/3), y: self.view.frame.height*(2/7))
+    
+        shotClockResetBtn.center = CGPoint(x: self.view.frame.width*(2/3), y: self.view.frame.height*(2/7))
+        
+        
+        let btnPosX = self.view.frame.width*(1/2) + 80
+        
         sec24Btn.frame = CGRect(x: btnPosX,
                                 y: self.view.frame.height*(1/7) - sec24Btn.frame.height,
                                 width: 30, height: 30)
         
-        sec14Btn.setTitle("14", for: .normal)
         sec14Btn.frame = CGRect(x: btnPosX,
                                 y: self.view.frame.height*(1/7),
                                 width: 30, height: 30)
         
-        sec120Btn.setTitle("120", for: .normal)
         sec120Btn.frame = CGRect(x: btnPosX + 40,
                                 y: self.view.frame.height*(1/7) - sec120Btn.frame.height,
                                 width: 30, height: 30)
+    }
+    
+    func setShotClockPosition_Landscape() {
+        shotClockLabel.center = CGPoint(x: self.view.frame.width*(1/2), y: self.view.frame.height*(3/4))
+        
+        let shotClockButtonY = self.view.frame.height*(15/16)
+        
+        shotClockControlBtn.center = CGPoint(x: self.view.frame.width*(3/8), y: shotClockButtonY)
+        
+        shotClockResetBtn.center = CGPoint(x: self.view.frame.width*(5/8), y: shotClockButtonY)
+        
+        let secButtonBaseX = self.view.frame.width*(5/8)
+        
+        sec24Btn.center = CGPoint(x: secButtonBaseX+20, y: self.view.frame.height*(5/8)+20)
+        sec14Btn.center = CGPoint(x: secButtonBaseX+20, y: self.view.frame.height*(7/8)-20)
+        sec120Btn.center = CGPoint(x: secButtonBaseX+60, y: self.view.frame.height*(5/8)+20)
+        
     }
     
     @objc func tapShotClockLabel() {
