@@ -9,6 +9,12 @@
 import UIKit
 import RealmSwift
 
+let userdefaults = UserDefaults.standard
+let TEAM_A: String  = "team_a"
+let TEAM_B: String  = "team_b"
+let SCORE_A: String = "score_a"
+let SCORE_B: String = "score_b"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

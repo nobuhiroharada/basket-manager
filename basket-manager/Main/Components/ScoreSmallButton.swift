@@ -1,5 +1,5 @@
 //
-//  ControlButton.swift
+//  CustomButton.swift
 //  basket-manager
 //
 //  Created by Nobuhiro Harada on 2018/09/23.
@@ -8,12 +8,13 @@
 
 import UIKit
 
-class ControlButton: UIButton {
+class ScoreSmallButton: UIButton {
     
     override func awakeFromNib() {
         
-        titleLabel?.font = .systemFont(ofSize: 18)
-        bounds = CGRect(x: 0, y: 0, width: 80, height: 30)
-        tintColor = .limegreen
+        tintColor = .white
+        bounds = CGRect(x: 0, y: 0, width: 30, height: 30)
+
     }
+    
 }

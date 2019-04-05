@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		E518C003218D7958000A3A05 /* Digital Dismay.otf in Resources */ = {isa = PBXBuildFile; fileRef = E518C002218D7946000A3A05 /* Digital Dismay.otf */; };
+		E52D47CE2255FBCC007F201E /* ShotClockSmallButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52D47CD2255FBCC007F201E /* ShotClockSmallButton.swift */; };
+		E52D47D022569556007F201E /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52D47CF22569556007F201E /* UIColor+.swift */; };
+		E52D47D22256BD40007F201E /* AlertDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52D47D12256BD40007F201E /* AlertDialog.swift */; };
 		E57200362145B2ED00F84254 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57200352145B2ED00F84254 /* AppDelegate.swift */; };
 		E57200382145B2ED00F84254 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57200372145B2ED00F84254 /* MainViewController.swift */; };
 		E572003B2145B2ED00F84254 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E57200392145B2ED00F84254 /* Main.storyboard */; };
@@ -29,9 +32,9 @@
 		E57408F92167F04A00C32479 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57408F82167F04A00C32479 /* UITextField+.swift */; };
 		E57408FB2168A92100C32479 /* ScoreTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57408FA2168A92100C32479 /* ScoreTextField.swift */; };
 		E57408FD2168CA7D00C32479 /* GameDialogButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57408FC2168CA7D00C32479 /* GameDialogButton.swift */; };
-		E57409002168D57300C32479 /* PossesLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57408FF2168D57300C32479 /* PossesLabel.swift */; };
+		E57409002168D57300C32479 /* PossesImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57408FF2168D57300C32479 /* PossesImage.swift */; };
 		E57409052170522100C32479 /* GameTableReloadDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57409042170522100C32479 /* GameTableReloadDelegate.swift */; };
-		E5925FEF2156F78100DEE34F /* SmallButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5925FEE2156F78100DEE34F /* SmallButton.swift */; };
+		E5925FEF2156F78100DEE34F /* ScoreSmallButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5925FEE2156F78100DEE34F /* ScoreSmallButton.swift */; };
 		E5A4B0192155C2E40014BC65 /* buzzer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E5A4B0182155C2E40014BC65 /* buzzer.mp3 */; };
 		E5A4B01C2155C31F0014BC65 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5A4B01B2155C31F0014BC65 /* AVFoundation.framework */; };
 		E5C2BA38217985BC00FADC23 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C2BA36217985BB00FADC23 /* SWRevealViewController.m */; };
@@ -46,6 +49,9 @@
 		5659C378E0DBA134BAE181B0 /* Pods_basket_manager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_basket_manager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		94872447614C4EFB28152AB8 /* Pods-basket-manager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-basket-manager.debug.xcconfig"; path = "Pods/Target Support Files/Pods-basket-manager/Pods-basket-manager.debug.xcconfig"; sourceTree = "<group>"; };
 		E518C002218D7946000A3A05 /* Digital Dismay.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Digital Dismay.otf"; sourceTree = "<group>"; };
+		E52D47CD2255FBCC007F201E /* ShotClockSmallButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShotClockSmallButton.swift; sourceTree = "<group>"; };
+		E52D47CF22569556007F201E /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
+		E52D47D12256BD40007F201E /* AlertDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDialog.swift; sourceTree = "<group>"; };
 		E57200322145B2ED00F84254 /* basket-manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "basket-manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E57200352145B2ED00F84254 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E57200372145B2ED00F84254 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -69,9 +75,9 @@
 		E57408F82167F04A00C32479 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		E57408FA2168A92100C32479 /* ScoreTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreTextField.swift; sourceTree = "<group>"; };
 		E57408FC2168CA7D00C32479 /* GameDialogButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDialogButton.swift; sourceTree = "<group>"; };
-		E57408FF2168D57300C32479 /* PossesLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PossesLabel.swift; sourceTree = "<group>"; };
+		E57408FF2168D57300C32479 /* PossesImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PossesImage.swift; sourceTree = "<group>"; };
 		E57409042170522100C32479 /* GameTableReloadDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTableReloadDelegate.swift; sourceTree = "<group>"; };
-		E5925FEE2156F78100DEE34F /* SmallButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallButton.swift; sourceTree = "<group>"; };
+		E5925FEE2156F78100DEE34F /* ScoreSmallButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreSmallButton.swift; sourceTree = "<group>"; };
 		E5A4B0182155C2E40014BC65 /* buzzer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = buzzer.mp3; sourceTree = "<group>"; };
 		E5A4B01B2155C31F0014BC65 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		E5C2BA35217985BA00FADC23 /* basket-manager-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "basket-manager-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -168,6 +174,7 @@
 			children = (
 				E57408F321674F1B00C32479 /* DateFormatter+.swift */,
 				E57408F82167F04A00C32479 /* UITextField+.swift */,
+				E52D47CF22569556007F201E /* UIColor+.swift */,
 			);
 			name = Extension;
 			path = "New Group";
@@ -198,12 +205,14 @@
 		E5740903216B904D00C32479 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				E5925FEE2156F78100DEE34F /* SmallButton.swift */,
+				E5925FEE2156F78100DEE34F /* ScoreSmallButton.swift */,
+				E52D47CD2255FBCC007F201E /* ShotClockSmallButton.swift */,
 				E57408A421571AB800C32479 /* ResetButton.swift */,
 				E57408A6215773EA00C32479 /* ControlButton.swift */,
 				E57408E02160B7FA00C32479 /* ScoreLabel.swift */,
 				E57408E22160BA7B00C32479 /* TeamLabel.swift */,
-				E57408FF2168D57300C32479 /* PossesLabel.swift */,
+				E57408FF2168D57300C32479 /* PossesImage.swift */,
+				E52D47D12256BD40007F201E /* AlertDialog.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -363,7 +372,7 @@
 				E5C2BA38217985BC00FADC23 /* SWRevealViewController.m in Sources */,
 				E57408DF2160B48900C32479 /* GameResultDialogViewController.swift in Sources */,
 				E57408E82166942A00C32479 /* Game.swift in Sources */,
-				E57409002168D57300C32479 /* PossesLabel.swift in Sources */,
+				E57409002168D57300C32479 /* PossesImage.swift in Sources */,
 				E57408EC2166AAF000C32479 /* GameTableViewController.swift in Sources */,
 				E57408E32160BA7B00C32479 /* TeamLabel.swift in Sources */,
 				E57408F72167E85600C32479 /* TeamTextField.swift in Sources */,
@@ -371,14 +380,17 @@
 				E57200382145B2ED00F84254 /* MainViewController.swift in Sources */,
 				E57408FD2168CA7D00C32479 /* GameDialogButton.swift in Sources */,
 				E57408FB2168A92100C32479 /* ScoreTextField.swift in Sources */,
+				E52D47D22256BD40007F201E /* AlertDialog.swift in Sources */,
 				E57200362145B2ED00F84254 /* AppDelegate.swift in Sources */,
 				E57408E12160B7FA00C32479 /* ScoreLabel.swift in Sources */,
 				E57408F92167F04A00C32479 /* UITextField+.swift in Sources */,
 				E57408F12167158900C32479 /* GameTableCell.swift in Sources */,
 				E5C2BA44217A7D0300FADC23 /* SideMenuButton.swift in Sources */,
+				E52D47D022569556007F201E /* UIColor+.swift in Sources */,
 				E57409052170522100C32479 /* GameTableReloadDelegate.swift in Sources */,
+				E52D47CE2255FBCC007F201E /* ShotClockSmallButton.swift in Sources */,
 				E57408A7215773EA00C32479 /* ControlButton.swift in Sources */,
-				E5925FEF2156F78100DEE34F /* SmallButton.swift in Sources */,
+				E5925FEF2156F78100DEE34F /* ScoreSmallButton.swift in Sources */,
 				E57408A521571AB800C32479 /* ResetButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

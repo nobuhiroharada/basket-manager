@@ -14,23 +14,20 @@ class MainViewController: UIViewController {
     let BASE_COLOR: CGColor = UIColor.darkText.cgColor
     let BASE_DIGIT_RECT: CGRect = CGRect(x: 0, y: 0, width: 110, height: 90)
     
-    let limegreen: UIColor = UIColor(red: 173/255.0, green: 255/255.0, blue: 47/255.0, alpha: 1.0)
-    let gold: UIColor = UIColor(red: 255/255.0, green: 215/255.0, blue: 0/255.0, alpha: 1.0)
-    
     // MARK: - スコア変数
     // スコアA
     var scoreA: Int = 0
     @IBOutlet weak var teamALabel: TeamLabel!
     @IBOutlet weak var scoreALabel: ScoreLabel!
-    @IBOutlet weak var scoreAMinusBtn: SmallButton!
-    @IBOutlet weak var scoreAPlusBtn: SmallButton!
+    @IBOutlet weak var scoreAMinusBtn: ScoreSmallButton!
+    @IBOutlet weak var scoreAPlusBtn: ScoreSmallButton!
     
     // スコアB
     var scoreB: Int = 0
     @IBOutlet weak var teamBLabel: TeamLabel!
     @IBOutlet weak var scoreBLabel: ScoreLabel!
-    @IBOutlet weak var scoreBMinusBtn: SmallButton!
-    @IBOutlet weak var scoreBPlusBtn: SmallButton!
+    @IBOutlet weak var scoreBMinusBtn: ScoreSmallButton!
+    @IBOutlet weak var scoreBPlusBtn: ScoreSmallButton!
     
     // MARK: - ゲームタイマー変数
     var gameTimer: Timer!
@@ -53,8 +50,11 @@ class MainViewController: UIViewController {
     @IBOutlet weak var gameColonLabel: UILabel!
     @IBOutlet weak var gameTimerControlBtn: ControlButton!
     @IBOutlet weak var gameResetBtn: ResetButton!
-    @IBOutlet weak var possessionALabel: PossesLabel!
-    @IBOutlet weak var possessionBLabel: PossesLabel!
+
+    @IBOutlet weak var possessionAImage: PossesImage!
+    
+    @IBOutlet weak var possessionBImage: PossesImage!
+    var isPossessionA = true
     
     // MARK: -  ショットクロック変数
     var shotClockTimer: Timer!
@@ -69,15 +69,8 @@ class MainViewController: UIViewController {
     @IBOutlet weak var shotClockLabel: UILabel!
     @IBOutlet weak var shotClockControlBtn: ControlButton!
     @IBOutlet weak var shotClockResetBtn: ResetButton!
-    @IBOutlet weak var sec24Btn: SmallButton!
-    @IBOutlet weak var sec14Btn: SmallButton!
-    @IBOutlet weak var sec120Btn: SmallButton!
-    
-    let userdefaults = UserDefaults.standard
-    let TEAM_A: String  = "team_a"
-    let TEAM_B: String  = "team_b"
-    let SCORE_A: String = "score_a"
-    let SCORE_B: String = "score_b"
+    @IBOutlet weak var sec24Btn: ShotClockSmallButton!
+    @IBOutlet weak var sec14Btn: ShotClockSmallButton!
     
     override var prefersStatusBarHidden: Bool {
         return false
@@ -146,10 +139,10 @@ class MainViewController: UIViewController {
         shotClockLabel.addGestureRecognizer(tapShotClock)
         
         let tapPossessionA = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapPossessionA))
-        possessionALabel.addGestureRecognizer(tapPossessionA)
+        possessionAImage.addGestureRecognizer(tapPossessionA)
         
         let tapPossessionB = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tapPossessionB))
-        possessionBLabel.addGestureRecognizer(tapPossessionB)
+        possessionBImage.addGestureRecognizer(tapPossessionB)
     }
     
     func setViews_Portrait() {
@@ -171,10 +164,12 @@ class MainViewController: UIViewController {
     func initScoreViewText() {
         teamALabel.text = "HOME"
         teamBLabel.text = "GUEST"
-        scoreAMinusBtn.setTitle("-", for: .normal)
-        scoreAPlusBtn.setTitle("+", for: .normal)
-        scoreBMinusBtn.setTitle("-", for: .normal)
-        scoreBPlusBtn.setTitle("+", for: .normal)
+        let upButtonImage = UIImage(named:"up-button")!
+        let downButtonImage = UIImage(named:"down-button")!
+        scoreAMinusBtn.setImage(downButtonImage, for: .normal)
+        scoreAPlusBtn.setImage(upButtonImage, for: .normal)
+        scoreBMinusBtn.setImage(downButtonImage, for: .normal)
+        scoreBPlusBtn.setImage(upButtonImage, for: .normal)
     }
     
     func setScoreViewPosition_Portrait() {
@@ -268,12 +263,14 @@ class MainViewController: UIViewController {
         }
     }
     
+    // チームA名前編集ダイアログ表示
     @objc func tapTeamALabel(_ sender: UITapGestureRecognizer) {
-        openTeamNameAEditDialog()
+        AlertDialog.showTeamNameEdit(title: "Edit HOME Name", team: TEAM_A, teamLabel: teamALabel, viewController: self)
     }
     
+    // チームB名前編集ダイアログ表示
     @objc func tapTeamBLabel(_ sender: UITapGestureRecognizer) {
-        openTeamNameBEditDialog()
+        AlertDialog.showTeamNameEdit(title: "Edit GUEST Name", team: TEAM_B, teamLabel: teamBLabel, viewController: self)
     }
     
     @objc func tapScoreALabel(_ sender: UITapGestureRecognizer) {
@@ -284,68 +281,11 @@ class MainViewController: UIViewController {
         openScoreBEditDialog()
     }
     
-    // チームA名前編集ダイアログ表示
-    func openTeamNameAEditDialog() {
-        let alert = UIAlertController(title: "Edit HOME Name", message: "", preferredStyle: .alert)
-        
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: {
-            (action:UIAlertAction!) -> Void in
-            
-            if let textFields = alert.textFields {
-                
-                for textField in textFields {
-                    self.teamALabel.text = textField.text
-                    self.userdefaults.set(textField.text, forKey: self.TEAM_A)
-                }
-            }
-        })
-        alert.addAction(okAction)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        alert.addAction(cancelAction)
-        
-        alert.addTextField(configurationHandler: {(textField: UITextField!) -> Void in
-            textField.placeholder = "HOME"
-            textField.text = self.teamALabel.text
-        })
-        
-        alert.view.setNeedsLayout()
-        
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    // チームB名前編集ダイアログ表示
-    func openTeamNameBEditDialog() {
-        let alert = UIAlertController(title: "Edit GUEST Name", message: "", preferredStyle: .alert)
-        
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: {
-            (action:UIAlertAction!) -> Void in
-            
-            if let textFields = alert.textFields {
-                
-                for textField in textFields {
-                    self.teamBLabel.text = textField.text
-                    self.userdefaults.set(textField.text, forKey: self.TEAM_B)
-                }
-            }
-        })
-        alert.addAction(okAction)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        alert.addAction(cancelAction)
-        
-        alert.addTextField(configurationHandler: {(textField: UITextField!) -> Void in
-            textField.placeholder = "GUEST"
-            textField.text = self.teamBLabel.text
-        })
-        
-        alert.view.setNeedsLayout()
-        
-        self.present(alert, animated: true, completion: nil)
-    }
-    
     // スコアAダイアログ表示
     func openScoreAEditDialog() {
+        // TODO: AlertDialog共通化(Int型のscoreが共通化先で再代入できない)
+//        AlertDialog.showScoreEdit(title: "Edit HOME Score", team: TEAM_A, scoreLabel: scoreALabel, &scoreA: Int,  viewController: self)
+        
         let alert = UIAlertController(title: "Edit HOME Score", message: "", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: {
@@ -356,7 +296,7 @@ class MainViewController: UIViewController {
                 for textField in textFields {
                     self.scoreALabel.text = textField.text
                     self.scoreA = Int(textField.text!)!
-                    self.userdefaults.set(Int(textField.text ?? "0"), forKey: self.SCORE_A)
+                    userdefaults.set(Int(textField.text ?? "0"), forKey: SCORE_A)
                 }
             }
         })
@@ -388,7 +328,7 @@ class MainViewController: UIViewController {
                 for textField in textFields {
                     self.scoreBLabel.text = textField.text
                     self.scoreB = Int(textField.text!)!
-                    self.userdefaults.set(Int(textField.text ?? "0"), forKey: self.SCORE_B)
+                    userdefaults.set(Int(textField.text ?? "0"), forKey: SCORE_B)
                 }
             }
         })
@@ -433,18 +373,12 @@ class MainViewController: UIViewController {
         toggleIsHiddenGameLabels()
         
         gameTimerControlBtn.setTitle("Start", for: .normal)
-        gameTimerControlBtn.backgroundColor = limegreen
+        gameTimerControlBtn.tintColor = .limegreen
         
         gameResetBtn.isEnabled = false
         
         gameSeconds = Int(gameMinLabel.text!)!*60
         gameSeconds += Int(gameSecLabel.text!)!
-        
-        possessionALabel.text = "◀"
-        possessionALabel.alpha = 1
-        
-        possessionBLabel.text = "▶"
-        possessionBLabel.alpha = 0.5
         
     }
     func setGameTimeLabelPosition_Portrait() {
@@ -466,10 +400,10 @@ class MainViewController: UIViewController {
         
         let possessionLabelHight = self.view.frame.height*(4/7)
         
-        possessionALabel.center = CGPoint(x: self.view.frame.width*(1/8),
+        possessionAImage.center = CGPoint(x: self.view.frame.width*(1/8),
                                           y: possessionLabelHight)
         
-        possessionBLabel.center = CGPoint(x: self.view.frame.width*(7/8),
+        possessionBImage.center = CGPoint(x: self.view.frame.width*(7/8),
                                           y: possessionLabelHight)
         
     }
@@ -492,10 +426,10 @@ class MainViewController: UIViewController {
         
         let possessionLabelY = self.view.frame.height*(1/4)
         
-        possessionALabel.center = CGPoint(x: self.view.frame.width*(1/8),
+        possessionAImage.center = CGPoint(x: self.view.frame.width*(1/8),
                                           y: possessionLabelY)
         
-        possessionBLabel.center = CGPoint(x: self.view.frame.width*(7/8),
+        possessionBImage.center = CGPoint(x: self.view.frame.width*(7/8),
                                           y: possessionLabelY)
     }
     
@@ -566,20 +500,19 @@ class MainViewController: UIViewController {
                 gameTimerStatus = .STOP
                 toggleIsHiddenGameLabels()
                 gameTimePicker.isHidden = !gameTimePicker.isHidden
-                gameTimerControlBtn.backgroundColor = gold
+                gameTimerControlBtn.tintColor = .gold
                 gameResetBtn.isEnabled = true
-                gameResetBtn.backgroundColor = UIColor.groupTableViewBackground
             
             case .STOP:
                 gameTimer.invalidate()
                 gameTimerControlBtn.setTitle("Resume", for: .normal)
-                gameTimerControlBtn.backgroundColor = limegreen
+                gameTimerControlBtn.tintColor = .limegreen
                 gameTimerStatus = .RESUME
             
             case .RESUME:
                 runGameTimer()
                 gameTimerControlBtn.setTitle("Stop", for: .normal)
-                gameTimerControlBtn.backgroundColor = gold
+                gameTimerControlBtn.tintColor = .gold
                 gameTimerStatus = .STOP
         }
     }
@@ -593,9 +526,8 @@ class MainViewController: UIViewController {
         gameTimerStatus = .START
         toggleIsHiddenGameLabels()
         gameTimePicker.isHidden = !gameTimePicker.isHidden
-        gameTimerControlBtn.backgroundColor = limegreen
+        gameTimerControlBtn.tintColor = .limegreen
         gameResetBtn.isEnabled = false
-        gameResetBtn.backgroundColor = UIColor.white
     }
     
     func runGameTimer(){
@@ -626,30 +558,18 @@ class MainViewController: UIViewController {
     }
     
     func openGameTimeOverDialog() {
-        let alert = UIAlertController(title: "Game Time Over", message: "", preferredStyle: .alert)
-        
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: {
-            (action:UIAlertAction!) -> Void in
-            
+        AlertDialog.showTimeover(title: "Game Time Over", viewController: self) {
             self.gameTimer.invalidate()
             self.gameSeconds = self.oldGameSeconds
             self.showGameTime()
             self.gameTimerControlBtn.setTitle("Start", for: .normal)
             self.gameTimerStatus = .START
-            self.gameTimerControlBtn.backgroundColor = self.limegreen
+            self.gameTimerControlBtn.tintColor = .limegreen
             self.gameResetBtn.isEnabled = false
-            self.gameResetBtn.backgroundColor = UIColor.white
             self.toggleIsHiddenGameLabels()
-//            self.initGameTimePicker()
-//            self.setGameSeconds()
             self.gameTimePicker.isHidden = !self.gameTimePicker.isHidden
-
-        })
+        }
         
-        alert.addAction(okAction)
-        alert.view.setNeedsLayout()
-        
-        self.present(alert, animated: true, completion: nil)
     }
     
     func toggleIsHiddenGameLabels() {
@@ -660,24 +580,24 @@ class MainViewController: UIViewController {
     
     @objc func tapPossessionA(_ sender: UITapGestureRecognizer) {
 
-        if possessionALabel.alpha == 0.5 {
-            possessionALabel.alpha = 1
-            possessionBLabel.alpha = 0.5
-        } else {
-            possessionALabel.alpha = 0.5
-            possessionBLabel.alpha = 1
-        }
+        togglePossession()
+        
     }
     
     @objc func tapPossessionB(_ sender: UITapGestureRecognizer) {
-        
-        if possessionBLabel.alpha == 0.5 {
-            possessionALabel.alpha = 0.5
-            possessionBLabel.alpha = 1
+        togglePossession()
+    }
+    
+    func togglePossession() {
+        if isPossessionA {
+            possessionAImage.image = UIImage(named: "posses-a-inactive")
+            possessionBImage.image = UIImage(named: "posses-b-active")
         } else {
-            possessionALabel.alpha = 1
-            possessionBLabel.alpha = 0.5
+            possessionAImage.image = UIImage(named: "posses-a-active")
+            possessionBImage.image = UIImage(named: "posses-b-inactive")
         }
+        
+        isPossessionA = !isPossessionA
     }
     
     // MARK: - ショットクロック
@@ -689,12 +609,10 @@ class MainViewController: UIViewController {
         shotClockLabel.isUserInteractionEnabled = true
         
         shotClockControlBtn.setTitle("Start", for: .normal)
-        shotClockControlBtn.backgroundColor = limegreen
         shotClockResetBtn.isEnabled = false
         
         sec24Btn.setTitle("24", for: .normal)
         sec14Btn.setTitle("14", for: .normal)
-        sec120Btn.setTitle("120", for: .normal)
     }
     
     func setShotClockPosition_Portrait() {
@@ -715,10 +633,6 @@ class MainViewController: UIViewController {
         sec14Btn.frame = CGRect(x: btnPosX,
                                 y: self.view.frame.height*(1/7),
                                 width: 30, height: 30)
-        
-        sec120Btn.frame = CGRect(x: btnPosX + 40,
-                                y: self.view.frame.height*(1/7) - sec120Btn.frame.height,
-                                width: 30, height: 30)
     }
     
     func setShotClockPosition_Landscape() {
@@ -734,7 +648,6 @@ class MainViewController: UIViewController {
         
         sec24Btn.center = CGPoint(x: secButtonBaseX+20, y: self.view.frame.height*(5/8)+20)
         sec14Btn.center = CGPoint(x: secButtonBaseX+20, y: self.view.frame.height*(7/8)-20)
-        sec120Btn.center = CGPoint(x: secButtonBaseX+60, y: self.view.frame.height*(5/8)+20)
         
     }
     
@@ -780,20 +693,19 @@ class MainViewController: UIViewController {
             runShotClockTimer()
             shotClockControlBtn.setTitle("Stop", for: .normal)
             shotClockStatus = .STOP
-            shotClockControlBtn.backgroundColor = gold
+            shotClockControlBtn.tintColor = .gold
             shotClockResetBtn.isEnabled = true
-            shotClockResetBtn.backgroundColor = UIColor.groupTableViewBackground
         
         case .STOP:
             shotClockTimer.invalidate()
             shotClockControlBtn.setTitle("Resume", for: .normal)
-            shotClockControlBtn.backgroundColor = limegreen
+            shotClockControlBtn.tintColor = .limegreen
             shotClockStatus = .RESUME
         
         case .RESUME:
             runShotClockTimer()
             shotClockControlBtn.setTitle("Stop", for: .normal)
-            shotClockControlBtn.backgroundColor = gold
+            shotClockControlBtn.tintColor = .gold
             shotClockStatus = .STOP
         }
     }
@@ -832,9 +744,8 @@ class MainViewController: UIViewController {
             shotClockLabel.text = String(shotSeconds)
             shotClockControlBtn.setTitle("Start", for: .normal)
             shotClockStatus = .START
-            shotClockControlBtn.backgroundColor = limegreen
+            shotClockControlBtn.tintColor = .limegreen
             shotClockResetBtn.isEnabled = false
-            shotClockResetBtn.backgroundColor = UIColor.white
         }
     }
     
@@ -850,32 +761,15 @@ class MainViewController: UIViewController {
         shotClockLabel.text = "14"
     }
     
-    @IBAction func tapSec120(_ sender: SmallButton) {
-        shotSeconds = 120
-        shotClockLabel.text = "120"
-    }
-    
     func openShotClockTimeOverDialog() {
-        
-        let alert = UIAlertController(title: "Time Over", message: "", preferredStyle: .alert)
-        
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: {
-            (action:UIAlertAction!) -> Void in
-            
+        AlertDialog.showTimeover(title: "Shot Clock Over", viewController: self) {
             self.shotClockControlBtn.setTitle("Start", for: .normal)
             self.shotSeconds = 24
             self.shotClockLabel.text = String(self.shotSeconds)
             self.shotClockStatus = .START
-            self.shotClockControlBtn.backgroundColor = self.limegreen
+            self.shotClockControlBtn.tintColor = .limegreen
             self.shotClockResetBtn.isEnabled = false
-            self.shotClockResetBtn.backgroundColor = UIColor.white
-        })
-        
-        alert.addAction(okAction)
-        
-        alert.view.setNeedsLayout()
-        
-        self.present(alert, animated: true, completion: nil)
+        }
     }
     
 }

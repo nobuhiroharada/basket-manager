@@ -12,10 +12,8 @@ class ResetButton: UIButton {
     
     override func awakeFromNib() {
         setTitle("Reset", for: .normal)
-        titleLabel?.font = .boldSystemFont(ofSize: 15)
-        tintColor = .darkText
-        backgroundColor = .white
-        bounds = CGRect(x: 0, y: 0, width: 70, height: 30)
-        layer.cornerRadius = 15
+        titleLabel?.font = .systemFont(ofSize: 18)
+        tintColor = .white
+        bounds = CGRect(x: 0, y: 0, width: 80, height: 30)
     }
 }

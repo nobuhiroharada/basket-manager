@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -25,7 +25,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J6T-Df-Ybo" customClass="SmallButton" customModule="basket_manager" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J6T-Df-Ybo" customClass="ScoreSmallButton" customModule="basket_manager" customModuleProvider="target">
                                 <rect key="frame" x="29" y="579" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
@@ -33,7 +33,7 @@
                                     <action selector="tapScoreAMinusBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8TH-IA-OCU"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yyh-G3-V1f" customClass="SmallButton" customModule="basket_manager" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yyh-G3-V1f" customClass="ScoreSmallButton" customModule="basket_manager" customModuleProvider="target">
                                 <rect key="frame" x="112" y="579" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
@@ -41,7 +41,7 @@
                                     <action selector="tapScoreAPlusBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Bi8-pQ-CQy"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yQr-Dz-rTi" customClass="SmallButton" customModule="basket_manager" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yQr-Dz-rTi" customClass="ScoreSmallButton" customModule="basket_manager" customModuleProvider="target">
                                 <rect key="frame" x="244" y="579" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
@@ -49,7 +49,7 @@
                                     <action selector="tapScoreBMinusBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="k2T-gl-Kq3"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pGR-FK-bT9" customClass="SmallButton" customModule="basket_manager" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pGR-FK-bT9" customClass="ScoreSmallButton" customModule="basket_manager" customModuleProvider="target">
                                 <rect key="frame" x="313" y="579" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
@@ -117,7 +117,7 @@
                                     <action selector="tapShotClockResetBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JHN-fH-LdC"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TGv-Y0-hJ2" customClass="SmallButton" customModule="basket_manager" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TGv-Y0-hJ2" customClass="ShotClockSmallButton" customModule="basket_manager" customModuleProvider="target">
                                 <rect key="frame" x="238" y="82" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -147,29 +147,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ZQ-uv-H1q" customClass="PossesLabel" customModule="basket_manager" customModuleProvider="target">
-                                <rect key="frame" x="16" y="380" width="42" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="COb-Rl-AFR" customClass="PossesLabel" customModule="basket_manager" customModuleProvider="target">
-                                <rect key="frame" x="317" y="384" width="42" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TQr-jT-rWG" customClass="SmallButton" customModule="basket_manager" customModuleProvider="target">
-                                <rect key="frame" x="292" y="82" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="tapSec120:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bN7-vJ-x5A"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DbP-DS-4av" customClass="SmallButton" customModule="basket_manager" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DbP-DS-4av" customClass="ShotClockSmallButton" customModule="basket_manager" customModuleProvider="target">
                                 <rect key="frame" x="240" y="120" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
@@ -177,6 +155,14 @@
                                     <action selector="tapSec14Btn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="D3X-au-vRR"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="posses-a-active" translatesAutoresizingMaskIntoConstraints="NO" id="yHt-gM-vKi" customClass="PossesImage" customModule="basket_manager" customModuleProvider="target">
+                                <rect key="frame" x="1" y="358" width="74" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="posses-b-inactive" translatesAutoresizingMaskIntoConstraints="NO" id="Du9-fo-5te" customClass="PossesImage" customModule="basket_manager" customModuleProvider="target">
+                                <rect key="frame" x="303" y="358" width="74" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -188,15 +174,14 @@
                         <outlet property="gameResetBtn" destination="K6i-2z-ekP" id="hdc-k1-GEd"/>
                         <outlet property="gameSecLabel" destination="xnk-P4-cLo" id="zHq-Sc-oDk"/>
                         <outlet property="gameTimerControlBtn" destination="NRW-aL-Wud" id="ioQ-wz-KlI"/>
-                        <outlet property="possessionALabel" destination="5ZQ-uv-H1q" id="3Cq-xx-u6n"/>
-                        <outlet property="possessionBLabel" destination="COb-Rl-AFR" id="FNp-4u-4dR"/>
+                        <outlet property="possessionAImage" destination="yHt-gM-vKi" id="4Gs-eV-9ER"/>
+                        <outlet property="possessionBImage" destination="Du9-fo-5te" id="uhH-1p-anI"/>
                         <outlet property="scoreALabel" destination="XZi-pT-oiE" id="oLV-5u-qww"/>
                         <outlet property="scoreAMinusBtn" destination="J6T-Df-Ybo" id="TBK-Bc-khB"/>
                         <outlet property="scoreAPlusBtn" destination="Yyh-G3-V1f" id="B5P-Zr-0Vp"/>
                         <outlet property="scoreBLabel" destination="ar6-JI-Fnh" id="EsO-5M-TJT"/>
                         <outlet property="scoreBMinusBtn" destination="yQr-Dz-rTi" id="oPC-oO-RKs"/>
                         <outlet property="scoreBPlusBtn" destination="pGR-FK-bT9" id="ppH-uT-xcI"/>
-                        <outlet property="sec120Btn" destination="TQr-jT-rWG" id="eYP-IG-gG9"/>
                         <outlet property="sec14Btn" destination="DbP-DS-4av" id="zcG-2E-Ff3"/>
                         <outlet property="sec24Btn" destination="TGv-Y0-hJ2" id="Fu8-Hj-BQW"/>
                         <outlet property="shotClockControlBtn" destination="a8E-c7-Q4Y" id="Gkg-oD-Roz"/>
@@ -211,4 +196,8 @@
             <point key="canvasLocation" x="572" y="-43.628185907046479"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="posses-a-active" width="50" height="50"/>
+        <image name="posses-b-inactive" width="50" height="50"/>
+    </resources>
 </document>
