@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RealmSwift
 
 let userdefaults = UserDefaults.standard
 let TEAM_A: String  = "team_a"
@@ -19,12 +18,15 @@ let SCORE_B: String = "score_b"
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    private(set) lazy var viewController = MainViewController()
 
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
 //        print(Realm.Configuration.defaultConfiguration.fileURL)
-        UINavigationBar.appearance().barStyle = .default
+//        UINavigationBar.appearance().barStyle = .default
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = viewController
+        window?.makeKeyAndVisible()
         return true
     }
 
