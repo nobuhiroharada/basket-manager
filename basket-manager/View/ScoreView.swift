@@ -27,35 +27,27 @@ class ScoreView: UIView {
     override init(frame: CGRect) {
         teamLabelA = TeamLabel()
         teamLabelA.text = "HOME"
-//        teamLabelA.backgroundColor = .blue
         
         teamLabelB = TeamLabel()
         teamLabelB.text = "GUEST"
-//        teamLabelB.backgroundColor = .blue
         
         scoreLabelA = ScoreLabel()
         scoreLabelB = ScoreLabel()
-//        scoreLabelA.backgroundColor = .white
-//        scoreLabelB.backgroundColor = .white
         
         let upButtonImage = UIImage(named:"up-button")!
         let downButtonImage = UIImage(named:"down-button")!
         
         scoreMinusButtonA = ScoreSmallButton()
         scoreMinusButtonA.setImage(downButtonImage, for: .normal)
-//        scoreMinusButtonA.backgroundColor = .blue
         
         scorePlusButtonA = ScoreSmallButton()
         scorePlusButtonA.setImage(upButtonImage, for: .normal)
-//        scorePlusButtonA.backgroundColor = .blue
         
         scoreMinusButtonB = ScoreSmallButton()
         scoreMinusButtonB.setImage(downButtonImage, for: .normal)
-//        scoreMinusButtonB.backgroundColor = .blue
         
         scorePlusButtonB = ScoreSmallButton()
         scorePlusButtonB.setImage(upButtonImage, for: .normal)
-//        scorePlusButtonB.backgroundColor = .blue
         
         super.init(frame: frame)
         

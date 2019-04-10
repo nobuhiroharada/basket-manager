@@ -11,14 +11,9 @@ import AVFoundation
 
 class MainViewController: UIViewController {
     
-    let BASE_COLOR: CGColor = UIColor.darkText.cgColor
-    let BASE_DIGIT_RECT: CGRect = CGRect(x: 0, y: 0, width: 110, height: 90)
-    
-    var shotClockView: ShotClockView!
-    var gameTimeView: GameTimeView!
-    var scoreView: ScoreView!
-    
-    
+    var shotClockView: ShotClockView = ShotClockView()
+    var gameTimeView: GameTimeView = GameTimeView()
+    var scoreView: ScoreView = ScoreView()
     
     // MARK: - ゲームタイムピッカー変数
     var gameTimeMinArray: [String] = []
@@ -35,14 +30,8 @@ class MainViewController: UIViewController {
         return .lightContent
     }
     
-    // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        shotClockView = ShotClockView()
-        gameTimeView = GameTimeView()
-        scoreView = ScoreView()
-        
         
         scoreView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         gameTimeView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -63,7 +52,7 @@ class MainViewController: UIViewController {
         for i in 0..<60 { //秒設定(ゲームタイムピッカー用)
             gameTimeSecArray.append(String(format: "%02d", i))
         }
-
+        
         gameTimePicker.delegate = self
         gameTimePicker.dataSource = self
         
@@ -71,6 +60,9 @@ class MainViewController: UIViewController {
         registerGesturerecognizer()
 
         initGameTimePicker()
+        
+        // 部品の範囲(テスト用)
+//        checkViewArea()
 //
 //        userdefaults.set(teamLabelA.text, forKey: TEAM_A)
 //        userdefaults.set(teamLabelB.text, forKey: TEAM_B)
@@ -107,11 +99,10 @@ class MainViewController: UIViewController {
             
         case .landscapeLeft, .landscapeRight:
             
-            let shotClockViewLandscapeW: CGFloat = 240.0
-            shotClockView.frame = CGRect(x: frame.width*(1/2)-120, y: frame.height*(1/2), width: shotClockViewLandscapeW, height: frame.height*(1/2))
+            let shotClockViewLandscapeW: CGFloat = frame.width*(1/2)
+            shotClockView.frame = CGRect(x: frame.width*(1/4), y: frame.height*(1/2), width: shotClockViewLandscapeW, height: frame.height*(1/2))
 
             self.view.bringSubviewToFront(shotClockView)
-            
             
             gameTimeView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height*(1/2))
             
@@ -126,7 +117,6 @@ class MainViewController: UIViewController {
             scoreView.frame = CGRect(x: 0, y: frame.height*(2/3), width: frame.width, height: frame.height*(1/3))
         }
     }
-    
     
     func addButtonAction() {
         scoreView.scoreMinusButtonA.addTarget(self, action: #selector(MainViewController.scoreMinusButtonA_touched), for: .touchUpInside)
@@ -172,6 +162,36 @@ class MainViewController: UIViewController {
         
         let tapPossessionB = UITapGestureRecognizer(target: self, action: #selector(MainViewController.possessionB_tapped))
         gameTimeView.possessionImageB.addGestureRecognizer(tapPossessionB)
+        
+        let tapFoulCountA1 = UITapGestureRecognizer(target: self, action: #selector(MainViewController.foulCountA1_tapped))
+        gameTimeView.foulCountImageA1.addGestureRecognizer(tapFoulCountA1)
+        
+        let tapFoulCountA2 = UITapGestureRecognizer(target: self, action: #selector(MainViewController.foulCountA2_tapped))
+        gameTimeView.foulCountImageA2.addGestureRecognizer(tapFoulCountA2)
+        
+        let tapFoulCountA3 = UITapGestureRecognizer(target: self, action: #selector(MainViewController.foulCountA3_tapped))
+        gameTimeView.foulCountImageA3.addGestureRecognizer(tapFoulCountA3)
+        
+        let tapFoulCountA4 = UITapGestureRecognizer(target: self, action: #selector(MainViewController.foulCountA4_tapped))
+        gameTimeView.foulCountImageA4.addGestureRecognizer(tapFoulCountA4)
+        
+        let tapFoulCountA5 = UITapGestureRecognizer(target: self, action: #selector(MainViewController.foulCountA5_tapped))
+        gameTimeView.foulCountImageA5.addGestureRecognizer(tapFoulCountA5)
+        
+        let tapFoulCountB1 = UITapGestureRecognizer(target: self, action: #selector(MainViewController.foulCountB1_tapped))
+        gameTimeView.foulCountImageB1.addGestureRecognizer(tapFoulCountB1)
+        
+        let tapFoulCountB2 = UITapGestureRecognizer(target: self, action: #selector(MainViewController.foulCountB2_tapped))
+        gameTimeView.foulCountImageB2.addGestureRecognizer(tapFoulCountB2)
+        
+        let tapFoulCountB3 = UITapGestureRecognizer(target: self, action: #selector(MainViewController.foulCountB3_tapped))
+        gameTimeView.foulCountImageB3.addGestureRecognizer(tapFoulCountB3)
+        
+        let tapFoulCountB4 = UITapGestureRecognizer(target: self, action: #selector(MainViewController.foulCountB4_tapped))
+        gameTimeView.foulCountImageB4.addGestureRecognizer(tapFoulCountB4)
+        
+        let tapFoulCountB5 = UITapGestureRecognizer(target: self, action: #selector(MainViewController.foulCountB5_tapped))
+        gameTimeView.foulCountImageB5.addGestureRecognizer(tapFoulCountB5)
     }
     
     func setViews_portrait() {
@@ -193,7 +213,7 @@ class MainViewController: UIViewController {
         
     }
     
-    
+    // MARK: - ScoreView
     @objc func scoreMinusButtonA_touched(_ sender: UIButton) {
         if scoreView.scoreA > 0 {
             scoreView.scoreA -= 1
@@ -226,12 +246,10 @@ class MainViewController: UIViewController {
         }
     }
     
-    // チームA名前編集ダイアログ表示
     @objc func teamLabelA_tapped(_ sender: UITapGestureRecognizer) {
         AlertDialog.showTeamNameEdit(title: "Edit HOME Name", team: TEAM_A, teamLabel: scoreView.teamLabelA, viewController: self)
     }
     
-    // チームB名前編集ダイアログ表示
     @objc func teamLabelB_tapped(_ sender: UITapGestureRecognizer) {
         AlertDialog.showTeamNameEdit(title: "Edit GUEST Name", team: TEAM_B, teamLabel: scoreView.teamLabelB, viewController: self)
     }
@@ -244,12 +262,19 @@ class MainViewController: UIViewController {
         AlertDialog.showScoreEdit(title: "Edit GUEST Score", team: TEAM_B, scoreView: scoreView, viewController: self)
     }
     
+    // MARK: - GameTimePicker
     func initGameTimePicker() {
-        gameTimePicker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width*0.6, height: 100))
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            gameTimePicker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width*0.6, height: 100))
+        case .pad:
+            gameTimePicker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width*0.6, height: 200))
+        default:
+            gameTimePicker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width*0.6, height: 100))
+        }
+        
         gameTimePicker.delegate = self
         gameTimePicker.dataSource = self
-        
-//        gameTimePicker.backgroundColor = .blue
         
         gameTimePicker.selectRow(10, inComponent: 0, animated: true)
         gameTimePicker.selectRow(0, inComponent: 1, animated: true)
@@ -274,7 +299,7 @@ class MainViewController: UIViewController {
     func setGameTimePickerPosition_Portrait() {
         
         gameTimePicker.center = CGPoint(x: self.view.frame.width*(1/2),
-                                        y: self.view.frame.height*(1/2))
+                                        y: self.view.frame.height*(5/12))
         
         gameTimePickerMinLabel.frame = CGRect(x: gameTimePicker.bounds.width*0.4 - gameTimePickerMinLabel.bounds.width/2,
                                 y: gameTimePicker.bounds.height/2 - (gameTimePickerMinLabel.bounds.height/2),
@@ -303,6 +328,7 @@ class MainViewController: UIViewController {
                                               height: gameTimePickerSecLabel.bounds.height)
     }
     
+    // MARK: - GameTimeView
     // ゲームタイムコントロールボタン押下
     @objc func gameControlButton_tapped(_ sender: UIButton) {
 
@@ -336,7 +362,8 @@ class MainViewController: UIViewController {
         gameTimeView.gameSeconds = gameTimeView.oldGameSeconds
         self.showGameTime()
         gameTimeView.gameControlButton.setTitle("Start", for: .normal)
-        gameTimeView.gameResetButton.setTitleColor(.limegreen, for: .normal)
+        gameTimeView.gameControlButton.setTitleColor(.limegreen, for: .normal)
+        gameTimeView.gameResetButton.setTitleColor(.white, for: .normal)
         gameTimeView.gameTimerStatus = .START
         gameTimeView.toggleGameLabels()
         self.gameTimePicker.isHidden = !self.gameTimePicker.isHidden
@@ -386,25 +413,54 @@ class MainViewController: UIViewController {
     }
     
     @objc func possessionA_tapped(_ sender: UITapGestureRecognizer) {
-        togglePossession()
+        gameTimeView.togglePossession()
     }
     
     @objc func possessionB_tapped(_ sender: UITapGestureRecognizer) {
-        togglePossession()
+        gameTimeView.togglePossession()
     }
     
-    func togglePossession() {
-        if gameTimeView.isPossessionA {
-            gameTimeView.possessionImageA.image = UIImage(named: "posses-a-inactive")
-            gameTimeView.possessionImageB.image = UIImage(named: "posses-b-active")
-        } else {
-            gameTimeView.possessionImageA.image = UIImage(named: "posses-a-active")
-            gameTimeView.possessionImageB.image = UIImage(named: "posses-b-inactive")
-        }
-        
-        gameTimeView.isPossessionA = !gameTimeView.isPossessionA
+    @objc func foulCountA1_tapped() {
+        gameTimeView.tapFoulCountA1()
     }
     
+    @objc func foulCountA2_tapped() {
+        gameTimeView.tapFoulCountA2()
+    }
+    
+    @objc func foulCountA3_tapped() {
+        gameTimeView.tapFoulCountA3()
+    }
+    
+    @objc func foulCountA4_tapped() {
+        gameTimeView.tapFoulCountA4()
+    }
+    
+    @objc func foulCountA5_tapped() {
+        gameTimeView.tapFoulCountA5()
+    }
+    
+    @objc func foulCountB1_tapped() {
+        gameTimeView.tapFoulCountB1()
+    }
+    
+    @objc func foulCountB2_tapped() {
+        gameTimeView.tapFoulCountB2()
+    }
+    
+    @objc func foulCountB3_tapped() {
+        gameTimeView.tapFoulCountB3()
+    }
+    
+    @objc func foulCountB4_tapped() {
+        gameTimeView.tapFoulCountB4()
+    }
+    
+    @objc func foulCountB5_tapped() {
+        gameTimeView.tapFoulCountB5()
+    }
+    
+    // MARK: - ShotClockView
     @objc func shotClockLabel_tapped() {
 
         if shotClockView.shotClockStatus == .STOP {
@@ -487,7 +543,6 @@ class MainViewController: UIViewController {
 
     // 14秒セットボタンタップ
     @objc func sec14Button_tapped(_ sender: UIButton) {
-        print(123)
         shotClockView.shotSeconds = 14
         shotClockView.shotClockLabel.text = "14"
     }
@@ -503,6 +558,34 @@ class MainViewController: UIViewController {
         }
     }
     
+    // 各部品の範囲(テスト用)
+    func checkViewArea() {
+        scoreView.backgroundColor = .gray
+        scoreView.teamLabelA.backgroundColor = .blue
+        scoreView.teamLabelB.backgroundColor = .blue
+        scoreView.scoreLabelA.backgroundColor = .blue
+        scoreView.scoreLabelB.backgroundColor = .blue
+        scoreView.scoreMinusButtonA.backgroundColor = .blue
+        scoreView.scorePlusButtonA.backgroundColor = .blue
+        scoreView.scoreMinusButtonB.backgroundColor = .blue
+        scoreView.scorePlusButtonB.backgroundColor = .blue
+        
+        shotClockView.backgroundColor = .brown
+        shotClockView.shotClockLabel.backgroundColor = .blue
+        shotClockView.controlButton.backgroundColor = .blue
+        shotClockView.resetButton.backgroundColor = .blue
+        shotClockView.sec24Button.backgroundColor = .blue
+        shotClockView.sec14Button.backgroundColor = .blue
+        
+        gameTimeView.backgroundColor = .lightGray
+        gameTimeView.gameMinLabel.backgroundColor = .blue
+        gameTimeView.gameColonLabel.backgroundColor = .blue
+        gameTimeView.gameSecLabel.backgroundColor = .blue
+        gameTimeView.gameControlButton.backgroundColor = .blue
+        gameTimeView.gameResetButton.backgroundColor = .blue
+        
+        gameTimePicker.backgroundColor = .blue
+    }
 }
 
 // MARK: - UIPickerViewDelegate, UIPickerViewDataSource
@@ -542,10 +625,18 @@ extension MainViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 70))
+        let label = UILabel()
         label.textAlignment = .center
         label.textColor = .yellow
-        label.font =  UIFont(name: "DigitalDismay", size: 30)
+        
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            initPhoneAttr(label)
+        case .pad:
+            initPadAttr(label)
+        default:
+            initPhoneAttr(label)
+        }
         
         if component == 0 {
             label.text = gameTimeMinArray[row]
@@ -556,11 +647,36 @@ extension MainViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         return label
     }
     
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            return 30
+        case .pad:
+            return 88
+        default:
+            return 30
+        }
+    }
+    
     func setGameSeconds() {
         let min = Int(gameTimeView.gameMinLabel.text!)
         let sec = Int(gameTimeView.gameSecLabel.text!)
         gameTimeView.gameSeconds = min!*60 + sec!
         gameTimeView.oldGameSeconds = gameTimeView.gameSeconds
+    }
+    
+    func initPhoneAttr(_ label: UILabel) {
+        
+        label.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 70)
+        
+        label.font =  UIFont(name: "DigitalDismay", size: 30)
+    }
+    
+    func initPadAttr(_ label: UILabel) {
+        label.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 140)
+        
+        label.font =  UIFont(name: "DigitalDismay", size: 100)
     }
 }
 

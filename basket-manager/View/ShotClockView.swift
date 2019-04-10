@@ -19,40 +19,26 @@ class ShotClockView: UIView {
         case RESUME
     }
     
-    var shotClockLabel: UILabel
+    var shotClockLabel: ShotClockLabel
     var controlButton: ControlButton
     var resetButton: ResetButton
     var sec24Button: ShotClockSmallButton
     var sec14Button: ShotClockSmallButton
     
     override init(frame: CGRect) {
-        shotClockLabel = UILabel()
-        shotClockLabel.text = String(shotSeconds)
-        shotClockLabel.textAlignment = .center
-        shotClockLabel.bounds = CGRect(x: 0, y: 0, width: 120, height: 80)
-        shotClockLabel.font = UIFont(name: "DigitalDismay", size: 100)
-        shotClockLabel.textColor = .green
-        shotClockLabel.isUserInteractionEnabled = true
-        
-//        shotClockLabel.backgroundColor = .white
+        shotClockLabel = ShotClockLabel()
         
         controlButton = ControlButton()
         controlButton.setTitle("Start", for: .normal)
         
-//        controlButton.backgroundColor = .blue
-        
         resetButton = ResetButton()
         resetButton.isEnabled = false
         
-//        resetButton.backgroundColor = .blue
-        
         sec24Button = ShotClockSmallButton()
         sec24Button.setTitle("24", for: .normal)
-//        sec24Button.backgroundColor = .blue
         
         sec14Button = ShotClockSmallButton()
         sec14Button.setTitle("14", for: .normal)
-//        sec14Button.backgroundColor = .blue
         
         super.init(frame: frame)
         
@@ -74,16 +60,10 @@ class ShotClockView: UIView {
         
         resetButton.center = CGPoint(x: frame.width*(2/3), y: frame.height*(7/8))
         
-        let btnPosX = frame.width*(1/2) + 80
+        let btnPosX = frame.width - frame.width*(1/4)
         
-        sec24Button.frame = CGRect(x: btnPosX,
-                                y: frame.height*(1/2)-40,
-                                width: 30, height: 30)
-        
-        sec14Button.frame = CGRect(x: btnPosX,
-                                y: frame.height*(1/2)+10,
-                                width: 30, height: 30)
-        
+        sec24Button.center = CGPoint(x: btnPosX, y: frame.height*(1/4)+20)
+        sec14Button.center = CGPoint(x: btnPosX, y: frame.height*(3/4)-20)
     }
     
     func landscape(frame: CGRect) {
@@ -91,11 +71,11 @@ class ShotClockView: UIView {
         
         let shotClockButtonY = frame.height*(7/8)
 
-        controlButton.center = CGPoint(x: frame.width*(1/2)-50, y: shotClockButtonY)
+        controlButton.center = CGPoint(x: frame.width*(1/4), y: shotClockButtonY)
 
-        resetButton.center = CGPoint(x: frame.width*(1/2)+50, y: shotClockButtonY)
+        resetButton.center = CGPoint(x: frame.width*(3/4), y: shotClockButtonY)
 
-        let secButtonBaseX = frame.width-30
+        let secButtonBaseX = frame.width - frame.width*(1/4)
 
         sec24Button.center = CGPoint(x: secButtonBaseX, y: frame.height*(1/4)+20)
         sec14Button.center = CGPoint(x: secButtonBaseX, y: frame.height*(3/4)-20)

@@ -10,13 +10,6 @@ import UIKit
 
 class ControlButton: UIButton {
     
-//    override func awakeFromNib() {
-//        
-//        titleLabel?.font = .systemFont(ofSize: 18)
-//        bounds = CGRect(x: 0, y: 0, width: 80, height: 30)
-//        tintColor = .limegreen
-//    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         

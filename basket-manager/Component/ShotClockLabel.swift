@@ -1,20 +1,21 @@
 //
-//  TeamLabel.swift
+//  ShotClockLabel.swift
 //  basket-manager
 //
-//  Created by Nobuhiro Harada on 2018/09/30.
-//  Copyright © 2018年 Nobuhiro Harada. All rights reserved.
+//  Created by Nobuhiro Harada on 2019/04/08.
+//  Copyright © 2019 Nobuhiro Harada. All rights reserved.
 //
 
 import UIKit
 
-class TeamLabel: UILabel {
+class ShotClockLabel: UILabel {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.textColor = .white
+        self.text = "24"
         self.textAlignment = .center
+        self.textColor = .green
         self.isUserInteractionEnabled = true
         
         switch UIDevice.current.userInterfaceIdiom {
@@ -26,8 +27,6 @@ class TeamLabel: UILabel {
             initPhoneAttr()
         }
         
-        
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -35,13 +34,12 @@ class TeamLabel: UILabel {
     }
     
     func initPhoneAttr() {
-        
-        self.font = .boldSystemFont(ofSize: 20)
-        self.bounds = CGRect(x: 0, y: 0, width: 130, height: 35)
+        self.bounds = CGRect(x: 0, y: 0, width: 120, height: 80)
+        self.font = UIFont(name: "DigitalDismay", size: 100)
     }
     
     func initPadAttr() {
-        self.font = .boldSystemFont(ofSize: 40)
-        self.bounds = CGRect(x: 0, y: 0, width: 260, height: 70)
+        self.bounds = CGRect(x: 0, y: 0, width: 240, height: 160)
+        self.font = UIFont(name: "DigitalDismay", size: 200)
     }
 }

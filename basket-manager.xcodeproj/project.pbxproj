@@ -14,6 +14,9 @@
 		E52D47DA2258D8CF007F201E /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52D47D92258D8CF007F201E /* ScoreView.swift */; };
 		E52D47DE22593849007F201E /* ShotClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52D47DD22593849007F201E /* ShotClockView.swift */; };
 		E52D47E02259D8FE007F201E /* GameTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52D47DF2259D8FE007F201E /* GameTimeView.swift */; };
+		E52D47E2225AF86A007F201E /* ShotClockLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52D47E1225AF86A007F201E /* ShotClockLabel.swift */; };
+		E52D47EF225D80DD007F201E /* PossesionImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52D47EE225D80DD007F201E /* PossesionImageView.swift */; };
+		E52D47F1225D89D9007F201E /* FoulCountImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52D47F0225D89D9007F201E /* FoulCountImageView.swift */; };
 		E57200362145B2ED00F84254 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57200352145B2ED00F84254 /* AppDelegate.swift */; };
 		E57200382145B2ED00F84254 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57200372145B2ED00F84254 /* MainViewController.swift */; };
 		E572003D2145B2EF00F84254 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E572003C2145B2EF00F84254 /* Assets.xcassets */; };
@@ -24,7 +27,6 @@
 		E57408E32160BA7B00C32479 /* TeamLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57408E22160BA7B00C32479 /* TeamLabel.swift */; };
 		E57408F421674F1B00C32479 /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57408F321674F1B00C32479 /* DateFormatter+.swift */; };
 		E57408F92167F04A00C32479 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57408F82167F04A00C32479 /* UITextField+.swift */; };
-		E57409002168D57300C32479 /* PossesImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57408FF2168D57300C32479 /* PossesImage.swift */; };
 		E5925FEF2156F78100DEE34F /* ScoreSmallButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5925FEE2156F78100DEE34F /* ScoreSmallButton.swift */; };
 		E5A4B01C2155C31F0014BC65 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5A4B01B2155C31F0014BC65 /* AVFoundation.framework */; };
 		FD3D241EDB8252FDA82EBBE7 /* Pods_basket_manager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5659C378E0DBA134BAE181B0 /* Pods_basket_manager.framework */; };
@@ -41,6 +43,9 @@
 		E52D47D92258D8CF007F201E /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
 		E52D47DD22593849007F201E /* ShotClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShotClockView.swift; sourceTree = "<group>"; };
 		E52D47DF2259D8FE007F201E /* GameTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTimeView.swift; sourceTree = "<group>"; };
+		E52D47E1225AF86A007F201E /* ShotClockLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShotClockLabel.swift; sourceTree = "<group>"; };
+		E52D47EE225D80DD007F201E /* PossesionImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PossesionImageView.swift; sourceTree = "<group>"; };
+		E52D47F0225D89D9007F201E /* FoulCountImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoulCountImageView.swift; sourceTree = "<group>"; };
 		E57200322145B2ED00F84254 /* basket-manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "basket-manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E57200352145B2ED00F84254 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E57200372145B2ED00F84254 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -53,7 +58,6 @@
 		E57408E22160BA7B00C32479 /* TeamLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamLabel.swift; sourceTree = "<group>"; };
 		E57408F321674F1B00C32479 /* DateFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+.swift"; sourceTree = "<group>"; };
 		E57408F82167F04A00C32479 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
-		E57408FF2168D57300C32479 /* PossesImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PossesImage.swift; sourceTree = "<group>"; };
 		E5925FEE2156F78100DEE34F /* ScoreSmallButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreSmallButton.swift; sourceTree = "<group>"; };
 		E5A4B01B2155C31F0014BC65 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -138,13 +142,15 @@
 		E5740903216B904D00C32479 /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				E5925FEE2156F78100DEE34F /* ScoreSmallButton.swift */,
 				E52D47CD2255FBCC007F201E /* ShotClockSmallButton.swift */,
+				E5925FEE2156F78100DEE34F /* ScoreSmallButton.swift */,
 				E57408A6215773EA00C32479 /* ControlButton.swift */,
 				E57408A421571AB800C32479 /* ResetButton.swift */,
+				E52D47E1225AF86A007F201E /* ShotClockLabel.swift */,
 				E57408E02160B7FA00C32479 /* ScoreLabel.swift */,
 				E57408E22160BA7B00C32479 /* TeamLabel.swift */,
-				E57408FF2168D57300C32479 /* PossesImage.swift */,
+				E52D47EE225D80DD007F201E /* PossesionImageView.swift */,
+				E52D47F0225D89D9007F201E /* FoulCountImageView.swift */,
 				E52D47D12256BD40007F201E /* AlertDialog.swift */,
 			);
 			path = Component;
@@ -254,15 +260,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				E57408F421674F1B00C32479 /* DateFormatter+.swift in Sources */,
-				E57409002168D57300C32479 /* PossesImage.swift in Sources */,
 				E52D47E02259D8FE007F201E /* GameTimeView.swift in Sources */,
 				E57408E32160BA7B00C32479 /* TeamLabel.swift in Sources */,
 				E57200382145B2ED00F84254 /* MainViewController.swift in Sources */,
 				E52D47DA2258D8CF007F201E /* ScoreView.swift in Sources */,
+				E52D47F1225D89D9007F201E /* FoulCountImageView.swift in Sources */,
 				E52D47D22256BD40007F201E /* AlertDialog.swift in Sources */,
 				E57200362145B2ED00F84254 /* AppDelegate.swift in Sources */,
 				E57408E12160B7FA00C32479 /* ScoreLabel.swift in Sources */,
+				E52D47EF225D80DD007F201E /* PossesionImageView.swift in Sources */,
 				E57408F92167F04A00C32479 /* UITextField+.swift in Sources */,
+				E52D47E2225AF86A007F201E /* ShotClockLabel.swift in Sources */,
 				E52D47D022569556007F201E /* UIColor+.swift in Sources */,
 				E52D47DE22593849007F201E /* ShotClockView.swift in Sources */,
 				E52D47CE2255FBCC007F201E /* ShotClockSmallButton.swift in Sources */,
@@ -290,6 +298,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -350,6 +359,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -421,7 +431,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -445,7 +455,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
