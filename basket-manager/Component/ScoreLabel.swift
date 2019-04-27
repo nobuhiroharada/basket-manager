@@ -22,7 +22,7 @@ class ScoreLabel: UILabel {
         case .phone:
             initPhoneAttr()
         case .pad:
-            initPadAttr()
+            checkOrientation4Pad()
         default:
             initPhoneAttr()
         }
@@ -33,13 +33,31 @@ class ScoreLabel: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func checkOrientation4Pad() {
+        switch UIApplication.shared.statusBarOrientation {
+        case .portrait, .portraitUpsideDown:
+            initPadAttrPortrait()
+            
+        case .landscapeLeft, .landscapeRight:
+            initPadAttrLandscape()
+            
+        default:
+            initPadAttrPortrait()
+        }
+    }
+    
     func initPhoneAttr() {
         self.bounds = CGRect(x: 0, y: 0, width: 140, height: 80)
         self.font = UIFont(name: "DigitalDismay", size: 90)
     }
     
-    func initPadAttr() {
+    func initPadAttrPortrait() {
         self.bounds = CGRect(x: 0, y: 0, width: 280, height: 160)
         self.font = UIFont(name: "DigitalDismay", size: 180)
+    }
+    
+    func initPadAttrLandscape() {
+        self.bounds = CGRect(x: 0, y: 0, width: 360, height: 240)
+        self.font = UIFont(name: "DigitalDismay", size: 250)
     }
 }

@@ -13,8 +13,7 @@ class ScoreSmallButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.tintColor = .white
-        self.bounds = CGRect(x: 0, y: 0, width: 40, height: 30)
+        self.bounds = CGRect(x: 0, y: 0, width: 40, height: 35)
     }
     
     required init?(coder aDecoder: NSCoder) {

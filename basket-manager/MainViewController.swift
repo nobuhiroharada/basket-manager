@@ -15,13 +15,6 @@ class MainViewController: UIViewController {
     var gameTimeView: GameTimeView = GameTimeView()
     var scoreView: ScoreView = ScoreView()
     
-    // MARK: - ゲームタイムピッカー変数
-    var gameTimeMinArray: [String] = []
-    var gameTimeSecArray: [String] = []
-    var gameTimePicker = UIPickerView()
-    var gameTimePickerMinLabel = UILabel()
-    var gameTimePickerSecLabel = UILabel()
-    
     override var prefersStatusBarHidden: Bool {
         return false
     }
@@ -44,31 +37,18 @@ class MainViewController: UIViewController {
         self.view.addSubview(scoreView)
 
         self.view.backgroundColor = UIColor.black
-
-        for i in 0...20 { //分設定(ゲームタイムピッカー用)
-            gameTimeMinArray.append(String(format: "%02d", i))
-        }
-
-        for i in 0..<60 { //秒設定(ゲームタイムピッカー用)
-            gameTimeSecArray.append(String(format: "%02d", i))
-        }
-        
-        gameTimePicker.delegate = self
-        gameTimePicker.dataSource = self
         
         addButtonAction()
         registerGesturerecognizer()
 
-        initGameTimePicker()
-        
-        // 部品の範囲(テスト用)
+        // 部品の範囲テスト用 Viewの背景変更
 //        checkViewArea()
-//
+        
 //        userdefaults.set(teamLabelA.text, forKey: TEAM_A)
 //        userdefaults.set(teamLabelB.text, forKey: TEAM_B)
 //        userdefaults.set(Int(scoreLabelA.text ?? "0"),forKey: SCORE_A)
 //        userdefaults.set(Int(scoreLabelB.text ?? "0"),forKey: SCORE_B)
-//
+
     }
     
     override func viewWillLayoutSubviews() {
@@ -99,8 +79,8 @@ class MainViewController: UIViewController {
             
         case .landscapeLeft, .landscapeRight:
             
-            let shotClockViewLandscapeW: CGFloat = frame.width*(1/2)
-            shotClockView.frame = CGRect(x: frame.width*(1/4), y: frame.height*(1/2), width: shotClockViewLandscapeW, height: frame.height*(1/2))
+            let shotClockViewLandscapeW: CGFloat = frame.width*(1/3)
+            shotClockView.frame = CGRect(x: frame.width*(1/3), y: frame.height*(1/2), width: shotClockViewLandscapeW, height: frame.height*(1/2))
 
             self.view.bringSubviewToFront(shotClockView)
             
@@ -192,25 +172,19 @@ class MainViewController: UIViewController {
         
         let tapFoulCountB5 = UITapGestureRecognizer(target: self, action: #selector(MainViewController.foulCountB5_tapped))
         gameTimeView.foulCountImageB5.addGestureRecognizer(tapFoulCountB5)
+        
     }
     
     func setViews_portrait() {
-
         self.scoreView.portrait(frame: scoreView.frame)
         self.gameTimeView.portrait(frame: gameTimeView.frame)
         self.shotClockView.portrait(frame: shotClockView.frame)
-        
-        setGameTimePickerPosition_Portrait()
-        
     }
     
     func setViews_landscape() {
         self.scoreView.landscape(frame: scoreView.frame)
         self.gameTimeView.landscape(frame: gameTimeView.frame)
         self.shotClockView.landscape(frame: shotClockView.frame)
-        
-        setGameTimePickerPosition_Landscape()
-        
     }
     
     // MARK: - ScoreView
@@ -262,72 +236,6 @@ class MainViewController: UIViewController {
         AlertDialog.showScoreEdit(title: "Edit GUEST Score", team: TEAM_B, scoreView: scoreView, viewController: self)
     }
     
-    // MARK: - GameTimePicker
-    func initGameTimePicker() {
-        switch UIDevice.current.userInterfaceIdiom {
-        case .phone:
-            gameTimePicker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width*0.6, height: 100))
-        case .pad:
-            gameTimePicker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width*0.6, height: 200))
-        default:
-            gameTimePicker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width*0.6, height: 100))
-        }
-        
-        gameTimePicker.delegate = self
-        gameTimePicker.dataSource = self
-        
-        gameTimePicker.selectRow(10, inComponent: 0, animated: true)
-        gameTimePicker.selectRow(0, inComponent: 1, animated: true)
-        
-        gameTimePicker.setValue(UIColor.white, forKey: "textColor")
-        
-        gameTimePickerMinLabel.text = "min"
-        gameTimePickerMinLabel.textColor = .yellow
-        gameTimePickerMinLabel.sizeToFit()
-        
-        gameTimePicker.addSubview(gameTimePickerMinLabel)
-        
-        gameTimePickerSecLabel.text = "sec"
-        gameTimePickerSecLabel.textColor = .yellow
-        gameTimePickerSecLabel.sizeToFit()
-        
-        gameTimePicker.addSubview(gameTimePickerSecLabel)
-        
-        self.view.addSubview(gameTimePicker)
-    }
-    
-    func setGameTimePickerPosition_Portrait() {
-        
-        gameTimePicker.center = CGPoint(x: self.view.frame.width*(1/2),
-                                        y: self.view.frame.height*(5/12))
-        
-        gameTimePickerMinLabel.frame = CGRect(x: gameTimePicker.bounds.width*0.4 - gameTimePickerMinLabel.bounds.width/2,
-                                y: gameTimePicker.bounds.height/2 - (gameTimePickerMinLabel.bounds.height/2),
-                                width: gameTimePickerMinLabel.bounds.width,
-                                height: gameTimePickerMinLabel.bounds.height)
-        
-        gameTimePickerSecLabel.frame = CGRect(x: gameTimePicker.bounds.width*0.9 - gameTimePickerSecLabel.bounds.width/2,
-                                y: gameTimePicker.bounds.height/2 - (gameTimePickerSecLabel.bounds.height/2),
-                                width: gameTimePickerSecLabel.bounds.width,
-                                height: gameTimePickerSecLabel.bounds.height)
-        
-    }
-    
-    func setGameTimePickerPosition_Landscape() {
-        gameTimePicker.center = CGPoint(x: self.view.frame.width*(1/2),
-                                        y: self.view.frame.height*(1/4))
-        
-        gameTimePickerMinLabel.frame = CGRect(x: gameTimePicker.bounds.width*0.4 - gameTimePickerMinLabel.bounds.width/2,
-                                              y: gameTimePicker.bounds.height/2 - (gameTimePickerMinLabel.bounds.height/2),
-                                              width: gameTimePickerMinLabel.bounds.width,
-                                              height: gameTimePickerMinLabel.bounds.height)
-        
-        gameTimePickerSecLabel.frame = CGRect(x: gameTimePicker.bounds.width*0.9 - gameTimePickerSecLabel.bounds.width/2,
-                                              y: gameTimePicker.bounds.height/2 - (gameTimePickerSecLabel.bounds.height/2),
-                                              width: gameTimePickerSecLabel.bounds.width,
-                                              height: gameTimePickerSecLabel.bounds.height)
-    }
-    
     // MARK: - GameTimeView
     // ゲームタイムコントロールボタン押下
     @objc func gameControlButton_tapped(_ sender: UIButton) {
@@ -335,23 +243,20 @@ class MainViewController: UIViewController {
         switch gameTimeView.gameTimerStatus {
             case .START:
                 self.runGameTimer()
-                gameTimeView.gameControlButton.setTitle("Stop", for: .normal)
+                gameTimeView.gameControlButton.setImage(UIImage(named: "stop.png"), for: .normal)
                 gameTimeView.gameTimerStatus = .STOP
                 gameTimeView.toggleGameLabels()
-                self.gameTimePicker.isHidden = !self.gameTimePicker.isHidden
-                gameTimeView.gameControlButton.setTitleColor(.gold, for: .normal)
+                gameTimeView.picker.isHidden = !gameTimeView.picker.isHidden
                 gameTimeView.gameResetButton.isEnabled = true
 
             case .STOP:
                 gameTimeView.gameTimer.invalidate()
-                gameTimeView.gameControlButton.setTitle("Resume", for: .normal)
-                gameTimeView.gameControlButton.setTitleColor(.limegreen, for: .normal)
+                gameTimeView.gameControlButton.setImage(UIImage(named: "start.png"), for: .normal)
                 gameTimeView.gameTimerStatus = .RESUME
 
             case .RESUME:
                 self.runGameTimer()
-                gameTimeView.gameControlButton.setTitle("Stop", for: .normal)
-                gameTimeView.gameControlButton.setTitleColor(.gold, for: .normal)
+                gameTimeView.gameControlButton.setImage(UIImage(named: "stop.png"), for: .normal)
                 gameTimeView.gameTimerStatus = .STOP
         }
     }
@@ -361,12 +266,10 @@ class MainViewController: UIViewController {
         gameTimeView.gameTimer.invalidate()
         gameTimeView.gameSeconds = gameTimeView.oldGameSeconds
         self.showGameTime()
-        gameTimeView.gameControlButton.setTitle("Start", for: .normal)
-        gameTimeView.gameControlButton.setTitleColor(.limegreen, for: .normal)
-        gameTimeView.gameResetButton.setTitleColor(.white, for: .normal)
+        gameTimeView.gameControlButton.setImage(UIImage(named: "start.png"), for: .normal)
         gameTimeView.gameTimerStatus = .START
         gameTimeView.toggleGameLabels()
-        self.gameTimePicker.isHidden = !self.gameTimePicker.isHidden
+        gameTimeView.picker.isHidden = !gameTimeView.picker.isHidden
         gameTimeView.gameResetButton.isEnabled = false
     }
 
@@ -402,12 +305,11 @@ class MainViewController: UIViewController {
             self.gameTimeView.gameTimer.invalidate()
             self.gameTimeView.gameSeconds = self.gameTimeView.oldGameSeconds
             self.showGameTime()
-            self.gameTimeView.gameControlButton.setTitle("Start", for: .normal)
+            self.gameTimeView.gameControlButton.setImage(UIImage(named: "start.png"), for: .normal)
             self.gameTimeView.gameTimerStatus = .START
-            self.gameTimeView.gameControlButton.setTitleColor(.limegreen, for: .normal)
             self.gameTimeView.gameResetButton.isEnabled = false
             self.gameTimeView.toggleGameLabels()
-            self.gameTimePicker.isHidden = !self.gameTimePicker.isHidden
+            self.gameTimeView.picker.isHidden = !self.gameTimeView.picker.isHidden
         }
 
     }
@@ -476,21 +378,18 @@ class MainViewController: UIViewController {
         switch shotClockView.shotClockStatus {
         case .START:
             runShotClockTimer()
-            shotClockView.controlButton.setTitle("Stop", for: .normal)
-            shotClockView.controlButton.setTitleColor(.gold, for: .normal)
+            shotClockView.controlButton.setImage(UIImage(named: "stop.png"), for: .normal)
             shotClockView.shotClockStatus = .STOP
             shotClockView.resetButton.isEnabled = true
 
         case .STOP:
             shotClockView.shotClockTimer.invalidate()
-            shotClockView.controlButton.setTitle("Resume", for: .normal)
-            shotClockView.controlButton.setTitleColor(.limegreen, for: .normal)
+            shotClockView.controlButton.setImage(UIImage(named: "start.png"), for: .normal)
             shotClockView.shotClockStatus = .RESUME
 
         case .RESUME:
             runShotClockTimer()
-            shotClockView.controlButton.setTitle("Stop", for: .normal)
-            shotClockView.controlButton.setTitleColor(.gold, for: .normal)
+            shotClockView.controlButton.setImage(UIImage(named: "stop"), for: .normal)
             shotClockView.shotClockStatus = .STOP
         }
     }
@@ -527,8 +426,7 @@ class MainViewController: UIViewController {
             shotClockView.shotClockTimer.invalidate()
             shotClockView.shotSeconds = 24
             shotClockView.shotClockLabel.text = String(shotClockView.shotSeconds)
-            shotClockView.controlButton.setTitle("Start", for: .normal)
-            shotClockView.controlButton.setTitleColor(.limegreen, for: .normal)
+            shotClockView.controlButton.setImage(UIImage(named: "start.png"), for: .normal)
             shotClockView.shotClockStatus = .START
             
             shotClockView.resetButton.isEnabled = false
@@ -549,8 +447,7 @@ class MainViewController: UIViewController {
 
     func openShotClockTimeOverDialog() {
         AlertDialog.showTimeover(title: "Shot Clock Over", viewController: self) {
-            self.shotClockView.controlButton.setTitle("Start", for: .normal)
-            self.shotClockView.controlButton.setTitleColor(.limegreen, for: .normal)
+            self.shotClockView.controlButton.setImage(UIImage(named: "start.png"), for: .normal)
             self.shotClockView.shotSeconds = 24
             self.shotClockView.shotClockLabel.text = String(self.shotClockView.shotSeconds)
             self.shotClockView.shotClockStatus = .START
@@ -583,100 +480,6 @@ class MainViewController: UIViewController {
         gameTimeView.gameSecLabel.backgroundColor = .blue
         gameTimeView.gameControlButton.backgroundColor = .blue
         gameTimeView.gameResetButton.backgroundColor = .blue
-        
-        gameTimePicker.backgroundColor = .blue
+        gameTimeView.picker.backgroundColor = .blue
     }
 }
-
-// MARK: - UIPickerViewDelegate, UIPickerViewDataSource
-extension MainViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 2
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if component == 0 {
-            return gameTimeMinArray.count
-        }
-        
-        return gameTimeSecArray.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if component == 0 {
-            return gameTimeMinArray[row]
-        }
-        
-        return gameTimeSecArray[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if component == 0 {
-            gameTimeView.gameMinLabel.text = gameTimeMinArray[row]
-            setGameSeconds()
-            
-        } else if component == 1 {
-            gameTimeView.gameSecLabel.text = gameTimeSecArray[row]
-            setGameSeconds()
-        }
-        
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = .yellow
-        
-        switch UIDevice.current.userInterfaceIdiom {
-        case .phone:
-            initPhoneAttr(label)
-        case .pad:
-            initPadAttr(label)
-        default:
-            initPhoneAttr(label)
-        }
-        
-        if component == 0 {
-            label.text = gameTimeMinArray[row]
-        } else if component == 1 {
-            label.text = gameTimeSecArray[row]
-        }
-        
-        return label
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        
-        switch UIDevice.current.userInterfaceIdiom {
-        case .phone:
-            return 30
-        case .pad:
-            return 88
-        default:
-            return 30
-        }
-    }
-    
-    func setGameSeconds() {
-        let min = Int(gameTimeView.gameMinLabel.text!)
-        let sec = Int(gameTimeView.gameSecLabel.text!)
-        gameTimeView.gameSeconds = min!*60 + sec!
-        gameTimeView.oldGameSeconds = gameTimeView.gameSeconds
-    }
-    
-    func initPhoneAttr(_ label: UILabel) {
-        
-        label.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 70)
-        
-        label.font =  UIFont(name: "DigitalDismay", size: 30)
-    }
-    
-    func initPadAttr(_ label: UILabel) {
-        label.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 140)
-        
-        label.font =  UIFont(name: "DigitalDismay", size: 100)
-    }
-}
-

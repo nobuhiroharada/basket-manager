@@ -29,7 +29,6 @@ class ShotClockView: UIView {
         shotClockLabel = ShotClockLabel()
         
         controlButton = ControlButton()
-        controlButton.setTitle("Start", for: .normal)
         
         resetButton = ResetButton()
         resetButton.isEnabled = false
@@ -53,7 +52,25 @@ class ShotClockView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func checkOrientation4Pad() {
+        switch UIApplication.shared.statusBarOrientation {
+        case .portrait, .portraitUpsideDown:
+            initPadAttrPortrait()
+
+        case .landscapeLeft, .landscapeRight:
+            initPadAttrLandscape()
+
+        default:
+            initPadAttrPortrait()
+        }
+    }
+    
     func portrait(frame: CGRect) {
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            checkOrientation4Pad()
+        }
+        
         shotClockLabel.center = CGPoint(x: frame.width*(1/2), y: frame.height*(1/2))
         
         controlButton.center = CGPoint(x: frame.width*(1/3), y: frame.height*(7/8))
@@ -67,18 +84,29 @@ class ShotClockView: UIView {
     }
     
     func landscape(frame: CGRect) {
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            checkOrientation4Pad()
+        }
+        
         shotClockLabel.center = CGPoint(x: frame.width*(1/2), y: frame.height*(1/2))
         
         let shotClockButtonY = frame.height*(7/8)
 
-        controlButton.center = CGPoint(x: frame.width*(1/4), y: shotClockButtonY)
+        controlButton.center = CGPoint(x: frame.width*(1/5), y: shotClockButtonY)
 
-        resetButton.center = CGPoint(x: frame.width*(3/4), y: shotClockButtonY)
+        resetButton.center = CGPoint(x: frame.width*(2/5), y: shotClockButtonY)
 
-        let secButtonBaseX = frame.width - frame.width*(1/4)
-
-        sec24Button.center = CGPoint(x: secButtonBaseX, y: frame.height*(1/4)+20)
-        sec14Button.center = CGPoint(x: secButtonBaseX, y: frame.height*(3/4)-20)
+        sec24Button.center = CGPoint(x: frame.width*(3/5), y: shotClockButtonY)
+        sec14Button.center = CGPoint(x: frame.width*(4/5), y: shotClockButtonY)
         
+    }
+    
+    func initPadAttrPortrait() {
+        shotClockLabel.initPadAttrPortrait()
+    }
+    
+    func initPadAttrLandscape() {
+        shotClockLabel.initPadAttrLandscape()
     }
 }

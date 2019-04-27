@@ -66,8 +66,25 @@ class ScoreView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func checkOrientation4Pad() {
+        switch UIApplication.shared.statusBarOrientation {
+        case .portrait, .portraitUpsideDown:
+            initPadAttrPortrait()
+            
+        case .landscapeLeft, .landscapeRight:
+            initPadAttrLandscape()
+            
+        default:
+            initPadAttrPortrait()
+        }
+    }
+    
     func portrait(frame: CGRect) {
-
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            checkOrientation4Pad()
+        }
+        
         let teamNameY = frame.height*(1/8)
         teamLabelA.center = CGPoint(x: frame.width*(1/4),
                                     y: teamNameY)
@@ -95,31 +112,45 @@ class ScoreView: UIView {
     }
     
     func landscape(frame: CGRect) {
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            checkOrientation4Pad()
+        }
+        
         let teamNameY = frame.height*(1/8)
         
-        teamLabelA.center = CGPoint(x: frame.width*(1/8),
+        teamLabelA.center = CGPoint(x: frame.width*(1/6),
                                     y: teamNameY)
         
-        teamLabelB.center = CGPoint(x: frame.width*(7/8),
+        teamLabelB.center = CGPoint(x: frame.width*(5/6),
                                     y: teamNameY)
         
         let scoreLabelY = frame.height*(1/2)
         
-        scoreLabelA.center = CGPoint(x: frame.width*(1/8),
+        scoreLabelA.center = CGPoint(x: frame.width*(1/6),
                                      y: scoreLabelY)
         
-        scoreLabelB.center = CGPoint(x: frame.width*(7/8),
+        scoreLabelB.center = CGPoint(x: frame.width*(5/6),
                                      y: scoreLabelY)
         
         let scoreButtonY = frame.height*(7/8)
         
-        scoreMinusButtonA.center = CGPoint(x: frame.width*(1/16), y: scoreButtonY)
+        scoreMinusButtonA.center = CGPoint(x: frame.width*(1/11), y: scoreButtonY)
         
-        scorePlusButtonA.center = CGPoint(x: frame.width*(3/16), y: scoreButtonY)
+        scorePlusButtonA.center = CGPoint(x: frame.width*(3/12), y: scoreButtonY)
         
-        scoreMinusButtonB.center = CGPoint(x: frame.width*(13/16), y: scoreButtonY)
+        scoreMinusButtonB.center = CGPoint(x: frame.width*(9/12), y: scoreButtonY)
         
-        scorePlusButtonB.center = CGPoint(x: frame.width*(15/16), y: scoreButtonY)
+        scorePlusButtonB.center = CGPoint(x: frame.width*(11/12), y: scoreButtonY)
     }
 
+    func initPadAttrPortrait() {
+        scoreLabelA.initPadAttrPortrait()
+        scoreLabelB.initPadAttrPortrait()
+    }
+    
+    func initPadAttrLandscape() {
+        scoreLabelA.initPadAttrLandscape()
+        scoreLabelB.initPadAttrLandscape()
+    }
 }

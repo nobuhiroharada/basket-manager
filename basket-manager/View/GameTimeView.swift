@@ -10,6 +10,7 @@ import UIKit
 
 class GameTimeView: UIView {
     
+    // 試合時間ラベル
     var gameTimer: Timer!
     var gameSeconds = 600
     var oldGameSeconds = 600
@@ -20,16 +21,25 @@ class GameTimeView: UIView {
         case RESUME
     }
     
-    var gameMinLabel: UILabel
-    var gameSecLabel: UILabel
-    var gameColonLabel: UILabel
+    var gameMinLabel: GameTimeLabel
+    var gameSecLabel: GameTimeLabel
+    var gameColonLabel: GameTimeLabel
     var gameControlButton: ControlButton
     var gameResetButton: ResetButton
     
+    // 試合時間ピッカー
+    var minArray: [String] = []
+    var secArray: [String] = []
+    var picker: UIPickerView
+    var pickerMinLabel: UILabel
+    var pickerSecLabel: UILabel
+    
+    // ポゼッション
     var possessionImageA: PossesionImageView
     var possessionImageB: PossesionImageView
     var isPossessionA = true
     
+    // チームファウルカウント
     var foulCountImageA1: FoulCountImageView
     var foulCountImageA2: FoulCountImageView
     var foulCountImageA3: FoulCountImageView
@@ -48,34 +58,51 @@ class GameTimeView: UIView {
     override init(frame: CGRect) {
         
         // GameTime ラベル
-        gameMinLabel = UILabel()
+        gameMinLabel = GameTimeLabel()
         gameMinLabel.text = "10"
-        gameMinLabel.textAlignment = .center
         
-        gameMinLabel.textColor = .yellow
-        
-        
-        gameColonLabel = UILabel()
+        gameColonLabel = GameTimeLabel()
         gameColonLabel.text = ":"
-        gameColonLabel.textAlignment = .center
-        gameColonLabel.textColor = .yellow
         
-        gameSecLabel = UILabel()
+        gameSecLabel = GameTimeLabel()
         gameSecLabel.text = "00"
-        gameSecLabel.textAlignment = .center
-        gameSecLabel.textColor = .yellow
         
         gameSeconds = Int(gameMinLabel.text!)!*60
         gameSeconds += Int(gameSecLabel.text!)!
         
-        // GameTime ボタン
-        gameControlButton = ControlButton()
-        gameControlButton.setTitle("Start", for: .normal)
-        gameControlButton.setTitleColor(.limegreen, for: .normal)
+        // GameTime ピッカー
+        for i in 0...20 { //分設定(ゲームタイムピッカー用)
+            minArray.append(String(format: "%02d", i))
+        }
         
+        for i in 0..<60 { //秒設定(ゲームタイムピッカー用)
+            secArray.append(String(format: "%02d", i))
+        }
+        
+        picker = UIPickerView(frame: CGRect.zero)
+        
+        picker.setValue(UIColor.white, forKey: "textColor")
+
+        pickerMinLabel = UILabel()
+        pickerMinLabel.text = "min"
+        pickerMinLabel.textColor = .yellow
+        pickerMinLabel.sizeToFit()
+
+        picker.addSubview(pickerMinLabel)
+
+        pickerSecLabel = UILabel()
+        pickerSecLabel.text = "sec"
+        pickerSecLabel.textColor = .yellow
+        pickerSecLabel.sizeToFit()
+
+        picker.addSubview(pickerSecLabel)
+
+        // 試合時間 ボタン
+        gameControlButton = ControlButton()
         gameResetButton = ResetButton()
         gameResetButton.isEnabled = false
         
+        // ポゼッション ボタン
         possessionImageA = PossesionImageView(frame: CGRect.zero)
         if let imageA = UIImage(named: "posses-a-active") {
             possessionImageA.image = imageA
@@ -100,14 +127,11 @@ class GameTimeView: UIView {
         
         super.init(frame: frame)
         
-        switch UIDevice.current.userInterfaceIdiom {
-        case .phone:
-            initPhoneAttr()
-        case .pad:
-            initPadAttr()
-        default:
-            initPhoneAttr()
-        }
+        picker.delegate = self
+        picker.dataSource = self
+        
+        picker.selectRow(10, inComponent: 0, animated: true)
+        picker.selectRow(0, inComponent: 1, animated: true)
         
         toggleGameLabels()
         
@@ -117,6 +141,7 @@ class GameTimeView: UIView {
         self.addSubview(gameControlButton)
         self.addSubview(gameResetButton)
         self.addSubview(gameControlButton)
+        self.addSubview(picker)
         self.addSubview(possessionImageA)
         self.addSubview(possessionImageB)
         self.addSubview(foulCountImageA1)
@@ -136,7 +161,47 @@ class GameTimeView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func checkCurrentDevice() {
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            checkOrientation4Phone()
+        case .pad:
+            checkOrientation4Pad()
+        default:
+            checkOrientation4Phone()
+        }
+    }
+    
+    func checkOrientation4Phone() {
+        switch UIApplication.shared.statusBarOrientation {
+        case .portrait, .portraitUpsideDown:
+            initPhoneAttr()
+            
+        case .landscapeLeft, .landscapeRight:
+            initPhoneAttr()
+            picker.center = CGPoint(x: frame.width/2, y: frame.height/2)
+            
+        default:
+            initPhoneAttr()
+        }
+    }
+    
+    func checkOrientation4Pad() {
+        switch UIApplication.shared.statusBarOrientation {
+        case .portrait, .portraitUpsideDown:
+            initPadAttrPortrait()
+            
+        case .landscapeLeft, .landscapeRight:
+            initPadAttrLandscape()
+            
+        default:
+            initPadAttrPortrait()
+        }
+    }
+    
     func portrait(frame: CGRect) {
+        
+        checkCurrentDevice()
         
         let gameLabelY = frame.height*(1/4)
         
@@ -155,6 +220,15 @@ class GameTimeView: UIView {
         
         gameResetButton.center = CGPoint(x: frame.width*(2/3), y: gameButtonY)
         
+        pickerMinLabel.frame = CGRect(x: picker.bounds.width*0.4 - pickerMinLabel.bounds.width/2,
+                                              y: picker.bounds.height/2 - (pickerMinLabel.bounds.height/2),
+                                              width: pickerMinLabel.bounds.width,
+                                              height: pickerMinLabel.bounds.height)
+        
+        pickerSecLabel.frame = CGRect(x: picker.bounds.width*0.9 - pickerSecLabel.bounds.width/2,
+                                              y: picker.bounds.height/2 - (pickerSecLabel.bounds.height/2),
+                                              width: pickerSecLabel.bounds.width,
+                                              height: pickerSecLabel.bounds.height)
         
         possessionImageA.center = CGPoint(x: frame.width*(1/8),
                                           y: gameButtonY)
@@ -178,16 +252,36 @@ class GameTimeView: UIView {
     
     func landscape(frame: CGRect) {
         
+        checkCurrentDevice()
+        
         let gameLabelY = frame.height*(1/2)
         
-        gameMinLabel.center = CGPoint(x: frame.width*(3/8),
+        gameMinLabel.center = CGPoint(x: frame.width*(1/3)-20,
                                       y: gameLabelY)
         
         gameColonLabel.center = CGPoint(x: frame.width*(1/2),
                                         y: gameLabelY)
         
-        gameSecLabel.center = CGPoint(x: frame.width*(5/8),
+        gameSecLabel.center = CGPoint(x: frame.width*(2/3)+20,
                                       y: gameLabelY)
+        
+        pickerMinLabel.frame = CGRect(x: picker.bounds.width*0.4 - picker.bounds.width/2,
+                                              y: picker.bounds.height/2 - (pickerMinLabel.bounds.height/2),
+                                              width: pickerMinLabel.bounds.width,
+                                              height: pickerMinLabel.bounds.height)
+        
+        pickerSecLabel.frame = CGRect(x: picker.bounds.width*0.9 - pickerSecLabel.bounds.width/2,
+                                              y: picker.bounds.height/2 - (pickerSecLabel.bounds.height/2),
+                                              width: pickerSecLabel.bounds.width,
+                                              height: pickerSecLabel.bounds.height)
+        
+        let possessionImageY = frame.height*(1/2)
+        
+        possessionImageA.center = CGPoint(x: frame.width*(1/16),
+                                          y: possessionImageY)
+        
+        possessionImageB.center = CGPoint(x: frame.width*(15/16),
+                                          y: possessionImageY)
         
         let gameTimeButtonY = frame.height*(7/8)
         
@@ -195,12 +289,6 @@ class GameTimeView: UIView {
         
         gameResetButton.center = CGPoint(x: frame.width*(5/8), y: gameTimeButtonY)
         
-        
-        possessionImageA.center = CGPoint(x: frame.width*(1/8),
-                                          y: gameLabelY)
-        
-        possessionImageB.center = CGPoint(x: frame.width*(7/8),
-                                          y: gameLabelY)
         
         foulCountImageA1.center = CGPoint(x: frame.width*(1/24), y: gameTimeButtonY)
         foulCountImageA2.center = CGPoint(x: frame.width*(2/24), y: gameTimeButtonY)
@@ -215,26 +303,40 @@ class GameTimeView: UIView {
         foulCountImageB5.center = CGPoint(x: frame.width*(23/24), y: gameTimeButtonY)
     }
     
+    
     func initPhoneAttr() {
-        gameMinLabel.bounds = CGRect(x: 0, y: 0, width: 110, height: 90)
-        gameMinLabel.font = UIFont(name: "DigitalDismay", size: 100)
-        
+
+        gameMinLabel.initPhoneAttr()
+
         gameColonLabel.bounds = CGRect(x: 0, y: 0, width: 30, height: 100)
         gameColonLabel.font = UIFont(name: "DigitalDismay", size: 100)
-        
-        gameSecLabel.bounds = CGRect(x: 0, y: 0, width: 110, height: 90)
-        gameSecLabel.font = UIFont(name: "DigitalDismay", size: 100)
+
+        gameSecLabel.initPhoneAttr()
+
+        picker.frame = CGRect(x: frame.width*0.2, y: 0, width: frame.width*0.6, height: 100)
     }
     
-    func initPadAttr() {
-        gameMinLabel.bounds = CGRect(x: 0, y: 0, width: 220, height: 180)
-        gameMinLabel.font = UIFont(name: "DigitalDismay", size: 200)
+    func initPadAttrPortrait() {
+        gameMinLabel.initPadAttrPortrait()
         
         gameColonLabel.bounds = CGRect(x: 0, y: 0, width: 60, height: 200)
         gameColonLabel.font = UIFont(name: "DigitalDismay", size: 200)
         
-        gameSecLabel.bounds = CGRect(x: 0, y: 0, width: 220, height: 180)
-        gameSecLabel.font = UIFont(name: "DigitalDismay", size: 200)
+        gameSecLabel.initPadAttrPortrait()
+        
+        picker.frame = CGRect(x: frame.width*0.2, y: 0, width: frame.width*0.6, height: 200)
+    }
+    
+    func initPadAttrLandscape() {
+        gameMinLabel.initPadAttrLandscape()
+        
+        gameColonLabel.bounds = CGRect(x: 0, y: 0, width: 90, height: 240)
+        gameColonLabel.font = UIFont(name: "DigitalDismay", size: 300)
+        
+        gameSecLabel.initPadAttrLandscape()
+        
+        picker.frame = CGRect(x: frame.width*0.2, y: 0, width: frame.width*0.6, height: 200)
+        picker.center = CGPoint(x: frame.width/2, y: frame.height/2)
     }
     
     func toggleGameLabels() {
@@ -355,5 +457,97 @@ class GameTimeView: UIView {
         foulCountImageB4.image = UIImage(named: "foulcount-five")
         foulCountImageB5.image = UIImage(named: "foulcount-five")
         isFirstFoulB = false
+    }
+}
+
+// MARK: - UIPickerViewDelegate, UIPickerViewDataSource
+extension GameTimeView: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 2
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if component == 0 {
+            return minArray.count
+        }
+        
+        return secArray.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if component == 0 {
+            return minArray[row]
+        }
+        
+        return secArray[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if component == 0 {
+            gameMinLabel.text = minArray[row]
+            setGameSeconds()
+            
+        } else if component == 1 {
+            gameSecLabel.text = secArray[row]
+            setGameSeconds()
+        }
+        
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        
+        let label = UILabel()
+        label.textAlignment = .center
+        label.textColor = .yellow
+        
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            initPickerLabel4Phone(label)
+        case .pad:
+            initPickerLabel4Pad(label)
+        default:
+            initPickerLabel4Phone(label)
+        }
+        
+        if component == 0 {
+            label.text = minArray[row]
+        } else if component == 1 {
+            label.text = secArray[row]
+        }
+        
+        return label
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            return 30
+        case .pad:
+            return 88
+        default:
+            return 30
+        }
+    }
+    
+    func initPickerLabel4Phone(_ label: UILabel) {
+        
+        label.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 70)
+        
+        label.font =  UIFont(name: "DigitalDismay", size: 30)
+    }
+    
+    func initPickerLabel4Pad(_ label: UILabel) {
+        label.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 140)
+        
+        label.font =  UIFont(name: "DigitalDismay", size: 100)
+    }
+    
+    func setGameSeconds() {
+        let min = Int(gameMinLabel.text!)
+        let sec = Int(gameSecLabel.text!)
+        gameSeconds = min!*60 + sec!
+        oldGameSeconds = gameSeconds
     }
 }

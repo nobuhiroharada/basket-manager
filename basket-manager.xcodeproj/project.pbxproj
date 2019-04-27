@@ -17,6 +17,7 @@
 		E52D47E2225AF86A007F201E /* ShotClockLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52D47E1225AF86A007F201E /* ShotClockLabel.swift */; };
 		E52D47EF225D80DD007F201E /* PossesionImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52D47EE225D80DD007F201E /* PossesionImageView.swift */; };
 		E52D47F1225D89D9007F201E /* FoulCountImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52D47F0225D89D9007F201E /* FoulCountImageView.swift */; };
+		E52D47F32262962C007F201E /* GameTimeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52D47F22262962C007F201E /* GameTimeLabel.swift */; };
 		E57200362145B2ED00F84254 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57200352145B2ED00F84254 /* AppDelegate.swift */; };
 		E57200382145B2ED00F84254 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57200372145B2ED00F84254 /* MainViewController.swift */; };
 		E572003D2145B2EF00F84254 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E572003C2145B2EF00F84254 /* Assets.xcassets */; };
@@ -46,6 +47,7 @@
 		E52D47E1225AF86A007F201E /* ShotClockLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShotClockLabel.swift; sourceTree = "<group>"; };
 		E52D47EE225D80DD007F201E /* PossesionImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PossesionImageView.swift; sourceTree = "<group>"; };
 		E52D47F0225D89D9007F201E /* FoulCountImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoulCountImageView.swift; sourceTree = "<group>"; };
+		E52D47F22262962C007F201E /* GameTimeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTimeLabel.swift; sourceTree = "<group>"; };
 		E57200322145B2ED00F84254 /* basket-manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "basket-manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E57200352145B2ED00F84254 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E57200372145B2ED00F84254 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				E57408A6215773EA00C32479 /* ControlButton.swift */,
 				E57408A421571AB800C32479 /* ResetButton.swift */,
 				E52D47E1225AF86A007F201E /* ShotClockLabel.swift */,
+				E52D47F22262962C007F201E /* GameTimeLabel.swift */,
 				E57408E02160B7FA00C32479 /* ScoreLabel.swift */,
 				E57408E22160BA7B00C32479 /* TeamLabel.swift */,
 				E52D47EE225D80DD007F201E /* PossesionImageView.swift */,
@@ -265,6 +268,7 @@
 				E57200382145B2ED00F84254 /* MainViewController.swift in Sources */,
 				E52D47DA2258D8CF007F201E /* ScoreView.swift in Sources */,
 				E52D47F1225D89D9007F201E /* FoulCountImageView.swift in Sources */,
+				E52D47F32262962C007F201E /* GameTimeLabel.swift in Sources */,
 				E52D47D22256BD40007F201E /* AlertDialog.swift in Sources */,
 				E57200362145B2ED00F84254 /* AppDelegate.swift in Sources */,
 				E57408E12160B7FA00C32479 /* ScoreLabel.swift in Sources */,
