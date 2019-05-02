@@ -25,6 +25,8 @@ class ShotClockView: UIView {
     var sec24Button: ShotClockSmallButton
     var sec14Button: ShotClockSmallButton
     
+    var buzzerButton: BuzzerButton
+    
     override init(frame: CGRect) {
         shotClockLabel = ShotClockLabel()
         
@@ -39,6 +41,8 @@ class ShotClockView: UIView {
         sec14Button = ShotClockSmallButton()
         sec14Button.setTitle("14", for: .normal)
         
+        buzzerButton = BuzzerButton()
+        
         super.init(frame: frame)
         
         self.addSubview(shotClockLabel)
@@ -46,6 +50,7 @@ class ShotClockView: UIView {
         self.addSubview(resetButton)
         self.addSubview(sec24Button)
         self.addSubview(sec14Button)
+        self.addSubview(buzzerButton)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -81,6 +86,8 @@ class ShotClockView: UIView {
         
         sec24Button.center = CGPoint(x: btnPosX, y: frame.height*(1/4)+20)
         sec14Button.center = CGPoint(x: btnPosX, y: frame.height*(3/4)-20)
+        
+        buzzerButton.center = CGPoint(x: frame.width*(1/8), y: frame.height*(1/2))
     }
     
     func landscape(frame: CGRect) {
@@ -100,6 +107,7 @@ class ShotClockView: UIView {
         sec24Button.center = CGPoint(x: frame.width*(3/5), y: shotClockButtonY)
         sec14Button.center = CGPoint(x: frame.width*(4/5), y: shotClockButtonY)
         
+        buzzerButton.center = CGPoint(x: frame.width*(1/2), y: frame.height*(1/8))
     }
     
     func initPadAttrPortrait() {

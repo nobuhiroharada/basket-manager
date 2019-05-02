@@ -15,6 +15,9 @@ class MainViewController: UIViewController {
     var gameTimeView: GameTimeView = GameTimeView()
     var scoreView: ScoreView = ScoreView()
     
+    var buzzerPlayer:AVAudioPlayer!
+    let buzzerURL = Bundle.main.bundleURL.appendingPathComponent("buzzer.mp3")
+    
     override var prefersStatusBarHidden: Bool {
         return false
     }
@@ -41,6 +44,17 @@ class MainViewController: UIViewController {
         addButtonAction()
         registerGesturerecognizer()
 
+        do {
+            try buzzerPlayer = AVAudioPlayer(contentsOf:buzzerURL)
+            
+            buzzerPlayer.prepareToPlay()
+            buzzerPlayer.volume = 2.0
+            buzzerPlayer.delegate = self
+            
+        } catch {
+            print(error)
+        }
+        
         // 部品の範囲テスト用 Viewの背景変更
 //        checkViewArea()
         
@@ -57,37 +71,32 @@ class MainViewController: UIViewController {
         checkOrientation(frame: self.view.frame)
         
         switch UIApplication.shared.statusBarOrientation {
-        case .portrait, .portraitUpsideDown:
-            setViews_portrait()
-            
         case .landscapeLeft, .landscapeRight:
             setViews_landscape()
-            
+        case .portrait, .portraitUpsideDown:
+            fallthrough
         default:
             setViews_portrait()
+
         }
     }
     
     func checkOrientation(frame: CGRect) {
         switch UIApplication.shared.statusBarOrientation {
-        case .portrait, .portraitUpsideDown:
-            shotClockView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height*(1/3))
-            
-            gameTimeView.frame = CGRect(x: 0, y: frame.height*(1/3), width: frame.width, height: frame.height*(1/3))
-            
-            scoreView.frame = CGRect(x: 0, y: frame.height*(2/3), width: frame.width, height: frame.height*(1/3))
-            
         case .landscapeLeft, .landscapeRight:
             
             let shotClockViewLandscapeW: CGFloat = frame.width*(1/3)
             shotClockView.frame = CGRect(x: frame.width*(1/3), y: frame.height*(1/2), width: shotClockViewLandscapeW, height: frame.height*(1/2))
-
+            
             self.view.bringSubviewToFront(shotClockView)
             
             gameTimeView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height*(1/2))
             
             
             scoreView.frame = CGRect(x: 0, y: frame.height*(1/2), width: frame.width, height: frame.height*(1/2))
+            
+        case .portrait, .portraitUpsideDown:
+            fallthrough
 
         default:
             shotClockView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height*(1/3))
@@ -107,14 +116,17 @@ class MainViewController: UIViewController {
         
         scoreView.scorePlusButtonB.addTarget(self, action: #selector(MainViewController.scorePlusButtonB_touched), for: .touchUpInside)
         
+        
         shotClockView.sec24Button.addTarget(self, action: #selector(MainViewController.sec24Button_tapped), for: .touchUpInside)
         
         shotClockView.sec14Button.addTarget(self, action: #selector(MainViewController.sec14Button_tapped), for: .touchUpInside)
         
-        
         shotClockView.controlButton.addTarget(self, action: #selector(MainViewController.shotClockControlButton_tapped), for: .touchUpInside)
         
         shotClockView.resetButton.addTarget(self, action: #selector(MainViewController.shotClockResetButton_tapped), for: .touchUpInside)
+        
+        shotClockView.buzzerButton.addTarget(self, action: #selector(MainViewController.buzzerButton_tapped), for: .touchUpInside)
+        
         
         gameTimeView.gameControlButton.addTarget(self, action: #selector(MainViewController.gameControlButton_tapped), for: .touchUpInside)
         
@@ -455,6 +467,17 @@ class MainViewController: UIViewController {
         }
     }
     
+    @objc func buzzerButton_tapped(_ sender: UIButton) {
+        if(buzzerPlayer.isPlaying) {
+            buzzerPlayer.stop()
+            buzzerPlayer.currentTime = 0
+            shotClockView.buzzerButton.setImage(UIImage(named: "buzzer-up"), for: .normal)
+        } else {
+            buzzerPlayer.play()
+            shotClockView.buzzerButton.setImage(UIImage(named: "buzzer-down"), for: .normal)
+        }
+    }
+    
     // 各部品の範囲(テスト用)
     func checkViewArea() {
         scoreView.backgroundColor = .gray
@@ -482,4 +505,14 @@ class MainViewController: UIViewController {
         gameTimeView.gameResetButton.backgroundColor = .blue
         gameTimeView.picker.backgroundColor = .blue
     }
+}
+
+extension MainViewController: AVAudioPlayerDelegate {
+    
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        
+        shotClockView.buzzerButton.setImage(UIImage(named: "buzzer-up"), for: .normal)
+        
+    }
+    
 }
