@@ -13,6 +13,7 @@ let TEAM_A: String  = "team_a"
 let TEAM_B: String  = "team_b"
 let SCORE_A: String = "score_a"
 let SCORE_B: String = "score_b"
+let BUZEER_AUTO_BEEP: String = "buzzer_auto_beep"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private(set) lazy var viewController = MainViewController()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        if (userdefaults.object(forKey: BUZEER_AUTO_BEEP) == nil) {
+            userdefaults.set(false, forKey: BUZEER_AUTO_BEEP)
+        }
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = viewController

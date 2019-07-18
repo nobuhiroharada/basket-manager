@@ -126,7 +126,9 @@ class MainViewController: UIViewController {
         
         shotClockView.sec14Button.addTarget(self, action: #selector(MainViewController.sec14Button_tapped), for: .touchUpInside)
         
-        shotClockView.buzzerButton.addTarget(self, action: #selector(MainViewController.buzzerButton_tapped), for: .touchUpInside)
+        shotClockView.buzzerButton.addTarget(self, action: #selector(MainViewController.buzzerButton_touchDown), for: .touchDown)
+        
+        shotClockView.buzzerButton.addTarget(self, action: #selector(MainViewController.buzzerButton_touchUp), for: [.touchUpInside, .touchUpOutside])
         
         shotClockView.controlButton.addTarget(self, action: #selector(MainViewController.shotClockControlButton_tapped), for: .touchUpInside)
         
@@ -189,6 +191,10 @@ class MainViewController: UIViewController {
         let tapFoulCountB5 = UITapGestureRecognizer(target: self, action: #selector(MainViewController.foulCountB5_tapped))
         gameTimeView.foulCountImageB5.addGestureRecognizer(tapFoulCountB5)
         
+        let upSwipe = UISwipeGestureRecognizer(target: self, action: #selector(MainViewController.upSwipe))
+        upSwipe.direction = .up
+        self.view.addGestureRecognizer(upSwipe)
+        
     }
     
     func setViews_portrait() {
@@ -237,19 +243,23 @@ class MainViewController: UIViewController {
     }
     
     @objc func teamLabelA_tapped(_ sender: UITapGestureRecognizer) {
-        AlertDialog.showTeamNameEdit(title: "Edit HOME Name", team: TEAM_A, teamLabel: scoreView.teamLabelA, viewController: self)
+        AlertDialog.showTeamNameEdit(title: "team_a_name_edit".localized, team: TEAM_A, teamLabel: scoreView.teamLabelA, viewController: self)
     }
     
     @objc func teamLabelB_tapped(_ sender: UITapGestureRecognizer) {
-        AlertDialog.showTeamNameEdit(title: "Edit GUEST Name", team: TEAM_B, teamLabel: scoreView.teamLabelB, viewController: self)
+        AlertDialog.showTeamNameEdit(title: "team_b_name_edit".localized, team: TEAM_B, teamLabel: scoreView.teamLabelB, viewController: self)
     }
     
     @objc func scoreLabelA_tapped(_ sender: UITapGestureRecognizer) {
-        AlertDialog.showScoreEdit(title: "Edit HOME Score", team: TEAM_A, scoreView: scoreView, viewController: self)
+        AlertDialog.showScoreEdit(title: "team_a_score_edit".localized, team: TEAM_A, scoreView: scoreView, viewController: self)
     }
     
     @objc func scoreLabelB_tapped(_ sender: UITapGestureRecognizer) {
-        AlertDialog.showScoreEdit(title: "Edit GUEST Score", team: TEAM_B, scoreView: scoreView, viewController: self)
+        AlertDialog.showScoreEdit(title: "team_b_score_edit".localized, team: TEAM_B, scoreView: scoreView, viewController: self)
+    }
+    
+    @objc func upSwipe() {
+        AlertDialog.showBuzzerSettingActionSheet(viewController: self)
     }
     
     // MARK: - GameTimeView
@@ -300,6 +310,12 @@ class MainViewController: UIViewController {
 
     @objc func gameTimerCount() {
         if gameTimeView.gameSeconds < 1 {
+            
+            if userdefaults.bool(forKey: BUZEER_AUTO_BEEP) {
+                buzzerPlayer?.play()
+                shotClockView.buzzerButton.setImage(UIImage(named: "buzzer-down"), for: .normal)
+            }
+            
             gameTimeView.gameTimer.invalidate()
             gameTimeView.gameSecLabel.text = "00"
             self.openGameTimeOverDialog()
@@ -317,7 +333,7 @@ class MainViewController: UIViewController {
     }
 
     func openGameTimeOverDialog() {
-        AlertDialog.showTimeover(title: "Game Time Over", viewController: self) {
+        AlertDialog.showTimeover(title: "game_over".localized, viewController: self) {
             self.gameTimeView.gameTimer.invalidate()
             self.gameTimeView.gameSeconds = self.gameTimeView.oldGameSeconds
             self.showGameTime()
@@ -385,7 +401,7 @@ class MainViewController: UIViewController {
             shotClockView.shotClockTimer.invalidate()
         }
 
-        AlertDialog.showShotClockEdit(title: "Edit Timer", shotClockView: shotClockView, viewController: self)
+        AlertDialog.showShotClockEdit(title: "shotclock_title".localized, shotClockView: shotClockView, viewController: self)
         
     }
     
@@ -421,6 +437,12 @@ class MainViewController: UIViewController {
 
     @objc func shotClockCount() {
         if shotClockView.shotSeconds < 1 {
+            
+            if userdefaults.bool(forKey: BUZEER_AUTO_BEEP) {
+                buzzerPlayer?.play()
+                shotClockView.buzzerButton.setImage(UIImage(named: "buzzer-down"), for: .normal)
+            }
+            
             shotClockView.shotClockTimer.invalidate()
             shotClockView.shotClockLabel.text = String(shotClockView.shotSeconds)
             openShotClockTimeOverDialog()
@@ -462,7 +484,7 @@ class MainViewController: UIViewController {
     }
 
     func openShotClockTimeOverDialog() {
-        AlertDialog.showTimeover(title: "Shot Clock Over", viewController: self) {
+        AlertDialog.showTimeover(title: "shotclock_over".localized, viewController: self) {
             self.shotClockView.controlButton.setImage(UIImage(named: "start.png"), for: .normal)
             self.shotClockView.shotSeconds = 24
             self.shotClockView.shotClockLabel.text = String(self.shotClockView.shotSeconds)
@@ -471,15 +493,15 @@ class MainViewController: UIViewController {
         }
     }
     
-    @objc func buzzerButton_tapped(_ sender: UIButton) {
-        if(buzzerPlayer!.isPlaying) {
-            buzzerPlayer?.stop()
-            buzzerPlayer?.currentTime = 0
-            shotClockView.buzzerButton.setImage(UIImage(named: "buzzer-up"), for: .normal)
-        } else {
-            buzzerPlayer?.play()
-            shotClockView.buzzerButton.setImage(UIImage(named: "buzzer-down"), for: .normal)
-        }
+    @objc func buzzerButton_touchDown(_ sender: UIButton) {
+        buzzerPlayer?.play()
+        shotClockView.buzzerButton.setImage(UIImage(named: "buzzer-down"), for: .normal)
+    }
+    
+    @objc func buzzerButton_touchUp(_ sender: UIButton) {
+        buzzerPlayer?.stop()
+        buzzerPlayer?.currentTime = 0
+        shotClockView.buzzerButton.setImage(UIImage(named: "buzzer-up"), for: .normal)
     }
     
     // 各部品の範囲(テスト用)

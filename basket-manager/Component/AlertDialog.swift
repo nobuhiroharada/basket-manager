@@ -124,4 +124,51 @@ class AlertDialog: UIAlertController {
         viewController.present(alert, animated: true, completion: nil)
     }
     
+    class func showBuzzerSettingActionSheet(viewController: UIViewController) {
+        
+        let actionSheet: UIAlertController = UIAlertController(title: "buzzer_title".localized,  message: "buzzer_subtitle".localized, preferredStyle:  UIAlertController.Style.actionSheet)
+        
+        var yesAction = UIAlertAction(title: "buzzer_yes".localized, style: UIAlertAction.Style.default, handler:{
+            (action: UIAlertAction!) -> Void in
+            
+            userdefaults.set(true, forKey: BUZEER_AUTO_BEEP)
+            
+        })
+        
+        var noAction = UIAlertAction(title: "buzzer_no".localized, style: UIAlertAction.Style.default, handler:{
+            (action: UIAlertAction!) -> Void in
+            
+            userdefaults.set(false, forKey: BUZEER_AUTO_BEEP)
+            
+        })
+        
+        let cancelAction = UIAlertAction(title: "buzzer_cancel".localized, style: UIAlertAction.Style.cancel, handler: nil)
+        
+        if userdefaults.bool(forKey: BUZEER_AUTO_BEEP) {
+            yesAction = selectAlertController(action: yesAction)
+        } else {
+            noAction = selectAlertController(action: noAction)
+        }
+        
+        actionSheet.addAction(yesAction)
+        actionSheet.addAction(noAction)
+        actionSheet.addAction(cancelAction)
+        
+        actionSheet.popoverPresentationController?.sourceView = viewController.view
+        
+        let screenSize = UIScreen.main.bounds
+        actionSheet.popoverPresentationController?.sourceRect = CGRect(x: screenSize.size.width/2, y: screenSize.size.height, width: 0, height: 0)
+        
+        viewController.present(actionSheet, animated: true, completion: nil)
+    }
+    
+    static func selectAlertController(action: UIAlertAction) -> UIAlertAction {
+        
+        action.setValue(UIImage(named: "checkmark.png")?.scaleImage(scaleSize: 0.4), forKey: "image")
+        action.setValue(UIColor.red, forKey: "imageTintColor")
+        action.setValue(UIColor.red, forKey: "titleTextColor")
+        
+        return action
+    }
+    
 }
