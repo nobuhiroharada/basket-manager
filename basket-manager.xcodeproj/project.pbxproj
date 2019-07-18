@@ -30,6 +30,8 @@
 		E57408F92167F04A00C32479 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57408F82167F04A00C32479 /* UITextField+.swift */; };
 		E5925FEF2156F78100DEE34F /* ScoreSmallButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5925FEE2156F78100DEE34F /* ScoreSmallButton.swift */; };
 		E5A4B01C2155C31F0014BC65 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5A4B01B2155C31F0014BC65 /* AVFoundation.framework */; };
+		E5C87A6722E09F1700E41A3A /* buzzer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E5C87A6622E09F1700E41A3A /* buzzer.mp3 */; };
+		E5C87A6922E09F7A00E41A3A /* BuzzerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C87A6822E09F7A00E41A3A /* BuzzerButton.swift */; };
 		FD3D241EDB8252FDA82EBBE7 /* Pods_basket_manager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5659C378E0DBA134BAE181B0 /* Pods_basket_manager.framework */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +64,8 @@
 		E57408F82167F04A00C32479 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		E5925FEE2156F78100DEE34F /* ScoreSmallButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreSmallButton.swift; sourceTree = "<group>"; };
 		E5A4B01B2155C31F0014BC65 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		E5C87A6622E09F1700E41A3A /* buzzer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = buzzer.mp3; sourceTree = "<group>"; };
+		E5C87A6822E09F7A00E41A3A /* BuzzerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuzzerButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +125,7 @@
 				E57200372145B2ED00F84254 /* MainViewController.swift */,
 				E572003E2145B2EF00F84254 /* LaunchScreen.storyboard */,
 				E518C002218D7946000A3A05 /* Digital Dismay.otf */,
+				E5C87A6622E09F1700E41A3A /* buzzer.mp3 */,
 				E52D47DB225934E9007F201E /* View */,
 				E5740903216B904D00C32479 /* Component */,
 				E57408F221674F0000C32479 /* Extension */,
@@ -147,6 +152,7 @@
 				E52D47CD2255FBCC007F201E /* ShotClockSmallButton.swift */,
 				E5925FEE2156F78100DEE34F /* ScoreSmallButton.swift */,
 				E57408A6215773EA00C32479 /* ControlButton.swift */,
+				E5C87A6822E09F7A00E41A3A /* BuzzerButton.swift */,
 				E57408A421571AB800C32479 /* ResetButton.swift */,
 				E52D47E1225AF86A007F201E /* ShotClockLabel.swift */,
 				E52D47F22262962C007F201E /* GameTimeLabel.swift */,
@@ -230,6 +236,7 @@
 			files = (
 				E518C003218D7958000A3A05 /* Digital Dismay.otf in Resources */,
 				E57200402145B2EF00F84254 /* LaunchScreen.storyboard in Resources */,
+				E5C87A6722E09F1700E41A3A /* buzzer.mp3 in Resources */,
 				E572003D2145B2EF00F84254 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -277,6 +284,7 @@
 				E52D47E2225AF86A007F201E /* ShotClockLabel.swift in Sources */,
 				E52D47D022569556007F201E /* UIColor+.swift in Sources */,
 				E52D47DE22593849007F201E /* ShotClockView.swift in Sources */,
+				E5C87A6922E09F7A00E41A3A /* BuzzerButton.swift in Sources */,
 				E52D47CE2255FBCC007F201E /* ShotClockSmallButton.swift in Sources */,
 				E57408A7215773EA00C32479 /* ControlButton.swift in Sources */,
 				E5925FEF2156F78100DEE34F /* ScoreSmallButton.swift in Sources */,

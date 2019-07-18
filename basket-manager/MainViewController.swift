@@ -15,6 +15,8 @@ class MainViewController: UIViewController {
     var gameTimeView: GameTimeView = GameTimeView()
     var scoreView: ScoreView = ScoreView()
     
+    var buzzerPlayer: AVAudioPlayer?
+    
     override var prefersStatusBarHidden: Bool {
         return false
     }
@@ -41,6 +43,19 @@ class MainViewController: UIViewController {
         addButtonAction()
         registerGesturerecognizer()
 
+        let buzzerURL = Bundle.main.bundleURL.appendingPathComponent("buzzer.mp3")
+        
+        do {
+            try buzzerPlayer = AVAudioPlayer(contentsOf:buzzerURL)
+            
+            buzzerPlayer?.prepareToPlay()
+            buzzerPlayer?.volume = 2.0
+            buzzerPlayer?.delegate = self
+            
+        } catch {
+            print(error)
+        }
+        
         // 部品の範囲テスト用 Viewの背景変更
 //        checkViewArea()
         
@@ -111,6 +126,7 @@ class MainViewController: UIViewController {
         
         shotClockView.sec14Button.addTarget(self, action: #selector(MainViewController.sec14Button_tapped), for: .touchUpInside)
         
+        shotClockView.buzzerButton.addTarget(self, action: #selector(MainViewController.buzzerButton_tapped), for: .touchUpInside)
         
         shotClockView.controlButton.addTarget(self, action: #selector(MainViewController.shotClockControlButton_tapped), for: .touchUpInside)
         
@@ -455,6 +471,17 @@ class MainViewController: UIViewController {
         }
     }
     
+    @objc func buzzerButton_tapped(_ sender: UIButton) {
+        if(buzzerPlayer!.isPlaying) {
+            buzzerPlayer?.stop()
+            buzzerPlayer?.currentTime = 0
+            shotClockView.buzzerButton.setImage(UIImage(named: "buzzer-up"), for: .normal)
+        } else {
+            buzzerPlayer?.play()
+            shotClockView.buzzerButton.setImage(UIImage(named: "buzzer-down"), for: .normal)
+        }
+    }
+    
     // 各部品の範囲(テスト用)
     func checkViewArea() {
         scoreView.backgroundColor = .gray
@@ -482,4 +509,14 @@ class MainViewController: UIViewController {
         gameTimeView.gameResetButton.backgroundColor = .blue
         gameTimeView.picker.backgroundColor = .blue
     }
+}
+
+extension MainViewController: AVAudioPlayerDelegate {
+    
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        
+        shotClockView.buzzerButton.setImage(UIImage(named: "buzzer-up"), for: .normal)
+        
+    }
+    
 }
