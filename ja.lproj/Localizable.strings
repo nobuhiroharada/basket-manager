@@ -1,0 +1,34 @@
+/* 
+  Localizable.strings
+  basket-manager
+
+  Created by Nobuhiro Harada on 2019/07/19.
+  Copyright © 2019 Nobuhiro Harada. All rights reserved.
+*/
+
+// アラート - ブザー
+"buzzer_title" = "ブザー設定";
+"buzzer_subtitle" = "24秒、試合時間がタイムアップした時にブザーを鳴らしますか？";
+"buzzer_yes" = "YES, 高須クリック！";
+"buzzer_no" = "いいえ";
+"buzzer_cancel" = "キャンセル";
+
+// 試合時間 オーバー
+"game_over" = "試合終了";
+
+// ショットクロック オーバー
+"shotclock_over" = "ショットクロックオーバー";
+
+// ショットクロック 編集
+"shotclock_title" = "ショットクロック 編集";
+
+// チーム名 編集
+"team_a_name_edit" = "ホームチーム名 編集";
+"team_b_name_edit" = "ゲストチーム名 編集";
+
+// チーム名 プレイスホルダー
+"team_name" = "チーム名";
+
+// チームスコア 編集
+"team_a_score_edit" = "ホームチームスコア 編集";
+"team_b_score_edit" = "ゲストチームスコア 編集";
