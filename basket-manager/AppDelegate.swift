@@ -14,6 +14,7 @@ let TEAM_B: String  = "team_b"
 let SCORE_A: String = "score_a"
 let SCORE_B: String = "score_b"
 let BUZEER_AUTO_BEEP: String = "buzzer_auto_beep"
+let IS_SHOTCLOCK_24: String = "is_shotclock_14"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -26,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (userdefaults.object(forKey: BUZEER_AUTO_BEEP) == nil) {
             userdefaults.set(false, forKey: BUZEER_AUTO_BEEP)
         }
+        
+        userdefaults.set(true, forKey: IS_SHOTCLOCK_24)
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = viewController

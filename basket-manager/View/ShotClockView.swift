@@ -51,6 +51,8 @@ class ShotClockView: UIView {
         self.addSubview(sec24Button)
         self.addSubview(sec14Button)
         self.addSubview(buzzerButton)
+        
+        checkShotClockStatus()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -116,5 +118,15 @@ class ShotClockView: UIView {
     
     func initPadAttrLandscape() {
         shotClockLabel.initPadAttrLandscape()
+    }
+    
+    func checkShotClockStatus() {
+        if userdefaults.bool(forKey: IS_SHOTCLOCK_24) {
+            sec24Button.alpha = 1.0
+            sec14Button.alpha = 0.3
+        } else {
+            sec24Button.alpha = 0.3
+            sec14Button.alpha = 1.0
+        }
     }
 }

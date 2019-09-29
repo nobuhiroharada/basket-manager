@@ -458,11 +458,22 @@ class MainViewController: UIViewController {
         case .START:
             return
         case .STOP:
-            shotClockView.shotSeconds = 24
+            if userdefaults.bool(forKey: IS_SHOTCLOCK_24) {
+                shotClockView.shotSeconds = 24
+            } else {
+                shotClockView.shotSeconds = 14
+            }
+            
             shotClockView.shotClockLabel.text = String(shotClockView.shotSeconds)
         case .RESUME:
             shotClockView.shotClockTimer.invalidate()
-            shotClockView.shotSeconds = 24
+            
+            if userdefaults.bool(forKey: IS_SHOTCLOCK_24) {
+                shotClockView.shotSeconds = 24
+            } else {
+                shotClockView.shotSeconds = 14
+            }
+            
             shotClockView.shotClockLabel.text = String(shotClockView.shotSeconds)
             shotClockView.controlButton.setImage(UIImage(named: "start.png"), for: .normal)
             shotClockView.shotClockStatus = .START
@@ -475,12 +486,16 @@ class MainViewController: UIViewController {
     @objc func sec24Button_tapped(_ sender: UIButton) {
         shotClockView.shotSeconds = 24
         shotClockView.shotClockLabel.text = "24"
+        userdefaults.set(true, forKey: IS_SHOTCLOCK_24)
+        shotClockView.checkShotClockStatus()
     }
 
     // 14秒セットボタンタップ
     @objc func sec14Button_tapped(_ sender: UIButton) {
         shotClockView.shotSeconds = 14
         shotClockView.shotClockLabel.text = "14"
+        userdefaults.set(false, forKey: IS_SHOTCLOCK_24)
+        shotClockView.checkShotClockStatus()
     }
 
     func openShotClockTimeOverDialog() {
