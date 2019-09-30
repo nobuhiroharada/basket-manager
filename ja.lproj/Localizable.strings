@@ -9,7 +9,7 @@
 // アラート - ブザー
 "buzzer_title" = "ブザー設定";
 "buzzer_subtitle" = "24秒、試合時間がタイムアップした時にブザーを鳴らしますか？";
-"buzzer_yes" = "YES, 高須クリック！";
+"buzzer_yes" = "はい";
 "buzzer_no" = "いいえ";
 "buzzer_cancel" = "キャンセル";
 

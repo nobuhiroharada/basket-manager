@@ -501,7 +501,12 @@ class MainViewController: UIViewController {
     func openShotClockTimeOverDialog() {
         AlertDialog.showTimeover(title: "shotclock_over".localized, viewController: self) {
             self.shotClockView.controlButton.setImage(UIImage(named: "start.png"), for: .normal)
-            self.shotClockView.shotSeconds = 24
+            if userdefaults.bool(forKey: IS_SHOTCLOCK_24) {
+                self.shotClockView.shotSeconds = 24
+            } else {
+                self.shotClockView.shotSeconds = 14
+            }
+            
             self.shotClockView.shotClockLabel.text = String(self.shotClockView.shotSeconds)
             self.shotClockView.shotClockStatus = .START
             self.shotClockView.resetButton.isEnabled = false
