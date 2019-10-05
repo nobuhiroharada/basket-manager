@@ -259,7 +259,7 @@ class MainViewController: UIViewController {
     }
     
     @objc func upSwipe() {
-        AlertDialog.showBuzzerSettingActionSheet(viewController: self)
+        AlertDialog.showSettingActionSheet(scoreView, gameTimeView, shotClockView,viewController: self)
     }
     
     // MARK: - GameTimeView

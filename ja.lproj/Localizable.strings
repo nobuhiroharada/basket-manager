@@ -6,12 +6,12 @@
   Copyright © 2019 Nobuhiro Harada. All rights reserved.
 */
 
-// アラート - ブザー
-"buzzer_title" = "ブザー設定";
-"buzzer_subtitle" = "24秒、試合時間がタイムアップした時にブザーを鳴らしますか？";
-"buzzer_yes" = "はい";
-"buzzer_no" = "いいえ";
-"buzzer_cancel" = "キャンセル";
+// 設定 - アクションシート
+"setting_title" = "設定";
+"setting_subtitle" = "自動ブザー設定、リセットを行います。";
+"setting_auto_buzzer" = "終了時に自動でブザーを鳴らす";
+"setting_reset" = "リセット";
+"setting_cancel" = "キャンセル";
 
 // 試合時間 オーバー
 "game_over" = "試合終了";

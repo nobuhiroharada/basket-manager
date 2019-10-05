@@ -550,4 +550,38 @@ extension GameTimeView: UIPickerViewDelegate, UIPickerViewDataSource {
         gameSeconds = min!*60 + sec!
         oldGameSeconds = gameSeconds
     }
+    
+    func reset() {
+        if gameTimer != nil {
+           gameTimer.invalidate()
+        }
+        gameSeconds = 600
+        oldGameSeconds = 600
+        let min = gameSeconds/60
+        let sec = gameSeconds%60
+        gameMinLabel.text = String(format: "%02d", min)
+        gameSecLabel.text = String(format: "%02d", sec)
+        gameControlButton.setImage(UIImage(named: "start.png"), for: .normal)
+        gameResetButton.isEnabled = false
+        gameTimerStatus = .START
+        gameMinLabel.isHidden = true
+        gameColonLabel.isHidden = true
+        gameSecLabel.isHidden = true
+        
+        picker.isHidden = false
+        picker.selectRow(10, inComponent: 0, animated: true)
+        picker.selectRow(0, inComponent: 1, animated: true)
+        
+        foulCountImageA1.image = UIImage(named: "foulcount-inactive")
+        foulCountImageA2.image = UIImage(named: "foulcount-inactive")
+        foulCountImageA3.image = UIImage(named: "foulcount-inactive")
+        foulCountImageA4.image = UIImage(named: "foulcount-inactive")
+        foulCountImageA5.image = UIImage(named: "foulcount-inactive")
+        
+        foulCountImageB1.image = UIImage(named: "foulcount-inactive")
+        foulCountImageB2.image = UIImage(named: "foulcount-inactive")
+        foulCountImageB3.image = UIImage(named: "foulcount-inactive")
+        foulCountImageB4.image = UIImage(named: "foulcount-inactive")
+        foulCountImageB5.image = UIImage(named: "foulcount-inactive")
+    }
 }

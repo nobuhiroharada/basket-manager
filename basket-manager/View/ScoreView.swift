@@ -153,4 +153,14 @@ class ScoreView: UIView {
         scoreLabelA.initPadAttrLandscape()
         scoreLabelB.initPadAttrLandscape()
     }
+    
+    func reset() {
+        scoreA = 0
+        scoreLabelA.text = "00"
+        teamLabelA.text = "HOME"
+        
+        scoreB = 0
+        scoreLabelB.text = "00"
+        teamLabelB.text = "GUEST"
+    }
 }

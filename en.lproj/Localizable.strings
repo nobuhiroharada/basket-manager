@@ -6,12 +6,12 @@
   Copyright © 2019 Nobuhiro Harada. All rights reserved.
 */
 
-// ブザー
-"buzzer_title" = "Buzzer Setting";
-"buzzer_subtitle" = "Do you want to beep when the match time or 24 seconds is up?";
-"buzzer_yes" = "YES";
-"buzzer_no" = "NO";
-"buzzer_cancel" = "Cancel";
+// 設定 - アクションシート
+"setting_title" = "Setting";
+"setting_subtitle" = "auto buzzer, reset setting";
+"setting_auto_buzzer" = "When time up, auto buzzer";
+"setting_reset" = "Reset";
+"setting_cancel" = "Cancel";
 
 // 試合時間 オーバー
 "game_over" = "Game Time Over";

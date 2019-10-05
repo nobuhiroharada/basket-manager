@@ -124,34 +124,38 @@ class AlertDialog: UIAlertController {
         viewController.present(alert, animated: true, completion: nil)
     }
     
-    class func showBuzzerSettingActionSheet(viewController: UIViewController) {
+    class func showSettingActionSheet(_ scoreView: ScoreView, _ gameTimeView: GameTimeView, _ shotClockView: ShotClockView, viewController: UIViewController) {
         
-        let actionSheet: UIAlertController = UIAlertController(title: "buzzer_title".localized,  message: "buzzer_subtitle".localized, preferredStyle:  UIAlertController.Style.actionSheet)
+        let actionSheet: UIAlertController = UIAlertController(title: "setting_title".localized,  message: "setting_subtitle".localized, preferredStyle:  UIAlertController.Style.actionSheet)
         
-        var yesAction = UIAlertAction(title: "buzzer_yes".localized, style: UIAlertAction.Style.default, handler:{
+        var autoBuzzerAction = UIAlertAction(title: "setting_auto_buzzer".localized, style: UIAlertAction.Style.default, handler:{
             (action: UIAlertAction!) -> Void in
             
-            userdefaults.set(true, forKey: BUZEER_AUTO_BEEP)
+            if userdefaults.bool(forKey: BUZEER_AUTO_BEEP) {
+                userdefaults.set(false, forKey: BUZEER_AUTO_BEEP)
+            } else {
+                userdefaults.set(true, forKey: BUZEER_AUTO_BEEP)
+            }
             
         })
         
-        var noAction = UIAlertAction(title: "buzzer_no".localized, style: UIAlertAction.Style.default, handler:{
+        let initAction = UIAlertAction(title: "setting_reset".localized, style: UIAlertAction.Style.default, handler:{
             (action: UIAlertAction!) -> Void in
             
-            userdefaults.set(false, forKey: BUZEER_AUTO_BEEP)
-            
+            scoreView.reset()
+            gameTimeView.reset()
+            shotClockView.reset()
+
         })
         
-        let cancelAction = UIAlertAction(title: "buzzer_cancel".localized, style: UIAlertAction.Style.cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "setting_cancel".localized, style: UIAlertAction.Style.cancel, handler: nil)
         
         if userdefaults.bool(forKey: BUZEER_AUTO_BEEP) {
-            yesAction = selectAlertController(action: yesAction)
-        } else {
-            noAction = selectAlertController(action: noAction)
+            autoBuzzerAction = selectAlertController(action: autoBuzzerAction)
         }
         
-        actionSheet.addAction(yesAction)
-        actionSheet.addAction(noAction)
+        actionSheet.addAction(autoBuzzerAction)
+        actionSheet.addAction(initAction)
         actionSheet.addAction(cancelAction)
         
         actionSheet.popoverPresentationController?.sourceView = viewController.view
@@ -165,8 +169,8 @@ class AlertDialog: UIAlertController {
     static func selectAlertController(action: UIAlertAction) -> UIAlertAction {
         
         action.setValue(UIImage(named: "checkmark.png")?.scaleImage(scaleSize: 0.4), forKey: "image")
-        action.setValue(UIColor.red, forKey: "imageTintColor")
-        action.setValue(UIColor.red, forKey: "titleTextColor")
+//        action.setValue(UIColor.red, forKey: "imageTintColor")
+//        action.setValue(UIColor.red, forKey: "titleTextColor")
         
         return action
     }

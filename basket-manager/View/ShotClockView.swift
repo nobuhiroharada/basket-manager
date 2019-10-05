@@ -129,4 +129,19 @@ class ShotClockView: UIView {
             sec14Button.alpha = 1.0
         }
     }
+    
+    func reset() {
+        if shotClockTimer != nil {
+            shotClockTimer.invalidate()
+        }
+
+        shotSeconds = 24
+        shotClockLabel.text = "24"
+        controlButton.setImage(UIImage(named: "start.png"), for: .normal)
+        resetButton.isEnabled = false
+        shotClockStatus = .START
+        sec24Button.alpha = 1.0
+        sec14Button.alpha = 0.3
+        userdefaults.set(true, forKey: IS_SHOTCLOCK_24)
+    }
 }
