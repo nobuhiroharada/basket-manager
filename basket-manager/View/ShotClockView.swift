@@ -25,7 +25,10 @@ class ShotClockView: UIView {
     var sec24Button: ShotClockSmallButton
     var sec14Button: ShotClockSmallButton
     
+    // Portrate時のみ表示(Landscape時はGameTimeViewで表示)
     var buzzerButton: BuzzerButton
+    var autoBuzzerLabel: AutoBuzzerLabel
+    var settingButton: SettingButton
     
     override init(frame: CGRect) {
         shotClockLabel = ShotClockLabel()
@@ -42,6 +45,8 @@ class ShotClockView: UIView {
         sec14Button.setTitle("14", for: .normal)
         
         buzzerButton = BuzzerButton()
+        autoBuzzerLabel = AutoBuzzerLabel()
+        settingButton = SettingButton()
         
         super.init(frame: frame)
         
@@ -51,6 +56,8 @@ class ShotClockView: UIView {
         self.addSubview(sec24Button)
         self.addSubview(sec14Button)
         self.addSubview(buzzerButton)
+        self.addSubview(autoBuzzerLabel)
+        self.addSubview(settingButton)
         
         checkShotClockStatus()
     }
@@ -89,7 +96,17 @@ class ShotClockView: UIView {
         sec24Button.center = CGPoint(x: btnPosX, y: frame.height*(1/4)+20)
         sec14Button.center = CGPoint(x: btnPosX, y: frame.height*(3/4)-20)
         
+        settingButton.center = CGPoint(x: frame.width*(1/8), y: frame.height*(1/4))
         buzzerButton.center = CGPoint(x: frame.width*(1/8), y: frame.height*(1/2))
+        autoBuzzerLabel.center = CGPoint(x: frame.width*(1/8), y: frame.height*(1/2)+34)
+
+        settingButton.isHidden = false
+        settingButton.isEnabled = true
+        
+        buzzerButton.isHidden = false
+        buzzerButton.isEnabled = true
+        autoBuzzerLabel.isHidden = false
+
     }
     
     func landscape(frame: CGRect) {
@@ -108,8 +125,14 @@ class ShotClockView: UIView {
 
         sec24Button.center = CGPoint(x: frame.width*(3/5), y: shotClockButtonY)
         sec14Button.center = CGPoint(x: frame.width*(4/5), y: shotClockButtonY)
+
+        settingButton.isHidden = true
+        settingButton.isEnabled = false
         
-        buzzerButton.center = CGPoint(x: frame.width*(1/2), y: frame.height*(1/8))
+        buzzerButton.isHidden = true
+        buzzerButton.isEnabled = false
+        autoBuzzerLabel.isHidden = true
+
     }
     
     func initPadAttrPortrait() {

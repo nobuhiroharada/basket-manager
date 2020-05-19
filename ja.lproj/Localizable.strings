@@ -6,10 +6,10 @@
   Copyright © 2019 Nobuhiro Harada. All rights reserved.
 */
 
-// 設定 - アクションシート
+// 設定
 "setting_title" = "設定";
-"setting_subtitle" = "自動ブザー設定、リセットを行います。";
-"setting_auto_buzzer" = "終了時に自動でブザーを鳴らす";
+"setting_auto_buzzer" = "自動ブザー設定";
+"setting_sync_shotclock_gametime" = "ショットクロック、タイマー同期設定";
 "setting_reset" = "リセット";
 "setting_cancel" = "キャンセル";
 
@@ -32,3 +32,5 @@
 // チームスコア 編集
 "team_a_score_edit" = "ホームチームスコア 編集";
 "team_b_score_edit" = "ゲストチームスコア 編集";
+
+"app_version" = "バージョン";

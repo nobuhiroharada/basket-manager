@@ -134,9 +134,17 @@ class MainViewController: UIViewController {
         
         shotClockView.resetButton.addTarget(self, action: #selector(MainViewController.shotClockResetButton_tapped), for: .touchUpInside)
         
+        shotClockView.settingButton.addTarget(self, action: #selector(MainViewController.shotClockSettingButton_tapped), for: .touchUpInside)
+        
         gameTimeView.gameControlButton.addTarget(self, action: #selector(MainViewController.gameControlButton_tapped), for: .touchUpInside)
         
         gameTimeView.gameResetButton.addTarget(self, action: #selector(MainViewController.gameResetButton_tapped), for: .touchUpInside)
+        
+        gameTimeView.settingButton.addTarget(self, action: #selector(MainViewController.shotClockSettingButton_tapped), for: .touchUpInside)
+        
+        gameTimeView.buzzerButton.addTarget(self, action: #selector(MainViewController.buzzerButton_touchDown), for: .touchDown)
+        
+        gameTimeView.buzzerButton.addTarget(self, action: #selector(MainViewController.buzzerButton_touchUp), for: [.touchUpInside, .touchUpOutside])
     }
     
     func registerGesturerecognizer() {
@@ -190,10 +198,6 @@ class MainViewController: UIViewController {
         
         let tapFoulCountB5 = UITapGestureRecognizer(target: self, action: #selector(MainViewController.foulCountB5_tapped))
         gameTimeView.foulCountImageB5.addGestureRecognizer(tapFoulCountB5)
-        
-        let upSwipe = UISwipeGestureRecognizer(target: self, action: #selector(MainViewController.upSwipe))
-        upSwipe.direction = .up
-        self.view.addGestureRecognizer(upSwipe)
         
     }
     
@@ -258,14 +262,31 @@ class MainViewController: UIViewController {
         AlertDialog.showScoreEdit(title: "team_b_score_edit".localized, team: TEAM_B, scoreView: scoreView, viewController: self)
     }
     
-    @objc func upSwipe() {
-        AlertDialog.showSettingActionSheet(scoreView, gameTimeView, shotClockView,viewController: self)
-    }
-    
     // MARK: - GameTimeView
     // ゲームタイムコントロールボタン押下
     @objc func gameControlButton_tapped(_ sender: UIButton) {
 
+        // 同期Onの時、ショットクロックのステータスも更新
+        if userdefaults.bool(forKey: IS_SYNC_SHOTCLOCK_GAMETIME) {
+            switch shotClockView.shotClockStatus {
+                case .START:
+                    runShotClockTimer()
+                    shotClockView.controlButton.setImage(UIImage(named: "stop.png"), for: .normal)
+                    shotClockView.shotClockStatus = .STOP
+                    shotClockView.resetButton.isEnabled = true
+
+                case .STOP:
+                    shotClockView.shotClockTimer.invalidate()
+                    shotClockView.controlButton.setImage(UIImage(named: "start.png"), for: .normal)
+                    shotClockView.shotClockStatus = .RESUME
+
+                case .RESUME:
+                    runShotClockTimer()
+                    shotClockView.controlButton.setImage(UIImage(named: "stop"), for: .normal)
+                    shotClockView.shotClockStatus = .STOP
+            }
+        }
+        
         switch gameTimeView.gameTimerStatus {
             case .START:
                 self.runGameTimer()
@@ -314,6 +335,24 @@ class MainViewController: UIViewController {
             if userdefaults.bool(forKey: BUZEER_AUTO_BEEP) {
                 buzzerPlayer?.play()
                 shotClockView.buzzerButton.setImage(UIImage(named: "buzzer-down"), for: .normal)
+                gameTimeView.buzzerButton.setImage(UIImage(named: "buzzer-down"), for: .normal)
+            }
+            
+            // 同期On時、ショットクロックをリセット
+            if userdefaults.bool(forKey: IS_SYNC_SHOTCLOCK_GAMETIME) {
+                shotClockView.shotClockTimer.invalidate()
+                
+                if userdefaults.bool(forKey: IS_SHOTCLOCK_24) {
+                    shotClockView.shotSeconds = 24
+                } else {
+                    shotClockView.shotSeconds = 14
+                }
+                
+                shotClockView.shotClockLabel.text = String(shotClockView.shotSeconds)
+                shotClockView.controlButton.setImage(UIImage(named: "start.png"), for: .normal)
+                shotClockView.shotClockStatus = .START
+                
+                shotClockView.resetButton.isEnabled = false
             }
             
             gameTimeView.gameTimer.invalidate()
@@ -407,22 +446,46 @@ class MainViewController: UIViewController {
     
     // ショットクロックコントロールボタンタップ
     @objc func shotClockControlButton_tapped(_ sender: UIButton) {
+
+        // 同期On時、ゲームタイマーのステータスも更新する
+        if userdefaults.bool(forKey: IS_SYNC_SHOTCLOCK_GAMETIME) {
+            switch gameTimeView.gameTimerStatus {
+                case .START:
+                    self.runGameTimer()
+                    gameTimeView.gameControlButton.setImage(UIImage(named: "stop.png"), for: .normal)
+                    gameTimeView.gameTimerStatus = .STOP
+                    gameTimeView.toggleGameLabels()
+                    gameTimeView.picker.isHidden = !gameTimeView.picker.isHidden
+                    gameTimeView.gameResetButton.isEnabled = true
+
+                case .STOP:
+                    gameTimeView.gameTimer.invalidate()
+                    gameTimeView.gameControlButton.setImage(UIImage(named: "start.png"), for: .normal)
+                    gameTimeView.gameTimerStatus = .RESUME
+
+                case .RESUME:
+                    self.runGameTimer()
+                    gameTimeView.gameControlButton.setImage(UIImage(named: "stop.png"), for: .normal)
+                    gameTimeView.gameTimerStatus = .STOP
+            }
+        }
+
         switch shotClockView.shotClockStatus {
-        case .START:
-            runShotClockTimer()
-            shotClockView.controlButton.setImage(UIImage(named: "stop.png"), for: .normal)
-            shotClockView.shotClockStatus = .STOP
-            shotClockView.resetButton.isEnabled = true
+            case .START:
+                runShotClockTimer()
+                shotClockView.controlButton.setImage(UIImage(named: "stop.png"), for: .normal)
+                shotClockView.shotClockStatus = .STOP
+                shotClockView.resetButton.isEnabled = true
 
-        case .STOP:
-            shotClockView.shotClockTimer.invalidate()
-            shotClockView.controlButton.setImage(UIImage(named: "start.png"), for: .normal)
-            shotClockView.shotClockStatus = .RESUME
+            case .STOP:
+                shotClockView.shotClockTimer.invalidate()
+                shotClockView.controlButton.setImage(UIImage(named: "start.png"), for: .normal)
+                shotClockView.shotClockStatus = .RESUME
 
-        case .RESUME:
-            runShotClockTimer()
-            shotClockView.controlButton.setImage(UIImage(named: "stop"), for: .normal)
-            shotClockView.shotClockStatus = .STOP
+            case .RESUME:
+                runShotClockTimer()
+                shotClockView.controlButton.setImage(UIImage(named: "stop"), for: .normal)
+                shotClockView.shotClockStatus = .STOP
         }
     }
 
@@ -441,6 +504,14 @@ class MainViewController: UIViewController {
             if userdefaults.bool(forKey: BUZEER_AUTO_BEEP) {
                 buzzerPlayer?.play()
                 shotClockView.buzzerButton.setImage(UIImage(named: "buzzer-down"), for: .normal)
+                gameTimeView.buzzerButton.setImage(UIImage(named: "buzzer-down"), for: .normal)
+            }
+            
+            // 同期On時、ゲームタイマーを止める
+            if userdefaults.bool(forKey: IS_SYNC_SHOTCLOCK_GAMETIME) {
+                gameTimeView.gameTimer.invalidate()
+                gameTimeView.gameControlButton.setImage(UIImage(named: "start.png"), for: .normal)
+                gameTimeView.gameTimerStatus = .RESUME
             }
             
             shotClockView.shotClockTimer.invalidate()
@@ -515,15 +586,30 @@ class MainViewController: UIViewController {
     
     @objc func buzzerButton_touchDown(_ sender: UIButton) {
         buzzerPlayer?.play()
+        
         shotClockView.buzzerButton.setImage(UIImage(named: "buzzer-down"), for: .normal)
+        gameTimeView.buzzerButton.setImage(UIImage(named: "buzzer-down"), for: .normal)
     }
     
     @objc func buzzerButton_touchUp(_ sender: UIButton) {
         buzzerPlayer?.stop()
         buzzerPlayer?.currentTime = 0
+        
         shotClockView.buzzerButton.setImage(UIImage(named: "buzzer-up"), for: .normal)
+        gameTimeView.buzzerButton.setImage(UIImage(named: "buzzer-up"), for: .normal)
     }
     
+    @objc func shotClockSettingButton_tapped() {
+        let settingViewController = SettingViewController()
+        settingViewController.shotClockView = self.shotClockView
+        settingViewController.gameTimeView = self.gameTimeView
+        settingViewController.scoreView = self.scoreView
+        
+        let navigationController = UINavigationController(rootViewController: settingViewController)
+        let currentViewController = self.topViewController()
+        currentViewController?.present(navigationController, animated: true, completion: nil)
+    }
+
     // 各部品の範囲(テスト用)
     func checkViewArea() {
         scoreView.backgroundColor = .gray
@@ -558,6 +644,7 @@ extension MainViewController: AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         
         shotClockView.buzzerButton.setImage(UIImage(named: "buzzer-up"), for: .normal)
+        gameTimeView.buzzerButton.setImage(UIImage(named: "buzzer-up"), for: .normal)
         
     }
     

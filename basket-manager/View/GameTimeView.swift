@@ -55,6 +55,11 @@ class GameTimeView: UIView {
     var isFirstFoulA: Bool = true
     var isFirstFoulB: Bool = true
     
+    // Landscape時のみ表示(Portrate時はShotClockViewで表示)
+    var buzzerButton: BuzzerButton
+    var autoBuzzerLabel: AutoBuzzerLabel
+    var settingButton: SettingButton
+    
     override init(frame: CGRect) {
         
         // GameTime ラベル
@@ -125,6 +130,10 @@ class GameTimeView: UIView {
         foulCountImageB4 = FoulCountImageView(frame: CGRect.zero)
         foulCountImageB5 = FoulCountImageView(frame: CGRect.zero)
         
+        buzzerButton = BuzzerButton()
+        autoBuzzerLabel = AutoBuzzerLabel()
+        settingButton = SettingButton()
+        
         super.init(frame: frame)
         
         picker.delegate = self
@@ -154,6 +163,9 @@ class GameTimeView: UIView {
         self.addSubview(foulCountImageB3)
         self.addSubview(foulCountImageB4)
         self.addSubview(foulCountImageB5)
+        self.addSubview(buzzerButton)
+        self.addSubview(autoBuzzerLabel)
+        self.addSubview(settingButton)
     }
     
     
@@ -248,6 +260,13 @@ class GameTimeView: UIView {
         foulCountImageB3.center = CGPoint(x: frame.width*(9/12), y: founlCountY)
         foulCountImageB4.center = CGPoint(x: frame.width*(10/12), y: founlCountY)
         foulCountImageB5.center = CGPoint(x: frame.width*(11/12), y: founlCountY)
+        
+        buzzerButton.isHidden = true
+        buzzerButton.isEnabled = false
+        autoBuzzerLabel.isHidden = true
+
+        settingButton.isHidden = true
+        settingButton.isEnabled = false
     }
     
     func landscape(frame: CGRect) {
@@ -265,7 +284,7 @@ class GameTimeView: UIView {
         gameSecLabel.center = CGPoint(x: frame.width*(2/3)+20,
                                       y: gameLabelY)
         
-        pickerMinLabel.frame = CGRect(x: picker.bounds.width*0.4 - picker.bounds.width/2,
+        pickerMinLabel.frame = CGRect(x: picker.bounds.width*0.4 - pickerMinLabel.bounds.width/2,
                                               y: picker.bounds.height/2 - (pickerMinLabel.bounds.height/2),
                                               width: pickerMinLabel.bounds.width,
                                               height: pickerMinLabel.bounds.height)
@@ -301,6 +320,18 @@ class GameTimeView: UIView {
         foulCountImageB3.center = CGPoint(x: frame.width*(21/24), y: gameTimeButtonY)
         foulCountImageB4.center = CGPoint(x: frame.width*(22/24), y: gameTimeButtonY)
         foulCountImageB5.center = CGPoint(x: frame.width*(23/24), y: gameTimeButtonY)
+        
+        settingButton.center = CGPoint(x: frame.width*(1/24), y: frame.height*(1/8))
+        buzzerButton.center = CGPoint(x: frame.width*(23/24), y: frame.height*(1/8))
+        autoBuzzerLabel.center = CGPoint(x: frame.width*(23/24), y: frame.height*(1/8)+34)
+
+        settingButton.isHidden = false
+        settingButton.isEnabled = true
+        
+        buzzerButton.isHidden = false
+        buzzerButton.isEnabled = true
+        autoBuzzerLabel.isHidden = false
+
     }
     
     

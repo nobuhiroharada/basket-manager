@@ -15,6 +15,19 @@ let SCORE_A: String = "score_a"
 let SCORE_B: String = "score_b"
 let BUZEER_AUTO_BEEP: String = "buzzer_auto_beep"
 let IS_SHOTCLOCK_24: String = "is_shotclock_14"
+let IS_SYNC_SHOTCLOCK_GAMETIME: String = "is_sync_shotclock_gametime"
+
+var isLandscape: Bool {
+    if #available(iOS 13.0, *) {
+        return UIApplication.shared.windows
+            .first?
+            .windowScene?
+            .interfaceOrientation
+            .isLandscape ?? false
+    } else {
+        return UIDevice.current.orientation.isLandscape
+    }
+}
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -26,6 +39,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if (userdefaults.object(forKey: BUZEER_AUTO_BEEP) == nil) {
             userdefaults.set(false, forKey: BUZEER_AUTO_BEEP)
+        }
+        
+        if (userdefaults.object(forKey: IS_SYNC_SHOTCLOCK_GAMETIME) == nil) {
+            userdefaults.set(false, forKey: IS_SYNC_SHOTCLOCK_GAMETIME)
         }
         
         userdefaults.set(true, forKey: IS_SHOTCLOCK_24)
